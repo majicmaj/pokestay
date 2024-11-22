@@ -1,18 +1,6 @@
 import { PokemonState, WildPokemonState } from '../../types';
 import TypeBadge from '../TypeBadge/TypeBadge';
 
-// Function to calculate CP
-function calculateCP(stats) {
-  const { hp, attack, defense, speed } = stats;
-
-  // Final CP formula
-  const cp = Math.floor(
-    (Math.max(10, hp * attack  * defense * speed)/ 200)
-  );
-
-  return cp;
-}
-
 const Pokemon = ({
   pokemonState,
   currentPokemon,

@@ -71,3 +71,4 @@ export interface GameState {
 
 export type Menus = 'none' | 'pokedex' | 'inventory' | 'shop';
 export type PokemonState = 'idle' | 'caught' | 'fled';
+export type Pokeball = 'pokeball' | 'greatball' | 'ultraball' | 'masterball';

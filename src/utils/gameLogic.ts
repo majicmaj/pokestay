@@ -1,4 +1,4 @@
-import { Pokemon, GameState, PokemonMove, WildPokemonState } from '../types';
+import { Pokemon, GameState, PokemonMove, WildPokemonState, Pokeball } from '../types';
 
 const TYPE_CHART = {
   normal: { weakTo: ['fighting'], resistantTo: [], immuneTo: ['ghost'] },
@@ -105,7 +105,7 @@ const TYPE_CHART = {
 
 export const calculateCatchProbability = (
   throwSpeed: number,
-  ballType: 'pokeball' | 'greatball' | 'ultraball' | 'masterball',
+  ballType: Pokeball,
   buddyPokemon: Pokemon | null,
   targetPokemon: WildPokemonState
 ): number => {
@@ -165,11 +165,13 @@ export const calculateCatchProbability = (
     speedDebuffModifier *
     catchModifier;
 
-  return Math.min(finalCatchRate, ballType === 'masterball' ? 1 : 0.8);
+  return Math.min(finalCatchRate, 0.8);
 };
 
-function calculateCP(stats) {
-  const { hp, attack, defense, speed } = stats;
+type Stats = Record<string, any>
+
+function calculateCP(stats: Stats) {
+  const { hp, attack, defense, speed } = stats || {};
   // const hp = 277
   // const defense = 161
   // const attack = 205
@@ -360,8 +362,8 @@ export const calculateTypeAdvantage = (
       if (!defenderType) return;
 
       if (chart.weakTo?.includes(defenderType)) multiplier *= 1.5;
-      if (chart.resistantTo?.includes(defenderType)) multiplier *= 0.75;
-      if (chart.immuneTo?.includes(defenderType)) multiplier *= 0.5;
+      if (attackerType !== 'normal' && chart.resistantTo?.includes(defenderType as never)) multiplier *= 0.75;
+      if ('immuneTo' in chart && chart?.immuneTo?.includes(defenderType)) multiplier *= 0.5;
     });
   });
 

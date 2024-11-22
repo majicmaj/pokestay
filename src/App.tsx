@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import Pokeball from './components/Pokeball/Pokeball';
-import { INITIAL_STATE, UPGRADES } from './constants';
+import { INITIAL_STATE } from './constants';
 import {
-  GameState,
-  Menus,
   PokemonState,
-  Upgrade,
   WildPokemonState,
 } from './types';
 import {
@@ -18,14 +15,12 @@ import Pokemon from './components/Pokemon/Pokemon';
 import useGetInitalPokemon from './hooks/useGetInitalPokemon';
 import MessageBox from './components/MessageBox/MessageBox';
 import Background from './components/Background/Background';
-import PokemonPouch from './components/PokemonPouch/PokemonPouch';
-import { Users, X } from 'lucide-react';
 import SlidingMenus from './components/SlidingMenus/SlidingMenus';
 import useLocalStorageState from './hooks/useLocalStorageState';
 
 function App() {
   const [gameState, setGameState] = useLocalStorageState('gamestate', INITIAL_STATE);
-  const [upgrades, setUpgrades] = useState<Upgrade[]>(UPGRADES);
+  // const [upgrades, setUpgrades] = useState<Upgrade[]>(UPGRADES);
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
   const [currentPokemon, setCurrentPokemon] = useState<WildPokemonState | null>(

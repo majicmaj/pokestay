@@ -18,7 +18,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-  const [startTime, setStartTime] = useState(0);
+  // const [startTime, setStartTime] = useState(0);
   const [recentPositions, setRecentPositions] = useState<{ time: number; y: number }[]>([]);
 
   const ballRef = useRef<HTMLDivElement>(null);
@@ -53,12 +53,13 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
       ]);
     };
 
-    const handleMouseUp = (e: MouseEvent | TouchEvent) => {
+    // e: MouseEvent | TouchEvent
+    const handleMouseUp = () => {
       if (!isDragging || disabled) return;
 
       const endTime = performance.now();
-      const clientY =
-        'changedTouches' in e ? e.changedTouches[0].clientY : e.clientY;
+      // const clientY =
+      //   'changedTouches' in e ? e.changedTouches[0].clientY : e.clientY;
 
       // Calculate throw distance and speed based on the last 0.05 seconds
       const validPositions = recentPositions.filter((p) => endTime - p.time <= 50);
@@ -118,7 +119,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
       ballRef.current.style.animation = 'none';
     }
 
-    setStartTime(performance.now());
+    // setStartTime(performance.now());
     setIsDragging(true);
     setStartPos({
       x: clientX - position.x,
@@ -126,7 +127,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
     });
     setRecentPositions([]);
   };
-  
+
   return (
     <div
       ref={containerRef}
