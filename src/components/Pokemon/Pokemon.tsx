@@ -1,3 +1,4 @@
+import { Sparkles } from 'lucide-react';
 import { PokemonState, WildPokemonState } from '../../types';
 import TypeBadge from '../TypeBadge/TypeBadge';
 
@@ -10,7 +11,7 @@ const Pokemon = ({
 }) => {
   if (!currentPokemon) return null;
 
-  const { cp } = currentPokemon || {}
+  const { cp, isShiny } = currentPokemon || {}
   return (
     <div
       className={`transform h-full justify-center flex flex-col items-center transition-all duration-150 ${
@@ -31,6 +32,7 @@ const Pokemon = ({
         </div>
         <div className='animate-bounce-slow flex flex-col items-center'>
         <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
+          {isShiny && <Sparkles />}
           <h2>{currentPokemon.name}</h2>
           <p className='opacity-50'>/</p>
           <p className='font-light'><span className='text-sm pr-1'>

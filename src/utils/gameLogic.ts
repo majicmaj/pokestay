@@ -267,6 +267,9 @@ export const getRandomPokemon = async (
       description: 'A powerful move!',
     }));
 
+    const isShiny = (Math.random() * 100) < 1
+    const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${isShiny ? "shiny/" : "" }${pokemonId}.png`
+
     const pokemon: WildPokemonState = {
       id: pokemonId,
       name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
@@ -281,7 +284,7 @@ export const getRandomPokemon = async (
               : 15,
       caught: false,
       cp,
-      sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`,
+      sprite,
       types: data.types.map((t: any) => t.type.name),
       stats: {
         ...baseStats,
@@ -293,6 +296,7 @@ export const getRandomPokemon = async (
       currentDefense: baseStats.defense,
       currentSpeed: baseStats.speed,
       catchModifier: 1,
+      isShiny,
     };
 
     return pokemon;

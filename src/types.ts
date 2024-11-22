@@ -36,6 +36,7 @@ export interface Pokemon {
   currentDefense?: number;
   currentSpeed?: number;
   cp?: number;
+  isShiny?: boolean;
 }
 
 export interface WildPokemonState extends Pokemon {
