@@ -138,19 +138,19 @@ export const calculateCatchProbability = (
   const hpModifier =
     1 +
     (targetPokemon.stats.maxHp - targetPokemon.currentHp) /
-      targetPokemon.stats.maxHp;
+    targetPokemon.stats.maxHp;
 
   // Apply defense modifier
   const defenseModifier =
     1 +
     (targetPokemon.stats.defense - targetPokemon.currentDefense) /
-      targetPokemon.stats.defense;
+    targetPokemon.stats.defense;
 
   // Apply speed modifier (slower = easier to catch)
   const speedDebuffModifier =
     1 +
     (targetPokemon.stats.speed - targetPokemon.currentSpeed) /
-      targetPokemon.stats.speed;
+    targetPokemon.stats.speed;
 
   // Apply catch modifier from moves
   const catchModifier = targetPokemon.catchModifier;
@@ -178,7 +178,7 @@ function calculateCP(stats) {
   // Final CP formula
 
   const cp = Math.floor(
-    (Math.max(10, Math.sqrt((hp * attack  * defense * speed)) /100)
+    (Math.max(10, Math.sqrt((hp * attack * defense * speed)) / 100)
     ))
   return cp;
 }
@@ -220,21 +220,32 @@ export const getRandomPokemon = async (
       rare: { min: 30, max: 50 },
       legendary: { min: 45, max: 70 },
     };
+
     const range = levelRanges[rarity];
     const level =
       Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
 
     // Calculate base stats scaled by level
+    // const attack = data.baseStats[1]
+    // const defense = data.baseStats[2]
+    // const specialAttack = data.baseStats[3]
+    // const specialDefense = data.baseStats[4]
+    const [hp, attack, defense, spAttack, spDefense, speed] = data?.stats || []
+    const baseAttack = (attack.base_stat + spAttack.base_stat) / 1.5
+    const baseDefense = (defense.base_stat + spDefense.base_stat) / 1.5
+
     const baseStats = {
-      hp: Math.floor((data.stats[0].base_stat * Math.sqrt(level))),
-      attack: Math.floor((data.stats[1].base_stat * Math.sqrt(level))),
-      defense: Math.floor((data.stats[2].base_stat * Math.sqrt(level))),
-      speed: Math.floor((data.stats[5].base_stat * Math.sqrt(level))),
+      hp: Math.floor(hp.base_stat * Math.sqrt(level)),
+      attack: Math.floor((baseAttack * Math.sqrt(level))),
+      defense: Math.floor((baseDefense * Math.sqrt(level))),
+      speed: Math.floor((speed.base_stat * Math.sqrt(level))),
     };
+
+    console.log({baseStats, baseAttack, baseDefense, stats: data.stats})
 
     const cp = calculateCP(baseStats)
 
-  
+
     // Get moves from API
     const moves: PokemonMove[] = data.moves.slice(0, 4).map((move: any) => ({
       id: move.move.url.split('/').slice(-2, -1)[0],
@@ -262,10 +273,10 @@ export const getRandomPokemon = async (
         rarity === 'legendary'
           ? 100
           : rarity === 'rare'
-          ? 60
-          : rarity === 'uncommon'
-          ? 30
-          : 15,
+            ? 60
+            : rarity === 'uncommon'
+              ? 30
+              : 15,
       caught: false,
       cp,
       sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`,

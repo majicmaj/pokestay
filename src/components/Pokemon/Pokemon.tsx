@@ -58,10 +58,10 @@ const Pokemon = ({
       </div>
         </div>
 
-      <div className='absolute bottom-0 w-[20vw] mb-4'>
+      {/* <div className='absolute bottom-0 w-[20vw] mb-4'>
         {currentPokemon.id}
         {JSON.stringify(currentPokemon.stats).replaceAll(",", ",\n")}
-      </div>
+      </div> */}
     </div>
   );
 };
