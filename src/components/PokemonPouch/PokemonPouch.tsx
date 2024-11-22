@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Search } from 'lucide-react';
-import { Pokemon } from '../../types';
+import { Search, Sparkles } from 'lucide-react';
+import { Pokemon, WildPokemonState } from '../../types';
 import TypeBadge from '../TypeBadge/TypeBadge';
+import SelectedPokemon from './SelectedPokemon';
 
 interface PokemonPouchProps {
   caughtPokemon: Pokemon[];
@@ -15,6 +16,7 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'level' | 'recent' | 'name'>('recent');
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null)
 
   // console.log(caughtPokemon)
   const sortedPokemon = [...caughtPokemon]?.sort((a, b) => {
@@ -34,32 +36,8 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
     pokemon.types.some(type => type.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  // const getTypeColor = (type: string) => {
-  //   const colors: Record<string, string> = {
-  //     normal: 'bg-gray-400',
-  //     fire: 'bg-red-500',
-  //     water: 'bg-blue-500',
-  //     electric: 'bg-yellow-400',
-  //     grass: 'bg-green-500',
-  //     ice: 'bg-cyan-400',
-  //     fighting: 'bg-red-600',
-  //     poison: 'bg-purple-500',
-  //     ground: 'bg-amber-600',
-  //     flying: 'bg-indigo-400',
-  //     psychic: 'bg-pink-500',
-  //     bug: 'bg-lime-500',
-  //     rock: 'bg-stone-500',
-  //     ghost: 'bg-violet-500',
-  //     dragon: 'bg-indigo-600',
-  //     dark: 'bg-gray-700',
-  //     steel: 'bg-slate-500',
-  //     fairy: 'bg-pink-400',
-  //   };
-  //   return colors[type] || 'bg-gray-400';
-  // };
-
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-screen overflow-auto flex flex-col">
       <div className="p-4 flex flex-col gap-2">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
@@ -102,12 +80,20 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto p-4 flex flex-col items-center">
-        <div className="grid max-w-[900px] gap-[4%] grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6gap-3">
+      <div className="flex-1 overflow-auto px-4 flex flex-col items-center">
+        {selectedPokemon && <div className='absolute top-0 grid place-items-center h-full w-full p-8 bg-black/20 filter backdrop-blur z-20'>
+          <div className='h-full w-full'>
+          <SelectedPokemon pokemon={selectedPokemon}
+          setSelectedPokemon={setSelectedPokemon}
+          />
+          </div>
+        </div>}
+        <div className="grid max-w-[900px] gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6gap-3">
           {filteredPokemon.map((pokemon) => (
             <div
               key={`${pokemon.id}-${pokemon.stats.level}`}
               className="flex flex-col items-center"
+              onClick={() => setSelectedPokemon(pokemon)}
             >
               <div className='mb-[-12px]'>
                 <span className="text-sm font-medium opacity-60 pr-1">
@@ -125,25 +111,7 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
                   className="w-full h-full aspect-square object-contain"
                 />
               </div>
-              <div className="font-semibold mt-[-16px]">{pokemon.name}</div>
-              <div className="flex flex-wrap">
-                {pokemon.types.map((type) => (
-                  <TypeBadge type={type} />
-                ))}
-              </div>
-
-              <div className="mt-2">
-                {/* <button
-                  onClick={() => onSelectBuddy(pokemon)}
-                  className={`w-full px-2 py-1 rounded text-sm flex items-center justify-center gap-1 ${currentBuddy?.id === pokemon.id
-                    ? 'bg-blue-500'
-                    : 'bg-white/10 hover:bg-white/20'
-                    }`}
-                >
-                  <Users className="w-4 h-4" />
-                  {currentBuddy?.id === pokemon.id ? 'My Buddy' : 'Make Buddy'}
-                </button> */}
-              </div>
+              <div className="font-semibold mt-[-16px] flex items-center">{pokemon.isShiny && <Sparkles className='w-4' />}{pokemon.name}</div>
             </div>
           ))}
         </div>

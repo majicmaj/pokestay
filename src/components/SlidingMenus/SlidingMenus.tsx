@@ -27,12 +27,23 @@ const SlidingMenus = ({
                 <LogOut className='h-8 w-8' />
             </button>
         </div>
+        {gameState?.buddyPokemon && <div className="fixed bottom-6 left-6 flex flex-col gap-4 items-end z-30">
+            <button
+                onClick={() => toggleMenu('inventory')}
+                className={`relative grid place-items-center h-14 w-14 p-4 rounded-full shadow-lg transition-all ${activeMenu === 'inventory'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-black/20 backdrop-blur-md text-white hover:bg-blak/30'
+                    }`}
+            >
+                <img className='absolute min-w-16 aspect-square' src={gameState.buddyPokemon?.sprite} />
+            </button>
+        </div>}
         <div className="fixed bottom-6 right-6 flex flex-col gap-4 items-end z-30">
             <button
                 onClick={() => toggleMenu('inventory')}
                 className={`p-4 rounded-full shadow-lg transition-all ${activeMenu === 'inventory'
                     ? 'bg-blue-500 text-white'
-                    : 'bg-white/20 backdrop-blur-md text-white hover:bg-white/30'
+                    : 'bg-black/20 backdrop-blur-md text-white hover:bg-blak/30'
                     }`}
             >
                 <Users className="w-6 h-6" />
@@ -54,6 +65,9 @@ const SlidingMenus = ({
                                     ? 'Shop'
                                     : ''}
                     </h2>
+                    <p className='opacity-80 text-sm'>
+                        Stardust {gameState.points}
+                    </p>
                 </div>
                 <button
                     className='absolute bottom-20 left-1/2 -translate-x-1/2 rounded-full bg-teal-600 p-4 text-lime-200 border border-lime-200'

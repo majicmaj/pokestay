@@ -32,6 +32,7 @@ const Pokemon = ({
               ? 'translate-y-[100vh]'
               : ''
           }`}>
+
           <div className={`animate-bounce-slow flex flex-col items-center `}>
             <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
               {isShiny && <Sparkles />}
@@ -47,8 +48,7 @@ const Pokemon = ({
             <img
               src={currentPokemon.sprite}
               alt={currentPokemon.name}
-              className={`w-72 aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${isPokeballDisabled ? "scale-[0.5] opacity-50" : "scale-100"
-                }`}
+              className={`w-72 aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${isPokeballDisabled && "animate-pokemon-shrink"} ${!isPokeballDisabled && pokemonState==='idle' &&  "animate-pokemon-grow"}`}
             />
           </div>
         </div>

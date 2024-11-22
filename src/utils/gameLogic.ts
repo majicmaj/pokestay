@@ -86,6 +86,12 @@ const TYPE_CHART = {
   },
 };
 
+const POINTS_RARITY_MAP = {
+  'common': 100,
+  'uncommon': 150,
+  'rare': 300,
+  'legendary': 1000,
+}
 // export const calculateTypeAdvantage = (attackerTypes: string[], defenderTypes: string[]): number => {
 //   let multiplier = 1;
 
@@ -106,7 +112,7 @@ const TYPE_CHART = {
 export const calculateCatchProbability = (
   throwSpeed: number,
   ballType: Pokeball,
-  // buddyPokemon: Pokemon | null,
+  buddyPokemon: Pokemon | null,
   targetPokemon: WildPokemonState
 ): number => {
   if (ballType === 'masterball') return 1;
@@ -126,14 +132,14 @@ export const calculateCatchProbability = (
   };
 
   // Calculate buddy bonus if applicable
-  // let buddyModifier = 1;
+  let buddyModifier = 1;
 
-  // if (buddyPokemon) {
-  //   buddyModifier = calculateTypeAdvantage(
-  //     buddyPokemon.types,
-  //     targetPokemon.types
-  //   );
-  // }
+  if (buddyPokemon) {
+    buddyModifier = calculateTypeAdvantage(
+      buddyPokemon.types,
+      targetPokemon.types
+    );
+  }
 
   // Apply HP modifier (lower HP = easier to catch)
   const hpModifier =
@@ -156,13 +162,14 @@ export const calculateCatchProbability = (
   // Apply catch modifier from moves
   const catchModifier = targetPokemon.catchModifier;
 
+  console.log(buddyModifier)
   const finalCatchRate =
     catchRate *
     speedModifier *
     ballModifiers[ballType] *
     hpModifier *
     defenseModifier *
-    // buddyModifier *
+    buddyModifier *
     // speedDebuffModifier *
     catchModifier;
 
@@ -273,14 +280,7 @@ export const getRandomPokemon = async (
       id: pokemonId,
       name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
       rarity,
-      points:
-        rarity === 'legendary'
-          ? 100
-          : rarity === 'rare'
-            ? 60
-            : rarity === 'uncommon'
-              ? 30
-              : 15,
+      points: POINTS_RARITY_MAP[rarity] || 100,
       caught: false,
       cp,
       sprite,
@@ -365,8 +365,8 @@ export const calculateTypeAdvantage = (
       if (!defenderType) return;
 
       if (chart.weakTo?.includes(defenderType)) multiplier *= 1.5;
-      if (attackerType !== 'normal' && chart.resistantTo?.includes(defenderType as never)) multiplier *= 0.75;
-      if ('immuneTo' in chart && chart?.immuneTo?.includes(defenderType)) multiplier *= 0.5;
+      // if (attackerType !== 'normal' && chart.resistantTo?.includes(defenderType as never)) multiplier *= 0.75;
+      // if ('immuneTo' in chart && chart?.immuneTo?.includes(defenderType)) multiplier *= 0.5;
     });
   });
 

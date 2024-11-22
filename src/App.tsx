@@ -17,9 +17,10 @@ import MessageBox from './components/MessageBox/MessageBox';
 import Background from './components/Background/Background';
 import SlidingMenus from './components/SlidingMenus/SlidingMenus';
 import useLocalStorageState from './hooks/useLocalStorageState';
+import useGameState from './hooks/useGameState';
 
 function App() {
-  const [gameState, setGameState] = useLocalStorageState('gamestate', INITIAL_STATE);
+  const [gameState, setGameState] = useGameState();
   // const [upgrades, setUpgrades] = useState<Upgrade[]>(UPGRADES);
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
@@ -52,8 +53,8 @@ function App() {
     const catchProbability = calculateCatchProbability(
       throwSpeed,
       ballType,
-      // gameState.buddyPokemon,
-      currentPokemon
+      gameState.buddyPokemon,
+      currentPokemon,
     );
 
     // Add suspense
@@ -72,7 +73,7 @@ function App() {
         });
 
       setCatchMessage(
-        `Caught ${currentPokemon.name}! +${currentPokemon.points} points`
+        `Caught ${currentPokemon.name}! +${currentPokemon.points} stardust`
       );
       await sleep(2000);
     } else {

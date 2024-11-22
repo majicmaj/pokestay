@@ -2,6 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes pokemon-shrink {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(0, 20px) scale(1);
+  }
+  50% {
+    transform: translate(0, 0) scale(1);
+    filter: brightness(1) drop-shadow(0 0 -5vw white);
+  }
+  100% {
+    filter: brightness(10) drop-shadow(0 0 20vw white);
+    transform: translate(0, 0) scale(0.5);
+  }
+}
+
+@keyframes pokemon-grow {
+  0% {
+    filter: brightness(2);
+    transform: translate(0, 0) scale(0.5);
+  }
+  100% {
+    filter: brightness(1);
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.animate-pokemon-shrink {
+  animation: pokemon-shrink 1s forwards ease-in-out;
+}
+
+
+.animate-pokemon-grow {
+  animation: pokemon-grow 0.5s forwards ease-in-out;
+}
+
 @keyframes throw {
   0% {
     transform: translate(0, 0) scale(1);

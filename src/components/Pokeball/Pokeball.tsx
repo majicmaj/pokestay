@@ -76,7 +76,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
 
       throwSpeed *= CONSTANT_MODIFIER; // Apply the constant modifier
 
-      if (throwSpeed > 0) {
+      if (throwSpeed > 0.5) {
         onClick(throwSpeed);
 
         if (ballRef.current) {
