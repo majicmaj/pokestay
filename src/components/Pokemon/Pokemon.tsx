@@ -26,32 +26,32 @@ const Pokemon = ({
             ))}
           </div>
         </div>
-        <div className={`transition-all duration-150 ${
-        pokemonState === 'caught'
-          ? 'scale-0'
-          : pokemonState === 'fled'
-          ? 'translate-y-[100vh]'
-          : ''
-      }`}>
-        <div className={`animate-bounce-slow flex flex-col items-center `}>
-          <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
-            {isShiny && <Sparkles />}
-            <h2>{currentPokemon.name}</h2>
-            <p className='opacity-50'>/</p>
-            <p className='font-light'><span className='text-sm pr-1'>
-              CP
-            </span>
-              {cp}</p>
+        <div className={`transition-all duration-150 ${pokemonState === 'caught'
+            ? 'scale-0'
+            : pokemonState === 'fled'
+              ? 'translate-y-[100vh]'
+              : ''
+          }`}>
+          <div className={`animate-bounce-slow flex flex-col items-center `}>
+            <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
+              {isShiny && <Sparkles />}
+              <h2>{currentPokemon.name}</h2>
+              <p className='opacity-50'>/</p>
+              <p className='font-light'><span className='text-sm pr-1'>
+                CP
+              </span>
+                {cp}
+              </p>
+
+            </div>
+            <img
+              src={currentPokemon.sprite}
+              alt={currentPokemon.name}
+              className={`w-72 aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${isPokeballDisabled ? "scale-[0.5] opacity-50" : "scale-100"
+                }`}
+            />
           </div>
-          <img
-            src={currentPokemon.sprite}
-            alt={currentPokemon.name}
-            className={`w-72 aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${
-              isPokeballDisabled ? "scale-[0.5] opacity-50" : "scale-100"
-            }`}
-          />
         </div>
-      </div>
       </div>
 
       {/* <div className='absolute bottom-0 w-[20vw] mb-4'>

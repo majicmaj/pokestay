@@ -106,7 +106,7 @@ const TYPE_CHART = {
 export const calculateCatchProbability = (
   throwSpeed: number,
   ballType: Pokeball,
-  buddyPokemon: Pokemon | null,
+  // buddyPokemon: Pokemon | null,
   targetPokemon: WildPokemonState
 ): number => {
   if (ballType === 'masterball') return 1;
@@ -116,8 +116,6 @@ export const calculateCatchProbability = (
 
   // Speed modifier (1.0-2.0x based on throw speed)
   const speedModifier = Math.min(Math.max(throwSpeed / 3, 1), 3);
-
-  console.log({throwSpeed, speedModifier})
 
   // Ball type modifiers
   const ballModifiers = {
@@ -158,7 +156,6 @@ export const calculateCatchProbability = (
   // Apply catch modifier from moves
   const catchModifier = targetPokemon.catchModifier;
 
-  console.log(targetPokemon)
   const finalCatchRate =
     catchRate *
     speedModifier *
@@ -168,8 +165,6 @@ export const calculateCatchProbability = (
     // buddyModifier *
     // speedDebuffModifier *
     catchModifier;
-
-    console.log(finalCatchRate)
 
   return Math.min(finalCatchRate, 0.8);
 };
@@ -186,7 +181,7 @@ function calculateCP(stats: Stats) {
   // Final CP formula
 
   const cp = Math.floor(
-    (Math.max(10, Math.sqrt((hp * attack * defense * speed)) / 100)
+    (Math.max(10, 0.84 * Math.sqrt((hp * attack * defense * speed)) / 100)
     ))
   return cp;
 }
@@ -248,8 +243,6 @@ export const getRandomPokemon = async (
       defense: Math.floor((baseDefense * Math.sqrt(level))),
       speed: Math.floor((speed.base_stat * Math.sqrt(level))),
     };
-
-    console.log({baseStats, baseAttack, baseDefense, stats: data.stats})
 
     const cp = calculateCP(baseStats)
 

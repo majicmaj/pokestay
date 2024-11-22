@@ -16,11 +16,11 @@ export const useLocalStorageState = (key: string, defaultValue: any) => {
     const queryClient = useQueryClient();
     const existingValue = getLocalStorageValue(key, defaultValue)
 
-    console.log({
-        existingValue,
-        key,
-        defaultValue
-    })
+    // console.log({
+    //     existingValue,
+    //     key,
+    //     defaultValue
+    // })
 
     // Query to read the value
     const { data } = useQuery(

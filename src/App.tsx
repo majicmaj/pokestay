@@ -32,6 +32,7 @@ function App() {
     gameState,
     setCurrentPokemon,
   });
+
   const getBallType = () => {
     if (gameState.masterballs) return 'masterball';
     if (gameState.ultraballs) return 'ultraball';
@@ -51,7 +52,7 @@ function App() {
     const catchProbability = calculateCatchProbability(
       throwSpeed,
       ballType,
-      gameState.buddyPokemon,
+      // gameState.buddyPokemon,
       currentPokemon
     );
 
@@ -100,6 +101,16 @@ function App() {
     setIsThrowDisabled(false);
   };
 
+
+  const handleFlee = async() => {
+    const ballType = getBallType();
+      const newPokemon = await getRandomPokemon(ballType);
+      setCurrentPokemon(newPokemon);
+      setPokemonState('idle');
+      setCatchMessage(`A wild ${newPokemon.name} has appeared!`);
+    setIsThrowDisabled(false);
+  }
+
   return (
     <div className={`max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center`}>
       <Background currentPokemon={currentPokemon} />
@@ -113,6 +124,7 @@ function App() {
 
       <SlidingMenus
       gameState={gameState}
+      handleFlee={handleFlee}
       />
     </div>
   );

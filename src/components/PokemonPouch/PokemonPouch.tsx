@@ -16,7 +16,7 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'level' | 'recent' | 'name'>('recent');
 
-  console.log(caughtPokemon)
+  // console.log(caughtPokemon)
   const sortedPokemon = [...caughtPokemon]?.sort((a, b) => {
     switch (sortBy) {
       case 'level':
