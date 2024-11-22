@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Pokeball from './components/Pokeball/Pokeball';
-import { INITIAL_STATE } from './constants';
 import {
   PokemonState,
   WildPokemonState,
@@ -16,7 +15,6 @@ import useGetInitalPokemon from './hooks/useGetInitalPokemon';
 import MessageBox from './components/MessageBox/MessageBox';
 import Background from './components/Background/Background';
 import SlidingMenus from './components/SlidingMenus/SlidingMenus';
-import useLocalStorageState from './hooks/useLocalStorageState';
 import useGameState from './hooks/useGameState';
 
 function App() {

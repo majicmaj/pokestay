@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Sparkles } from 'lucide-react';
-import { Pokemon, WildPokemonState } from '../../types';
-import TypeBadge from '../TypeBadge/TypeBadge';
+import { Pokemon } from '../../types';
 import SelectedPokemon from './SelectedPokemon';
 
 interface PokemonPouchProps {
