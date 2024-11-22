@@ -58,7 +58,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
 
         if (ballRef.current) {
           const throwAnimation = getThrowAnimation(throwSpeed);
-          ballRef.current.style.animation = `${throwAnimation} 0.5s ease`;
+          ballRef.current.style.animation = `${throwAnimation} 1s ease-in`;
         }
       }
 
@@ -106,7 +106,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   return (
     <div
       ref={containerRef}
-      className={`w-32 h-32 ${
+      className={`mb-8 w-32 h-32 ${
         disabled ? 'cursor-not-allowed opacity-50' : 'cursor-grab'
       }`}
     >

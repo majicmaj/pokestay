@@ -16,15 +16,17 @@ import {
 } from './utils/gameLogic';
 import Pokemon from './components/Pokemon/Pokemon';
 import useGetInitalPokemon from './hooks/useGetInitalPokemon';
-import { getBackgroundColor } from './utils/getBackgroundColor';
 import MessageBox from './components/MessageBox/MessageBox';
+import Background from './components/Background/Background';
+import PokemonPouch from './components/PokemonPouch/PokemonPouch';
+import { Users, X } from 'lucide-react';
+import SlidingMenus from './components/SlidingMenus/SlidingMenus';
 
 function App() {
   const [gameState, setGameState] = useState<GameState>(INITIAL_STATE);
   const [upgrades, setUpgrades] = useState<Upgrade[]>(UPGRADES);
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
-  const [activeMenu, setActiveMenu] = useState<Menus>('none');
   const [currentPokemon, setCurrentPokemon] = useState<WildPokemonState | null>(
     null
   );
@@ -104,15 +106,19 @@ function App() {
     setIsThrowDisabled(false);
   };
 
-  const bgColor = getBackgroundColor(currentPokemon);
   return (
-    <div className={`h-screen grid place-items-center ${bgColor}`}>
+    <div className={`max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center`}>
+      <Background currentPokemon={currentPokemon} />
       <Pokemon currentPokemon={currentPokemon} pokemonState={pokemonState} />
       <MessageBox message={catchMessage} />
       <Pokeball
         onClick={handleThrow}
         type="pokeball"
         disabled={isThrowDisabled}
+      />
+
+      <SlidingMenus
+      gameState={gameState}
       />
     </div>
   );
