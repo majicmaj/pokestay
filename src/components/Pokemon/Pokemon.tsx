@@ -1,6 +1,18 @@
 import { PokemonState, WildPokemonState } from '../../types';
 import TypeBadge from '../TypeBadge/TypeBadge';
 
+// Function to calculate CP
+function calculateCP(stats) {
+  const { hp, attack, defense, speed } = stats;
+
+  // Final CP formula
+  const cp = Math.floor(
+    (Math.max(10, hp * attack  * defense * speed)/ 200)
+  );
+
+  return cp;
+}
+
 const Pokemon = ({
   pokemonState,
   currentPokemon,
@@ -9,9 +21,11 @@ const Pokemon = ({
   currentPokemon: WildPokemonState | null;
 }) => {
   if (!currentPokemon) return null;
+
+  const { cp } = currentPokemon || {}
   return (
     <div
-      className={`transform flex flex-col items-center transition-all duration-150 ${
+      className={`transform h-full justify-center flex flex-col items-center transition-all duration-150 ${
         pokemonState === 'caught'
           ? 'scale-0'
           : pokemonState === 'fled'
@@ -20,25 +34,120 @@ const Pokemon = ({
       }`}
     >
       <div className="flex flex-col items-center gap-4">
-        <div className="flex gap-3 items-center text-xl font-medium p-1 text-center text-white bg-black/40 rounded-full">
+        <div className="absolute top-20 flex gap-3 items-center text-xl font-medium p-1 text-center text-white bg-black/40 rounded-full">
           <div className="flex gap-1">
             {currentPokemon.types.map((t) => (
               <TypeBadge type={t} />
             ))}
           </div>
         </div>
-        <div className="flex gap-3 items-center text-xl font-medium p-3 text-center text-white bg-black/40 rounded-full px-5">
+        <div className='animate-bounce-slow flex flex-col items-center'>
+        <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
           <h2>{currentPokemon.name}</h2>
+          <p className='opacity-50'>/</p>
+          <p className='font-light'><span className='text-sm pr-1'>
+            CP
+            </span>
+             {cp}</p>
         </div>
-      </div>
-
       <img
         src={currentPokemon.sprite}
         alt={currentPokemon.name}
-        className="w-72 aspect-square animate-bounce-slow object-contain filter drop-shadow-lg"
+        className="w-72 aspect-square object-contain filter drop-shadow-lg"
       />
+      </div>
+        </div>
+
+      <div className='absolute bottom-0 w-[20vw] mb-4'>
+        {currentPokemon.id}
+        {JSON.stringify(currentPokemon.stats).replaceAll(",", ",\n")}
+      </div>
     </div>
   );
 };
 
 export default Pokemon;
+
+
+// const pokemon = {
+//   "id": 22,
+//   "name": "Fearow",
+//   "rarity": "common",
+//   "points": 15,
+//   "caught": false,
+//   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/22.png",
+//   "types": [
+//       "normal",
+//       "flying"
+//   ],
+//   "stats": {
+//       "hp": 28,
+//       "attack": 19,
+//       "defense": 15,
+//       "speed": 21,
+//       "level": 8,
+//       "maxHp": 28
+//   },
+//   "moves": [
+//       {
+//           "id": "13",
+//           "name": "razor wind",
+//           "type": "normal",
+//           "power": 87,
+//           "accuracy": 81,
+//           "pp": 18,
+//           "effect": {
+//               "type": "speed_down",
+//               "value": 11,
+//               "chance": 94
+//           },
+//           "description": "A powerful move!"
+//       },
+//       {
+//           "id": "17",
+//           "name": "wing attack",
+//           "type": "normal",
+//           "power": 40,
+//           "accuracy": null,
+//           "pp": 5,
+//           "effect": {
+//               "type": "speed_down",
+//               "value": 13,
+//               "chance": 94
+//           },
+//           "description": "A powerful move!"
+//       },
+//       {
+//           "id": "18",
+//           "name": "whirlwind",
+//           "type": "normal",
+//           "power": null,
+//           "accuracy": null,
+//           "pp": 5,
+//           "effect": {
+//               "type": "catch_rate_up",
+//               "value": 26,
+//               "chance": 90
+//           },
+//           "description": "A powerful move!"
+//       },
+//       {
+//           "id": "19",
+//           "name": "fly",
+//           "type": "normal",
+//           "power": 50,
+//           "accuracy": 89,
+//           "pp": 10,
+//           "effect": {
+//               "type": "speed_down",
+//               "value": 31,
+//               "chance": 85
+//           },
+//           "description": "A powerful move!"
+//       }
+//   ],
+//   "currentHp": 28,
+//   "currentDefense": 15,
+//   "currentSpeed": 21,
+//   "catchModifier": 1
+// }

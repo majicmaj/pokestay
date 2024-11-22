@@ -41,7 +41,7 @@ const TYPES_MAP = {
 const TypeBadge = ({ type }: { type: string }) => {
   if (!(type in TYPES_MAP)) return null;
   const src = TYPES_MAP[type as keyof typeof TYPES_MAP];
-  return <img className="h-8 w-8" src={src} />;
+  return <img className="h-10 w-10" src={src} />;
 };
 
 export default TypeBadge;

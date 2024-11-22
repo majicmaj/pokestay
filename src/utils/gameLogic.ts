@@ -168,6 +168,21 @@ export const calculateCatchProbability = (
   return Math.min(finalCatchRate, ballType === 'masterball' ? 1 : 0.8);
 };
 
+function calculateCP(stats) {
+  const { hp, attack, defense, speed } = stats;
+  // const hp = 277
+  // const defense = 161
+  // const attack = 205
+  // const speed = 200
+
+  // Final CP formula
+
+  const cp = Math.floor(
+    (Math.max(10, Math.sqrt((hp * attack  * defense * speed)) /100)
+    ))
+  return cp;
+}
+
 export const getRandomPokemon = async (
   ballType: 'pokeball' | 'greatball' | 'ultraball' | 'masterball'
 ): Promise<WildPokemonState> => {
@@ -211,12 +226,15 @@ export const getRandomPokemon = async (
 
     // Calculate base stats scaled by level
     const baseStats = {
-      hp: Math.floor((data.stats[0].base_stat * 2 * level) / 100 + level + 10),
-      attack: Math.floor((data.stats[1].base_stat * 2 * level) / 100 + 5),
-      defense: Math.floor((data.stats[2].base_stat * 2 * level) / 100 + 5),
-      speed: Math.floor((data.stats[5].base_stat * 2 * level) / 100 + 5),
+      hp: Math.floor((data.stats[0].base_stat * Math.sqrt(level))),
+      attack: Math.floor((data.stats[1].base_stat * Math.sqrt(level))),
+      defense: Math.floor((data.stats[2].base_stat * Math.sqrt(level))),
+      speed: Math.floor((data.stats[5].base_stat * Math.sqrt(level))),
     };
 
+    const cp = calculateCP(baseStats)
+
+  
     // Get moves from API
     const moves: PokemonMove[] = data.moves.slice(0, 4).map((move: any) => ({
       id: move.move.url.split('/').slice(-2, -1)[0],
@@ -249,6 +267,7 @@ export const getRandomPokemon = async (
           ? 30
           : 15,
       caught: false,
+      cp,
       sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`,
       types: data.types.map((t: any) => t.type.name),
       stats: {

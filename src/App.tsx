@@ -21,9 +21,10 @@ import Background from './components/Background/Background';
 import PokemonPouch from './components/PokemonPouch/PokemonPouch';
 import { Users, X } from 'lucide-react';
 import SlidingMenus from './components/SlidingMenus/SlidingMenus';
+import useLocalStorageState from './hooks/useLocalStorageState';
 
 function App() {
-  const [gameState, setGameState] = useState<GameState>(INITIAL_STATE);
+  const [gameState, setGameState] = useLocalStorageState('gamestate', INITIAL_STATE);
   const [upgrades, setUpgrades] = useState<Upgrade[]>(UPGRADES);
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
@@ -61,20 +62,18 @@ function App() {
 
     // Add suspense
     setPokemonState('idle');
-    await sleep(2000);
+    await sleep(1000 + (Math.random() * 10000)/4);
 
     const caught = Math.random() < catchProbability;
     const flees = !caught && Math.random() < 0.4; // 40% chance to flee on failed catch
 
     if (caught) {
       setPokemonState('caught');
-      setGameState((prev) => {
-        const updatedState = addToPokedex(currentPokemon, prev);
-        return {
+      const updatedState = addToPokedex(currentPokemon, gameState);
+      setGameState({
           ...updatedState,
-          points: prev.points + currentPokemon.points,
-        };
-      });
+          points: updatedState.points + currentPokemon.points,
+        });
 
       setCatchMessage(
         `Caught ${currentPokemon.name}! +${currentPokemon.points} points`

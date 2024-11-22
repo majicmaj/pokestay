@@ -9,14 +9,15 @@ interface PokemonPouchProps {
   currentBuddy: Pokemon | null;
 }
 const PokemonPouch: React.FC<PokemonPouchProps> = ({
-  caughtPokemon,
+  caughtPokemon = [],
   onSelectBuddy,
   currentBuddy,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'level' | 'recent' | 'name'>('recent');
 
-  const sortedPokemon = [...caughtPokemon].sort((a, b) => {
+  console.log(caughtPokemon)
+  const sortedPokemon = [...caughtPokemon]?.sort((a, b) => {
     switch (sortBy) {
       case 'level':
         return b.stats.level - a.stats.level;
@@ -106,15 +107,15 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
           {filteredPokemon.map((pokemon) => (
             <div
               key={`${pokemon.id}-${pokemon.stats.level}`}
-              className="border flex flex-col items-center"
+              className="flex flex-col items-center"
             >
               <div className='mb-[-12px]'>
-                <span className="text-sm font-medium opacity-60">
-                  Lv.
+                <span className="text-sm font-medium opacity-60 pr-1">
+                  CP
                 </span>
 
                 <span className="text-xl font-bold">
-                  {pokemon.stats.level}
+                  {pokemon.cp}
                 </span>
               </div>
               <div className="h-full w-full aspect-square flex items-center justify-center">

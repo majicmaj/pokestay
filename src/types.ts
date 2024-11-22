@@ -35,6 +35,7 @@ export interface Pokemon {
   currentHp?: number;
   currentDefense?: number;
   currentSpeed?: number;
+  cp?: number;
 }
 
 export interface WildPokemonState extends Pokemon {
