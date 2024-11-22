@@ -5,22 +5,18 @@ import TypeBadge from '../TypeBadge/TypeBadge';
 const Pokemon = ({
   pokemonState,
   currentPokemon,
+  isPokeballDisabled,
 }: {
   pokemonState: PokemonState;
   currentPokemon: WildPokemonState | null;
+  isPokeballDisabled?: boolean;
 }) => {
   if (!currentPokemon) return null;
 
   const { cp, isShiny } = currentPokemon || {}
   return (
     <div
-      className={`transform h-full justify-center flex flex-col items-center transition-all duration-150 ${
-        pokemonState === 'caught'
-          ? 'scale-0'
-          : pokemonState === 'fled'
-          ? 'translate-y-[100vh]'
-          : ''
-      }`}
+      className={`transform h-full justify-center flex flex-col items-center`}
     >
       <div className="flex flex-col items-center gap-4">
         <div className="absolute top-20 flex gap-3 items-center text-xl font-medium p-1 text-center text-white bg-black/40 rounded-full">
@@ -30,23 +26,33 @@ const Pokemon = ({
             ))}
           </div>
         </div>
-        <div className='animate-bounce-slow flex flex-col items-center'>
-        <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
-          {isShiny && <Sparkles />}
-          <h2>{currentPokemon.name}</h2>
-          <p className='opacity-50'>/</p>
-          <p className='font-light'><span className='text-sm pr-1'>
-            CP
+        <div className={`transition-all duration-150 ${
+        pokemonState === 'caught'
+          ? 'scale-0'
+          : pokemonState === 'fled'
+          ? 'translate-y-[100vh]'
+          : ''
+      }`}>
+        <div className={`animate-bounce-slow flex flex-col items-center `}>
+          <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
+            {isShiny && <Sparkles />}
+            <h2>{currentPokemon.name}</h2>
+            <p className='opacity-50'>/</p>
+            <p className='font-light'><span className='text-sm pr-1'>
+              CP
             </span>
-             {cp}</p>
+              {cp}</p>
+          </div>
+          <img
+            src={currentPokemon.sprite}
+            alt={currentPokemon.name}
+            className={`w-72 aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${
+              isPokeballDisabled ? "scale-[0.5] opacity-50" : "scale-100"
+            }`}
+          />
         </div>
-      <img
-        src={currentPokemon.sprite}
-        alt={currentPokemon.name}
-        className="w-72 aspect-square object-contain filter drop-shadow-lg"
-      />
       </div>
-        </div>
+      </div>
 
       {/* <div className='absolute bottom-0 w-[20vw] mb-4'>
         {currentPokemon.id}

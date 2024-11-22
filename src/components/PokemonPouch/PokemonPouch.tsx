@@ -125,8 +125,8 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
                   className="w-full h-full aspect-square object-contain"
                 />
               </div>
-              <div className="font-semibold">{pokemon.name}</div>
-              <div className="flex flex-wrap gap-1 mt-1">
+              <div className="font-semibold mt-[-16px]">{pokemon.name}</div>
+              <div className="flex flex-wrap">
                 {pokemon.types.map((type) => (
                   <TypeBadge type={type} />
                 ))}

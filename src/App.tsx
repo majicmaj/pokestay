@@ -103,7 +103,7 @@ function App() {
   return (
     <div className={`max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center`}>
       <Background currentPokemon={currentPokemon} />
-      <Pokemon currentPokemon={currentPokemon} pokemonState={pokemonState} />
+      <Pokemon currentPokemon={currentPokemon} pokemonState={pokemonState} isPokeballDisabled={isThrowDisabled} />
       <MessageBox message={catchMessage} />
       <Pokeball
         onClick={handleThrow}

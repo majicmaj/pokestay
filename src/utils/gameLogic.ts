@@ -115,7 +115,9 @@ export const calculateCatchProbability = (
   let catchRate = 0.1;
 
   // Speed modifier (1.0-2.0x based on throw speed)
-  const speedModifier = Math.min(Math.max(throwSpeed / 2, 1), 2);
+  const speedModifier = Math.min(Math.max(throwSpeed / 3, 1), 3);
+
+  console.log({throwSpeed, speedModifier})
 
   // Ball type modifiers
   const ballModifiers = {
@@ -126,13 +128,14 @@ export const calculateCatchProbability = (
   };
 
   // Calculate buddy bonus if applicable
-  let buddyModifier = 1;
-  if (buddyPokemon) {
-    buddyModifier = calculateTypeAdvantage(
-      buddyPokemon.types,
-      targetPokemon.types
-    );
-  }
+  // let buddyModifier = 1;
+
+  // if (buddyPokemon) {
+  //   buddyModifier = calculateTypeAdvantage(
+  //     buddyPokemon.types,
+  //     targetPokemon.types
+  //   );
+  // }
 
   // Apply HP modifier (lower HP = easier to catch)
   const hpModifier =
@@ -147,23 +150,26 @@ export const calculateCatchProbability = (
     targetPokemon.stats.defense;
 
   // Apply speed modifier (slower = easier to catch)
-  const speedDebuffModifier =
-    1 +
-    (targetPokemon.stats.speed - targetPokemon.currentSpeed) /
-    targetPokemon.stats.speed;
+  // const speedDebuffModifier =
+  //   1 +
+  //   (targetPokemon.stats.speed - targetPokemon.currentSpeed) /
+  //   targetPokemon.stats.speed;
 
   // Apply catch modifier from moves
   const catchModifier = targetPokemon.catchModifier;
 
+  console.log(targetPokemon)
   const finalCatchRate =
     catchRate *
     speedModifier *
     ballModifiers[ballType] *
-    buddyModifier *
     hpModifier *
     defenseModifier *
-    speedDebuffModifier *
+    // buddyModifier *
+    // speedDebuffModifier *
     catchModifier;
+
+    console.log(finalCatchRate)
 
   return Math.min(finalCatchRate, 0.8);
 };
