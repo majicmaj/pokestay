@@ -37,14 +37,14 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
 
   return (
     <div className="h-screen overflow-auto flex flex-col">
-      <h1 className='text-md py-8 text-center'>POKEMON</h1>
-        {selectedPokemon && <div className='absolute top-0 grid place-items-center h-full w-full p-8 bg-black/20 filter backdrop-blur z-20'>
+        {selectedPokemon && <div className='absolute top-0 left-0 grid place-items-center h-full w-full p-8 bg-black/20 filter backdrop-blur z-20'>
           <div className='h-full w-full'>
           <SelectedPokemon pokemon={selectedPokemon}
           setSelectedPokemon={setSelectedPokemon}
           />
           </div>
         </div>}
+      <h1 className='text-md py-8 text-center'>POKEMON</h1>
         <div className="grid max-w-[900px] pb-24 gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6gap-3">
           {filteredPokemon.map((pokemon) => (
             <div

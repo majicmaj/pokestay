@@ -18,9 +18,9 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
         className="flex flex-col items-center"
     >
         <div className="absolute top-0 w-full flex px-8 flex-col gap-4 h-full items-center">
-            <div className='absolute -z-10 top-[260px] h-full rounded-xl w-[calc(100%-32px)] border aspect-square  bg-white drop-shadow-xl p-8' />
+            <div className='absolute -z-10 top-80 h-full rounded-xl w-[calc(100%-32px)] border aspect-square  bg-white drop-shadow-xl p-8' />
 
-            <div className="w-96 flex pt-8 h-[350px] flex-col justify-between items-center">
+            <div className="w-full flex pt-8 aspect-square flex-col justify-between items-center">
                 <div className='text-white'>
                     <span className="text-sm font-medium opacity-60 pr-1">
                         CP
@@ -32,7 +32,7 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
                 <img
                     src={pokemon.sprite}
                     alt={pokemon.name}
-                    className="pixelated absolute p-12 -top-4 w-96 aspect-square object-contain drop-shadow-lg"
+                    className="pixelated absolute p-12 -top-8 w-full aspect-square object-contain"
                 />
                 <div className='flex items-center flex-col'>
                     <div className="font-semibold text-3xl mt-[-16px] flex items-center">{pokemon.isShiny && <Sparkles className='w-8' />}{pokemon.name}</div>
@@ -40,7 +40,7 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
                 </div>
             </div>
 
-            <div className='flex px-2 rounded-full bg-black/15'>
+            <div className='flex rounded-full border-2'>
                 {pokemon.types.map(type => <TypeBadge key={type} type={type} />)}
             </div>
 
@@ -70,8 +70,8 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
 
 
         <button
-                    className='absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-teal-600 p-2 text-lime-200 border border-lime-200'
-                    onClick={() => setSelectedPokemon(null)}
+            className='absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-teal-600 p-2 text-lime-200 border border-lime-200'
+            onClick={() => setSelectedPokemon(null)}
         >
             <X className='h-6 w-6' />
         </button>
