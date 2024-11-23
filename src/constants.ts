@@ -67,3 +67,5 @@ export const INITIAL_STATE: GameState = {
   buddyPokemon: null,
   selectedMove: null,
 };
+
+export const POKEDEX_LAST_POKEMON = 251

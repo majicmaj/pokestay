@@ -35,7 +35,7 @@ const SlidingMenus = ({
                     : 'bg-black/20 backdrop-blur-md text-white hover:bg-blak/30'
                     }`}
             >
-                <img className='absolute min-w-16 aspect-square' src={gameState.buddyPokemon?.sprite} />
+                <img className='pixelated absolute min-w-16 aspect-square' src={gameState.buddyPokemon?.sprite} />
             </button>
         </div>}
         <div className="fixed bottom-6 right-6 flex flex-col gap-4 items-end z-30">
@@ -55,25 +55,11 @@ const SlidingMenus = ({
                 }`}
         >
             <div className='bg-white h-full w-full text-teal-800'>
-                <div className="sticky top-0 p-4 flex flex-col pt-8 justify-between items-center">
-                    <h2 className="text-xl">
-                        {activeMenu === 'pokedex'
-                            ? 'Pokédex'
-                            : activeMenu === 'inventory'
-                                ? 'Pokémon'
-                                : activeMenu === 'shop'
-                                    ? 'Shop'
-                                    : ''}
-                    </h2>
-                    <p className='opacity-80 text-sm'>
-                        Stardust {gameState.points}
-                    </p>
-                </div>
                 <button
-                    className='absolute bottom-20 left-1/2 -translate-x-1/2 rounded-full bg-teal-600 p-4 text-lime-200 border border-lime-200'
+                    className='absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-teal-600 p-2 text-lime-200 border border-lime-200'
                     onClick={() => setActiveMenu('none')}
                 >
-                    <X className='h-8 w-8' />
+                    <X className='h-6 w-6' />
                 </button>
                 <PokemonPouch
                     caughtPokemon={gameState.inventory}

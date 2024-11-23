@@ -48,7 +48,7 @@ const Pokemon = ({
             <img
               src={currentPokemon.sprite}
               alt={currentPokemon.name}
-              className={`w-72 aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${isPokeballDisabled && "animate-pokemon-shrink"} ${!isPokeballDisabled && pokemonState==='idle' &&  "animate-pokemon-grow"}`}
+              className={`w-72 pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${isPokeballDisabled && "animate-pokemon-shrink"} ${!isPokeballDisabled && pokemonState==='idle' &&  "animate-pokemon-grow"}`}
             />
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { POKEDEX_LAST_POKEMON } from '../constants';
 import { Pokemon, GameState, PokemonMove, WildPokemonState, Pokeball } from '../types';
 
 const TYPE_CHART = {
@@ -215,7 +216,7 @@ export const getRandomPokemon = async (
   else rarity = 'legendary';
 
   // Get random Pokémon ID based on rarity
-  const pokemonId = Math.floor(Math.random() * 151) + 1;
+  const pokemonId = Math.floor(Math.random() * POKEDEX_LAST_POKEMON) + 1;
 
   try {
     const response = await fetch(
@@ -273,7 +274,7 @@ export const getRandomPokemon = async (
       description: 'A powerful move!',
     }));
 
-    const isShiny = (Math.random() * 100) < 1
+    const isShiny = (Math.random() * 512) < 1
     const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${isShiny ? "shiny/" : "" }${pokemonId}.png`
 
     const pokemon: WildPokemonState = {
