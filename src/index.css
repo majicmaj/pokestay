@@ -66,12 +66,27 @@
   }
 }
 
-@keyframes great-throw {
+@keyframes great-throw-left {
   0% {
     transform: translate(0, 0) scale(1);
   }
   25% {
     transform: translate(-15vw, -60vh) scale(0.9);
+  }
+  50% {
+    transform: translate(0, -50vh) scale(0.5) rotate(-360deg);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes great-throw-right {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(15vw, -60vh) scale(0.9);
   }
   50% {
     transform: translate(0, -50vh) scale(0.5) rotate(360deg);
@@ -81,12 +96,27 @@
   }
 }
 
-@keyframes excellent-throw {
+@keyframes excellent-throw-left {
   0% {
     transform: translate(0, 0) scale(1);
   }
   25% {
     transform: translate(-25vw, -60vh) scale(0.9);
+  }
+  50% {
+    transform: translate(0, -50vh) scale(0.5) rotate(-720deg);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes excellent-throw-right {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(25vw, -60vh) scale(0.9);
   }
   50% {
     transform: translate(0, -50vh) scale(0.5) rotate(720deg);

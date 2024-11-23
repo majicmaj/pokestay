@@ -6,10 +6,12 @@ interface PokeballProps {
   disabled: boolean;
 }
 
-const getThrowAnimation = (throwSpeed: number) => {
-  if (throwSpeed > 5) return 'excellent-throw';
-  if (throwSpeed > 3) return 'great-throw';
-  if (throwSpeed > 1) return 'nice-throw';
+const getThrowAnimation = (throwSpeed: number, throwDirection: 'left' | 'right') => {
+  const direction = throwDirection === 'left' ? '-left' : '-right';
+
+  if (throwSpeed > 5) return `excellent-throw${direction}`;
+  if (throwSpeed > 3) return `great-throw${direction}`;
+  if (throwSpeed > 1) return `nice-throw`;
 
   return 'throw';
 };
@@ -19,7 +21,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   // const [startTime, setStartTime] = useState(0);
-  const [recentPositions, setRecentPositions] = useState<{ time: number; y: number }[]>([]);
+  const [recentPositions, setRecentPositions] = useState<{ time: number; y: number; x: number}[]>([]);
 
   const ballRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,46 +51,47 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
       // Update recent positions for the last 0.05 seconds
       setRecentPositions((prev) => [
         ...prev.filter((p) => currentTime - p.time <= 50),
-        { time: currentTime, y: clientY },
+        { time: currentTime, y: clientY, x: clientX },
       ]);
     };
 
     // e: MouseEvent | TouchEvent
     const handleMouseUp = () => {
       if (!isDragging || disabled) return;
-
+    
       const endTime = performance.now();
-      // const clientY =
-      //   'changedTouches' in e ? e.changedTouches[0].clientY : e.clientY;
-
-      // Calculate throw distance and speed based on the last 0.05 seconds
       const validPositions = recentPositions.filter((p) => endTime - p.time <= 50);
       const firstPosition = validPositions[0];
       const lastPosition = validPositions[validPositions.length - 1];
-
+    
       let throwSpeed = 0;
-
+      let throwDirection: 'left' | 'right' = 'right';
+    
       if (firstPosition && lastPosition) {
-        const distance = firstPosition.y - lastPosition.y;
+        const distanceY = firstPosition.y - lastPosition.y;
+        const distanceX = lastPosition.x - firstPosition.x; // Horizontal direction
         const duration = lastPosition.time - firstPosition.time;
-        throwSpeed = distance / duration;
+    
+        throwSpeed = distanceY / duration;
+        throwDirection = distanceX > 0 ? 'right' : 'left'; // Determine curve direction
+        // console.log({distanceX, throwDirection})
       }
-
-      throwSpeed *= CONSTANT_MODIFIER; // Apply the constant modifier
-
+    
+      throwSpeed *= CONSTANT_MODIFIER;
+    
       if (throwSpeed > 0.5) {
         onClick(throwSpeed);
-
+    
         if (ballRef.current) {
-          const throwAnimation = getThrowAnimation(throwSpeed);
+          const throwAnimation = getThrowAnimation(throwSpeed, throwDirection);
           ballRef.current.style.animation = `${throwAnimation} 1s ease-in`;
         }
       }
-
+    
       setIsDragging(false);
       setPosition({ x: 0, y: 0 });
       setRecentPositions([]);
-
+    
       if (ballRef.current) {
         ballRef.current.style.transition = 'transform 0.2s ease-out';
         ballRef.current.style.transform = 'translate(0px, 0px)';
