@@ -164,11 +164,14 @@ export const calculateCatchProbability = (
   const catchModifier = targetPokemon.catchModifier;
 
   const levelModifier = (((50 - targetPokemon.stats.level) / 50) * 0.9) + 0.1
+
+  const cpModifier = Math.min(Math.max(1, ((buddyPokemon?.cp || 1) / (targetPokemon?.cp || 1))), 2)
   const finalCatchRate =
     catchRate *
     speedModifier *
     ballModifiers[ballType] *
     levelModifier *
+    cpModifier *
     // hpModifier *
     // defenseModifier *
     // speedDebuffModifier *
@@ -182,6 +185,7 @@ export const calculateCatchProbability = (
     //   bm: ballModifiers[ballType],
     //   buddyModifier,
     //   catchModifier,
+    //   cpModifier,
     //   finalCatchRate
     // })
 
