@@ -119,7 +119,7 @@ export const calculateCatchProbability = (
   if (ballType === 'masterball') return 1;
 
   // Base catch rate 10-20%
-  let catchRate = 0.1;
+  let catchRate = 1;
 
   // Speed modifier (1.0-2.0x based on throw speed)
   const speedModifier = Math.min(Math.max(throwSpeed / 3, 1), 3);
@@ -143,16 +143,16 @@ export const calculateCatchProbability = (
   }
 
   // Apply HP modifier (lower HP = easier to catch)
-  const hpModifier =
-    1 +
-    (targetPokemon.stats.maxHp - targetPokemon.currentHp) /
-    targetPokemon.stats.maxHp;
+  // const hpModifier =
+  //   1 +
+  //   (targetPokemon.stats.maxHp - targetPokemon.currentHp) /
+  //   targetPokemon.stats.maxHp;
 
   // Apply defense modifier
-  const defenseModifier =
-    1 +
-    (targetPokemon.stats.defense - targetPokemon.currentDefense) /
-    targetPokemon.stats.defense;
+  // const defenseModifier =
+  //   1 +
+  //   (targetPokemon.stats.defense - targetPokemon.currentDefense) /
+  //   targetPokemon.stats.defense;
 
   // Apply speed modifier (slower = easier to catch)
   // const speedDebuffModifier =
@@ -163,16 +163,27 @@ export const calculateCatchProbability = (
   // Apply catch modifier from moves
   const catchModifier = targetPokemon.catchModifier;
 
-  console.log(buddyModifier)
+  const levelModifier = (((50 - targetPokemon.stats.level) / 50) * 0.9) + 0.1
   const finalCatchRate =
     catchRate *
     speedModifier *
     ballModifiers[ballType] *
-    hpModifier *
-    defenseModifier *
-    buddyModifier *
+    levelModifier *
+    // hpModifier *
+    // defenseModifier *
     // speedDebuffModifier *
+    buddyModifier *
     catchModifier;
+
+    // console.log({
+    //   catchRate,
+    //   speedModifier,
+    //   levelModifier,
+    //   bm: ballModifiers[ballType],
+    //   buddyModifier,
+    //   catchModifier,
+    //   finalCatchRate
+    // })
 
   return Math.min(finalCatchRate, 0.8);
 };
@@ -223,6 +234,17 @@ export const getRandomPokemon = async (
       `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
     );
     const data = await response.json();
+
+    const speciesRes = await fetch (
+      `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`
+    )
+    const speciesData = await speciesRes.json();
+    const { 
+      capture_rate, 
+      // is_baby,
+      // is_legendary,
+      // is_mythical,
+     } = speciesData || {}
 
     // Generate random level based on rarity
     const levelRanges = {
@@ -277,6 +299,7 @@ export const getRandomPokemon = async (
     const isShiny = (Math.random() * 512) < 1
     const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${isShiny ? "shiny/" : "" }${pokemonId}.png`
 
+    const captureRate = (capture_rate / 255)
     const pokemon: WildPokemonState = {
       id: pokemonId,
       name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
@@ -292,10 +315,7 @@ export const getRandomPokemon = async (
         maxHp: baseStats.hp,
       },
       moves,
-      currentHp: baseStats.hp,
-      currentDefense: baseStats.defense,
-      currentSpeed: baseStats.speed,
-      catchModifier: 1,
+      catchModifier: captureRate,
       isShiny,
     };
 

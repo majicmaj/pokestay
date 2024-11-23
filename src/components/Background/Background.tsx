@@ -2,7 +2,7 @@ import { WildPokemonState } from "../../types";
 import { getBackgroundColor } from "../../utils/getBackgroundColor";
 
 const Background = ({currentPokemon} : {currentPokemon: WildPokemonState | null}) => {
-    const bgColor = getBackgroundColor(currentPokemon);
+    const bgColor = getBackgroundColor(currentPokemon) || 'bg-white';
 
     return (
     <div className='absolute h-screen w-screen overflow-hidden'>

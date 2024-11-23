@@ -40,9 +40,9 @@ export interface Pokemon {
 }
 
 export interface WildPokemonState extends Pokemon {
-  currentHp: number;
-  currentDefense: number;
-  currentSpeed: number;
+  // currentHp: number;
+  // currentDefense: number;
+  // currentSpeed: number;
   catchModifier: number;
 }
 

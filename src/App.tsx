@@ -95,6 +95,9 @@ function App() {
       setCurrentPokemon(newPokemon);
       setPokemonState('idle');
       setCatchMessage(`A wild ${newPokemon.name} has appeared!`);
+      setTimeout(() => {
+        setCatchMessage(null);
+      }, 2000);
     }
 
     setIsThrowDisabled(false);
@@ -102,11 +105,21 @@ function App() {
 
 
   const handleFlee = async() => {
+    setPokemonState('fled');
+    setCatchMessage(`You have fled!`);
+    setTimeout(() => {
+      setCatchMessage(null);
+    }, 2000);
+    await sleep((Math.random() * 3000)+1000);
+
     const ballType = getBallType();
       const newPokemon = await getRandomPokemon(ballType);
       setCurrentPokemon(newPokemon);
       setPokemonState('idle');
       setCatchMessage(`A wild ${newPokemon.name} has appeared!`);
+      setTimeout(() => {
+        setCatchMessage(null);
+      }, 2000);
     setIsThrowDisabled(false);
   }
 

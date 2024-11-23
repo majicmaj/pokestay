@@ -1,4 +1,4 @@
-import { LogOut, Users, X } from "lucide-react"
+import { Cat, LogOut, Users, X } from "lucide-react"
 import PokemonPouch from "../PokemonPouch/PokemonPouch"
 import { useState } from "react";
 import { GameState, Menus } from "../../types";
@@ -46,7 +46,7 @@ const SlidingMenus = ({
                     : 'bg-black/20 backdrop-blur-md text-white hover:bg-blak/30'
                     }`}
             >
-                <Users className="w-6 h-6" />
+                <Cat className="w-6 h-6" />
             </button>
         </div>
         {/* Menus */}
