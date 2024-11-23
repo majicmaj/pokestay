@@ -28,7 +28,6 @@ function App() {
   const [pokemonState, setPokemonState] = useState<PokemonState>('idle');
 
   useGetInitalPokemon({
-    gameState,
     setCurrentPokemon,
   });
 
@@ -91,7 +90,7 @@ function App() {
 
     // If Pokémon fled or was caught, spawn a new one
     if (caught || flees) {
-      const newPokemon = await getRandomPokemon(ballType);
+      const newPokemon = await getRandomPokemon();
       setCurrentPokemon(newPokemon);
       setPokemonState('idle');
       setCatchMessage(`A wild ${newPokemon.name} has appeared!`);
@@ -112,8 +111,7 @@ function App() {
     }, 2000);
     await sleep((Math.random() * 3000)+1000);
 
-    const ballType = getBallType();
-      const newPokemon = await getRandomPokemon(ballType);
+      const newPokemon = await getRandomPokemon();
       setCurrentPokemon(newPokemon);
       setPokemonState('idle');
       setCatchMessage(`A wild ${newPokemon.name} has appeared!`);

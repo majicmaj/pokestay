@@ -1,4 +1,4 @@
-import { Sparkles, UserCheck, UserPlus, X } from "lucide-react"
+import { Sparkle, Sparkles, UserCheck, UserPlus, X } from "lucide-react"
 import { Pokemon } from "../../types"
 import TypeBadge from "../TypeBadge/TypeBadge"
 import useGameState from "../../hooks/useGameState";
@@ -15,10 +15,10 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
         ...gameState,
         buddyPokemon: null
     })
+    const { points, buddyPokemon } = gameState || {}
 
-    const isBuddyPokemon = JSON.stringify(gameState.buddyPokemon) === JSON.stringify(pokemon)
+    const isBuddyPokemon = JSON.stringify(buddyPokemon) === JSON.stringify(pokemon)
 
-    console.log(gameState)
     return <div
         className="flex flex-col items-center"
     >
@@ -51,7 +51,7 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
 
             <div className='border-b-2 border-zinc-300 w-full' />
 
-            <div className='grid grid-cols-3 place-items-center gap-4 px-4 w-full'>
+            {/* <div className='grid grid-cols-3 place-items-center gap-4 px-4 w-full'>
                 <div className='grid place-items-center'>
                     <p className='font-bold text-xl'>{pokemon.stats.attack}</p>
                     <p className='opacity-80'>Attack</p>
@@ -64,18 +64,27 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
                     <p className='font-bold text-xl'>{pokemon.stats.speed}</p>
                     <p className='opacity-80'>Speed</p>
                 </div>
+            </div> */}
+
+            <div className="text-center">
+                <p className="text-xl">{points}</p>
+                <p className='flex items-center opacity-60 text-sm'><Sparkle className='h-4 w-4' /> Stardust</p>
+            </div>
+            <div className='rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full'>
+                <button onClick={() => {alert('coming soon')}} className='rounded-full text-sm text-white bg-teal-500 gap-2 flex items-center px-6 py-2'>
+                    LEVEL UP
+                </button>
+                <div className="flex items-center gap-1">
+                    <Sparkle className='h-4 w-4' />
+                    <span>{Math.round(10 * (pokemon.stats.level ** 1.5))}</span>
+                </div>
 
             </div>
-            <button onClick={() => {}} className='rounded-full bg-teal-500 gap-2 flex items-center px-3 py-1'>
-                POWER UP
-            </button>
-            <button onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy} className='rounded-full border-2 border-teal-800 gap-2 flex items-center px-3 py-1'>
-                {isBuddyPokemon ? <UserCheck className='h-8 w-8'/> : <UserPlus className='h-8 w-8' />} 
+            <button onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy} className='rounded-full text-sm border-2 border-teal-800 gap-2 flex items-center px-3 py-1'>
+                {isBuddyPokemon ? <UserCheck className='h-6 w-6' /> : <UserPlus className='h-6 w-6' />}
                 {isBuddyPokemon ? 'Current Buddy' : 'Select as Buddy'}
             </button>
 
-            <div>
-            </div>
         </div>
 
 

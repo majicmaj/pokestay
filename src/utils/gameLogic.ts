@@ -210,15 +210,15 @@ function calculateCP(stats: Stats) {
 }
 
 export const getRandomPokemon = async (
-  ballType: 'pokeball' | 'greatball' | 'ultraball' | 'masterball'
+  // ballType: 'pokeball' | 'greatball' | 'ultraball' | 'masterball'
 ): Promise<WildPokemonState> => {
   // Determine rarity based on ball type
-  const rarityChances = {
-    pokeball: { common: 0.7, uncommon: 0.25, rare: 0.04, legendary: 0.01 },
-    greatball: { common: 0.4, uncommon: 0.4, rare: 0.15, legendary: 0.05 },
-    ultraball: { common: 0.2, uncommon: 0.3, rare: 0.35, legendary: 0.15 },
-    masterball: { common: 0, uncommon: 0, rare: 0.8, legendary: 0.2 },
-  };
+  // const rarityChances = {
+  //   pokeball: { common: 0.7, uncommon: 0.25, rare: 0.04, legendary: 0.01 },
+  //   greatball: { common: 0.4, uncommon: 0.4, rare: 0.15, legendary: 0.05 },
+  //   ultraball: { common: 0.2, uncommon: 0.3, rare: 0.35, legendary: 0.15 },
+  //   masterball: { common: 0, uncommon: 0, rare: 0.8, legendary: 0.2 },
+  // };
 
 
 
