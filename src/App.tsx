@@ -78,7 +78,7 @@ function App() {
       if (flees) {
         setPokemonState('fled');
         setCatchMessage(`${currentPokemon.name} fled!`);
-        await sleep(2000);
+        await sleep((Math.random() * 3000)+1000);
       } else {
         setCatchMessage(`${currentPokemon.name} broke free!`);
       }

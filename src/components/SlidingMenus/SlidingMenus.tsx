@@ -21,10 +21,10 @@ const SlidingMenus = ({
         {/* FABs */}
         <div className='fixed top-4 left-4'>
             <button
-                className='p-4 text-white drop-shadow-md rotate-180'
+                className='p-2 text-white drop-shadow-md rotate-180'
                 onClick={handleFlee}
             >
-                <LogOut className='h-8 w-8' />
+                <LogOut className='h-6 w-6' />
             </button>
         </div>
         {gameState?.buddyPokemon && <div className="fixed bottom-6 left-6 flex flex-col gap-4 items-end z-30">
