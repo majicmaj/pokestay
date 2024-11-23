@@ -339,12 +339,15 @@ export const addToPokedex = (
 ): GameState => {
   const existingEntry = gameState.pokedex.find((p) => p.id === pokemon.id);
 
+  const caughtAt = new Date
+
+  const caughtPokemon = {...pokemon, caughtAt}
   if (!existingEntry) {
     // Add new entry to Pokédex
     return {
       ...gameState,
-      pokedex: [...gameState.pokedex, { ...pokemon, caught: true }],
-      inventory: [...gameState.inventory, pokemon],
+      pokedex: [...gameState.pokedex, { ...caughtPokemon, caught: true }],
+      inventory: [...gameState.inventory, caughtPokemon],
       uniquePokemonCaught: gameState.uniquePokemonCaught + 1,
     };
   } else if (!existingEntry.caught) {
@@ -354,7 +357,7 @@ export const addToPokedex = (
       pokedex: gameState.pokedex.map((p) =>
         p.id === pokemon.id ? { ...p, caught: true } : p
       ),
-      inventory: [...gameState.inventory, pokemon],
+      inventory: [...gameState.inventory, caughtPokemon],
       uniquePokemonCaught: gameState.uniquePokemonCaught + 1,
     };
   }
@@ -366,15 +369,12 @@ export const addToPokedex = (
   };
 };
 
-// Previous imports remain the same...
-
 export const calculateTypeAdvantage = (
   attackerTypes: string[],
   defenderTypes: string[]
 ): number => {
   let multiplier = 1;
 
-  // Guard against null or undefined types
   if (!attackerTypes?.length || !defenderTypes?.length) {
     return multiplier;
   }
@@ -388,7 +388,6 @@ export const calculateTypeAdvantage = (
 
     defenderTypes.forEach((defenderType) => {
       if (!defenderType) return;
-
       if (chart.weakTo?.includes(defenderType)) multiplier *= 1.5;
       // if (attackerType !== 'normal' && chart.resistantTo?.includes(defenderType as never)) multiplier *= 0.75;
       // if ('immuneTo' in chart && chart?.immuneTo?.includes(defenderType)) multiplier *= 0.5;

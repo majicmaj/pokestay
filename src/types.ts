@@ -28,6 +28,7 @@ export interface Pokemon {
   rarity: 'common' | 'uncommon' | 'rare' | 'legendary';
   points: number;
   caught: boolean;
+  caughtAt?: Date;
   sprite: string;
   types: string[];
   stats: PokemonStats;

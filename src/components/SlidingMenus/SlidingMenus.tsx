@@ -62,9 +62,6 @@ const SlidingMenus = ({
                     <X className='h-6 w-6' />
                 </button>
                 <PokemonPouch
-                    caughtPokemon={gameState.inventory}
-                    onSelectBuddy={() => { }}
-                    currentBuddy={null}
                 />
             </div>
         </div>
