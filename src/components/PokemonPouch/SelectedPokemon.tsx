@@ -20,7 +20,7 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
         <div className="absolute top-0 w-full flex px-8 flex-col gap-4 h-full items-center">
             <div className='absolute -z-10 top-80 h-full rounded-xl w-[calc(100%-32px)] border aspect-square  bg-white drop-shadow-xl p-8' />
 
-            <div className="w-full flex pt-8 aspect-square flex-col justify-between items-center">
+            <div className="relative w-96 flex pt-8 h-96 flex-col justify-between items-center">
                 <div className='text-white'>
                     <span className="text-sm font-medium opacity-60 pr-1">
                         CP
@@ -32,7 +32,7 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
                 <img
                     src={pokemon.sprite}
                     alt={pokemon.name}
-                    className="pixelated absolute p-12 -top-8 w-full aspect-square object-contain"
+                    className="pixelated absolute p-12 bottom-0 w-96 h-96 object-contain"
                 />
                 <div className='flex items-center flex-col'>
                     <div className="font-semibold text-3xl mt-[-16px] flex items-center">{pokemon.isShiny && <Sparkles className='w-8' />}{pokemon.name}</div>
