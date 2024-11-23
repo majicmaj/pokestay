@@ -1,4 +1,4 @@
-import { Cat, LogOut, Users, X } from "lucide-react"
+import { Cat, LogOut, X } from "lucide-react"
 import PokemonPouch from "../PokemonPouch/PokemonPouch"
 import { useState } from "react";
 import { GameState, Menus } from "../../types";

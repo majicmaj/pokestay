@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Pokemon } from '../../types';
 import SelectedPokemon from './SelectedPokemon';
 
@@ -13,27 +13,29 @@ const PokemonPouch: React.FC<PokemonPouchProps> = ({
   // onSelectBuddy,
   // currentBuddy,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState<'level' | 'recent' | 'name'>('recent');
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [sortBy, setSortBy] = useState<'level' | 'recent' | 'name'>('recent');
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null)
 
   // console.log(caughtPokemon)
-  const sortedPokemon = [...caughtPokemon]?.sort((a, b) => {
-    switch (sortBy) {
-      case 'level':
-        return b.stats.level - a.stats.level;
-      case 'name':
-        return a.name.localeCompare(b.name);
-      case 'recent':
-      default:
-        return 0; // Assumes the array is already in chronological order
-    }
-  });
+  const sortedPokemon = [...caughtPokemon]
+  // ?.sort((a, b) => {
+  //   switch (sortBy) {
+  //     case 'level':
+  //       return b.stats.level - a.stats.level;
+  //     case 'name':
+  //       return a.name.localeCompare(b.name);
+  //     case 'recent':
+  //     default:
+  //       return 0; // Assumes the array is already in chronological order
+  //   }
+  // });
 
-  const filteredPokemon = sortedPokemon.filter(pokemon =>
-    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    pokemon.types.some(type => type.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredPokemon = sortedPokemon
+  // .filter(pokemon =>
+  //   pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   pokemon.types.some(type => type.toLowerCase().includes(searchTerm.toLowerCase()))
+  // );
 
   return (
     <div className="h-screen overflow-auto flex flex-col">
