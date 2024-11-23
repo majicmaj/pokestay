@@ -19,13 +19,6 @@ const Pokemon = ({
       className={`transform h-full justify-center flex flex-col items-center`}
     >
       <div className="flex flex-col items-center gap-4">
-        <div className="absolute top-20 flex gap-3 items-center text-xl font-medium p-1 text-center text-white bg-black/40 rounded-full">
-          <div className="flex gap-1">
-            {currentPokemon.types.map((t) => (
-              <TypeBadge type={t} />
-            ))}
-          </div>
-        </div>
         <div className={`transition-all duration-150 ${pokemonState === 'caught'
             ? 'scale-0'
             : pokemonState === 'fled'
@@ -45,10 +38,17 @@ const Pokemon = ({
               </p>
 
             </div>
+        <div className="flex mt-1 gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
+          <div className="flex -space-x-2">
+            {currentPokemon.types.map((t) => (
+              <TypeBadge type={t} />
+            ))}
+          </div>
+        </div>
             <img
               src={currentPokemon.sprite}
               alt={currentPokemon.name}
-              className={`w-72 pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${isPokeballDisabled && "animate-pokemon-shrink"} ${!isPokeballDisabled && pokemonState==='idle' &&  "animate-pokemon-grow"}`}
+              className={`w-[300px] pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${isPokeballDisabled && "animate-pokemon-shrink"} ${!isPokeballDisabled && pokemonState==='idle' &&  "animate-pokemon-grow"}`}
             />
           </div>
         </div>
