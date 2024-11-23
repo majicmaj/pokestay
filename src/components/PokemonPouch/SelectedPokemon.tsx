@@ -66,11 +66,16 @@ const SelectedPokemon = ({ pokemon, setSelectedPokemon }: { pokemon: Pokemon, se
                 </div>
 
             </div>
-            
+            <button onClick={() => {}} className='rounded-full bg-teal-500 gap-2 flex items-center px-3 py-1'>
+                POWER UP
+            </button>
             <button onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy} className='rounded-full border-2 border-teal-800 gap-2 flex items-center px-3 py-1'>
                 {isBuddyPokemon ? <UserCheck className='h-8 w-8'/> : <UserPlus className='h-8 w-8' />} 
                 {isBuddyPokemon ? 'Current Buddy' : 'Select as Buddy'}
             </button>
+
+            <div>
+            </div>
         </div>
 
 

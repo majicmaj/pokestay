@@ -220,15 +220,7 @@ export const getRandomPokemon = async (
     masterball: { common: 0, uncommon: 0, rare: 0.8, legendary: 0.2 },
   };
 
-  const rand = Math.random();
-  const chances = rarityChances[ballType];
-  let rarity: 'common' | 'uncommon' | 'rare' | 'legendary';
 
-  if (rand < chances.common) rarity = 'common';
-  else if (rand < chances.common + chances.uncommon) rarity = 'uncommon';
-  else if (rand < chances.common + chances.uncommon + chances.rare)
-    rarity = 'rare';
-  else rarity = 'legendary';
 
   // Get random Pokémon ID based on rarity
   const pokemonId = Math.floor(Math.random() * POKEDEX_LAST_POKEMON) + 1;
@@ -258,7 +250,19 @@ export const getRandomPokemon = async (
       legendary: { min: 45, max: 70 },
     };
 
+    let rarity: 'common' | 'uncommon' | 'rare' | 'legendary' = 'common'
+  
+    const captureRate = (capture_rate / 255)
+
+    if (captureRate < 0.02 ) rarity = 'legendary';
+    else if (captureRate < 0.1) rarity = 'rare';
+    else if (captureRate < 0.5)
+      rarity = 'uncommon';
+
+    // console.log({rarity, captureRate})
+
     const range = levelRanges[rarity];
+
     const level =
       Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
 
@@ -302,8 +306,7 @@ export const getRandomPokemon = async (
 
     const isShiny = (Math.random() * 512) < 1
     const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${isShiny ? "shiny/" : "" }${pokemonId}.png`
-
-    const captureRate = (capture_rate / 255)
+    
     const pokemon: WildPokemonState = {
       id: pokemonId,
       name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
