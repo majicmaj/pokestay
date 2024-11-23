@@ -19,7 +19,6 @@ import useGameState from './hooks/useGameState';
 
 function App() {
   const [gameState, setGameState] = useGameState();
-  // const [upgrades, setUpgrades] = useState<Upgrade[]>(UPGRADES);
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
   const [currentPokemon, setCurrentPokemon] = useState<WildPokemonState | null>(
@@ -31,32 +30,25 @@ function App() {
     setCurrentPokemon,
   });
 
-  const getBallType = () => {
-    if (gameState.masterballs) return 'masterball';
-    if (gameState.ultraballs) return 'ultraball';
-    if (gameState.greatballs) return 'greatball';
-    return 'pokeball';
-  };
-
   const handleThrow = async (throwSpeed: number) => {
     if (isThrowDisabled || !currentPokemon) return;
+    if (throwSpeed > 7) return setCatchMessage('Too far!');
     setIsThrowDisabled(true);
 
+    // console.log(throwSpeed)
     if (throwSpeed > 5) setCatchMessage('Excellent!');
     else if (throwSpeed > 3) setCatchMessage('Great!');
     else if (throwSpeed > 1) setCatchMessage('Nice!');
 
-    const ballType = getBallType();
     const catchProbability = calculateCatchProbability(
       throwSpeed,
-      ballType,
       gameState.buddyPokemon,
       currentPokemon,
     );
 
     // Add suspense
     setPokemonState('idle');
-    await sleep(1000 + (Math.random() * 10000)/4);
+    await sleep(1000 + (Math.random() * 5000));
 
     const caught = Math.random() < catchProbability;
     const flees = !caught && Math.random() < 0.4; // 40% chance to flee on failed catch
@@ -72,7 +64,7 @@ function App() {
       setCatchMessage(
         `Caught ${currentPokemon.name}! +${currentPokemon.points} stardust`
       );
-      await sleep(2000);
+      await sleep((Math.random() * 3000)+1000);
     } else {
       if (flees) {
         setPokemonState('fled');

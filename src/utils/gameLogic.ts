@@ -1,5 +1,5 @@
 import { POKEDEX_LAST_POKEMON } from '../constants';
-import { Pokemon, GameState, PokemonMove, WildPokemonState, Pokeball } from '../types';
+import { Pokemon, GameState, PokemonMove, WildPokemonState } from '../types';
 
 const TYPE_CHART = {
   normal: { weakTo: ['fighting'], resistantTo: [], immuneTo: ['ghost'] },
@@ -112,25 +112,18 @@ const POINTS_RARITY_MAP = {
 
 export const calculateCatchProbability = (
   throwSpeed: number,
-  ballType: Pokeball,
   buddyPokemon: Pokemon | null,
   targetPokemon: WildPokemonState
 ): number => {
-  if (ballType === 'masterball') return 1;
-
-  // Base catch rate 10-20%
+  // Base catch rate 100%
   let catchRate = 1;
 
   // Speed modifier (1.0-2.0x based on throw speed)
-  const speedModifier = Math.min(Math.max(throwSpeed / 3, 1), 3);
-
-  // Ball type modifiers
-  const ballModifiers = {
-    pokeball: 1,
-    greatball: 1.5,
-    ultraball: 2,
-    masterball: 100,
-  };
+  const speedModifier = 
+  throwSpeed > 7 ? 1 :
+  throwSpeed > 5 ? 3 :
+  throwSpeed > 3 ? 2 :
+  1
 
   // Calculate buddy bonus if applicable
   let buddyModifier = 1;
@@ -142,52 +135,29 @@ export const calculateCatchProbability = (
     );
   }
 
-  // Apply HP modifier (lower HP = easier to catch)
-  // const hpModifier =
-  //   1 +
-  //   (targetPokemon.stats.maxHp - targetPokemon.currentHp) /
-  //   targetPokemon.stats.maxHp;
+  const cpModifier = Math.min(Math.max(1, ((buddyPokemon?.cp || 1) / (targetPokemon?.cp || 1))), 2)
 
-  // Apply defense modifier
-  // const defenseModifier =
-  //   1 +
-  //   (targetPokemon.stats.defense - targetPokemon.currentDefense) /
-  //   targetPokemon.stats.defense;
-
-  // Apply speed modifier (slower = easier to catch)
-  // const speedDebuffModifier =
-  //   1 +
-  //   (targetPokemon.stats.speed - targetPokemon.currentSpeed) /
-  //   targetPokemon.stats.speed;
-
-  // Apply catch modifier from moves
   const catchModifier = targetPokemon.catchModifier;
 
-  const levelModifier = (((50 - targetPokemon.stats.level) / 50) * 0.9) + 0.1
+  const levelModifier = (((50 - targetPokemon.stats.level) / 50) * 0.5) + 0.5
 
-  const cpModifier = Math.min(Math.max(1, ((buddyPokemon?.cp || 1) / (targetPokemon?.cp || 1))), 2)
   const finalCatchRate =
     catchRate *
     speedModifier *
-    ballModifiers[ballType] *
     levelModifier *
     cpModifier *
-    // hpModifier *
-    // defenseModifier *
-    // speedDebuffModifier *
     buddyModifier *
     catchModifier;
 
-    // console.log({
-    //   catchRate,
-    //   speedModifier,
-    //   levelModifier,
-    //   bm: ballModifiers[ballType],
-    //   buddyModifier,
-    //   catchModifier,
-    //   cpModifier,
-    //   finalCatchRate
-    // })
+    console.log({
+      catchRate,
+      speedModifier,
+      levelModifier,
+      buddyModifier,
+      catchModifier,
+      cpModifier,
+      finalCatchRate
+    })
 
   return Math.min(finalCatchRate, 0.8);
 };
