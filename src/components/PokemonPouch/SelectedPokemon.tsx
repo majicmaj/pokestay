@@ -103,10 +103,10 @@ const SelectedPokemon = ({
 
   return (
     <div className="flex justify-center items-center">
-      <div className="absolute h-screen w-screen overflow-auto top-0 flex px-8 flex-col gap-4 items-center">
+      <div className="absolute h-screen w-screen overflow-auto top-0 flex px-2 flex-col gap-4 items-center">
         <div className="relative top-[200px] bottom-0 grid h-full min-h-max rounded-t-xl w-full bg-white drop-shadow-xl">
-          <div className="relative top-[-200px] bottom-0 h-full flex flex-col min-h-max items-center gap-4 overflow-auto px-8">
-            <div className="relative w-96 flex pt-8 h-96 flex-col justify-between items-center">
+          <div className="relative top-[-200px] bottom-0 h-full w-full flex flex-col min-h-max items-center gap-4 overflow-x-auto px-2">
+            <div className="relative max-w-96 w-full flex pt-8 max-h-96 aspect-square flex-col justify-between items-center">
               <div className="text-white">
                 <span className="text-sm font-medium opacity-60 pr-1">CP</span>
                 <span className="text-4xl">{pokemon.cp}</span>
@@ -135,7 +135,7 @@ const SelectedPokemon = ({
 
             <div className="border-b-2 border-zinc-300 w-full" />
 
-            <div className="grid grid-cols-3 place-items-center gap-4 px-4 pb-4 w-full">
+            <div className="grid grid-cols-3 place-items-center gap-4 px-2 pb-4 w-full">
               <div className="grid place-items-center">
                 <p className="font-bold text-md">{pokemon.stats.attack}</p>
                 <p className="opacity-80 text-sm">Attack</p>
