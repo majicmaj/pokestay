@@ -202,6 +202,14 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
           // random: true,
           straight: false,
           outModes: "out",
+          path: {
+            clamp: false,
+            enable: true,
+            delay: {
+                value: 0,
+            },
+            generator: "curvesPathGenerator",
+          },
         },
       },
     },

@@ -7,7 +7,6 @@ import {
 import {
   addToPokedex,
   calculateCatchProbability,
-  getRandomPokemon,
   sleep,
 } from './utils/gameLogic';
 import Pokemon from './components/Pokemon/Pokemon';
@@ -16,6 +15,7 @@ import MessageBox from './components/MessageBox/MessageBox';
 import Background from './components/Background/Background';
 import SlidingMenus from './components/SlidingMenus/SlidingMenus';
 import useGameState from './hooks/useGameState';
+import { getRandomPokemon } from './utils/getRandomPokemon';
 
 function App() {
   const [gameState, setGameState] = useGameState();
