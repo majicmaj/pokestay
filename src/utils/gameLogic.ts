@@ -1,5 +1,4 @@
-import { POKEDEX_LAST_POKEMON } from '../constants';
-import { Pokemon, GameState, PokemonMove, WildPokemonState } from '../types';
+import { Pokemon, GameState, WildPokemonState } from '../types';
 
 const TYPE_CHART = {
   normal: { weakTo: ['fighting'], resistantTo: [], immuneTo: ['ghost'] },
@@ -87,12 +86,13 @@ const TYPE_CHART = {
   },
 };
 
-const POINTS_RARITY_MAP = {
-  'common': 100,
-  'uncommon': 150,
-  'rare': 300,
-  'legendary': 1000,
-}
+// const POINTS_RARITY_MAP = {
+//   'common': 100,
+//   'uncommon': 150,
+//   'rare': 300,
+//   'legendary': 1000,
+// }
+
 // export const calculateTypeAdvantage = (attackerTypes: string[], defenderTypes: string[]): number => {
 //   let multiplier = 1;
 
@@ -149,158 +149,17 @@ export const calculateCatchProbability = (
     buddyModifier *
     catchModifier;
 
-    console.log({
-      catchRate,
-      speedModifier,
-      levelModifier,
-      buddyModifier,
-      catchModifier,
-      cpModifier,
-      finalCatchRate
-    })
+    // console.log({
+    //   catchRate,
+    //   speedModifier,
+    //   levelModifier,
+    //   buddyModifier,
+    //   catchModifier,
+    //   cpModifier,
+    //   finalCatchRate
+    // })
 
   return Math.min(finalCatchRate, 0.8);
-};
-
-type Stats = Record<string, any>
-
-function calculateCP(stats: Stats) {
-  const { hp, attack, defense, speed } = stats || {};
-  // const hp = 277
-  // const defense = 161
-  // const attack = 205
-  // const speed = 200
-
-  // Final CP formula
-
-  const cp = Math.floor(
-    (Math.max(10, 0.84 * Math.sqrt((hp * attack * defense * speed)) / 100)
-    ))
-  return cp;
-}
-
-export const getRandomPokemon = async (
-  // ballType: 'pokeball' | 'greatball' | 'ultraball' | 'masterball'
-): Promise<WildPokemonState> => {
-  // Determine rarity based on ball type
-  // const rarityChances = {
-  //   pokeball: { common: 0.7, uncommon: 0.25, rare: 0.04, legendary: 0.01 },
-  //   greatball: { common: 0.4, uncommon: 0.4, rare: 0.15, legendary: 0.05 },
-  //   ultraball: { common: 0.2, uncommon: 0.3, rare: 0.35, legendary: 0.15 },
-  //   masterball: { common: 0, uncommon: 0, rare: 0.8, legendary: 0.2 },
-  // };
-
-
-
-  // Get random Pokémon ID based on rarity
-  const pokemonId = Math.floor(Math.random() * POKEDEX_LAST_POKEMON) + 1;
-
-  try {
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
-    );
-    const data = await response.json();
-
-    const speciesRes = await fetch (
-      `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`
-    )
-    const speciesData = await speciesRes.json();
-    const { 
-      capture_rate, 
-      // is_baby,
-      // is_legendary,
-      // is_mythical,
-     } = speciesData || {}
-
-    // Generate random level based on rarity
-    const levelRanges = {
-      common: { min: 1, max: 20 },
-      uncommon: { min: 15, max: 35 },
-      rare: { min: 30, max: 50 },
-      legendary: { min: 45, max: 70 },
-    };
-
-    let rarity: 'common' | 'uncommon' | 'rare' | 'legendary' = 'common'
-  
-    const captureRate = (capture_rate / 255)
-
-    if (captureRate < 0.02 ) rarity = 'legendary';
-    else if (captureRate < 0.1) rarity = 'rare';
-    else if (captureRate < 0.5)
-      rarity = 'uncommon';
-
-    // console.log({rarity, captureRate})
-
-    const range = levelRanges[rarity];
-
-    const level =
-      Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
-
-    // Calculate base stats scaled by level
-    // const attack = data.baseStats[1]
-    // const defense = data.baseStats[2]
-    // const specialAttack = data.baseStats[3]
-    // const specialDefense = data.baseStats[4]
-    const [hp, attack, defense, spAttack, spDefense, speed] = data?.stats || []
-    const baseAttack = (attack.base_stat + spAttack.base_stat) / 1.5
-    const baseDefense = (defense.base_stat + spDefense.base_stat) / 1.5
-
-    const baseStats = {
-      hp: Math.floor(hp.base_stat * Math.sqrt(level)),
-      attack: Math.floor((baseAttack * Math.sqrt(level))),
-      defense: Math.floor((baseDefense * Math.sqrt(level))),
-      speed: Math.floor((speed.base_stat * Math.sqrt(level))),
-    };
-
-    const cp = calculateCP(baseStats)
-
-
-    // Get moves from API
-    const moves: PokemonMove[] = data.moves.slice(0, 4).map((move: any) => ({
-      id: move.move.url.split('/').slice(-2, -1)[0],
-      name: move.move.name.replace('-', ' '),
-      type: data.types[0].type.name,
-      power: Math.random() > 0.5 ? Math.floor(Math.random() * 100) + 20 : null,
-      accuracy:
-        Math.random() > 0.3 ? Math.floor(Math.random() * 30) + 70 : null,
-      pp: Math.floor(Math.random() * 15) + 5,
-      effect: {
-        type: ['damage', 'defense_down', 'speed_down', 'catch_rate_up'][
-          Math.floor(Math.random() * 4)
-        ] as any,
-        value: Math.floor(Math.random() * 30) + 10,
-        chance: Math.floor(Math.random() * 30) + 70,
-      },
-      description: 'A powerful move!',
-    }));
-
-    const isShiny = (Math.random() * 512) < 1
-    const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${isShiny ? "shiny/" : "" }${pokemonId}.png`
-    
-    const pokemon: WildPokemonState = {
-      id: pokemonId,
-      name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
-      rarity,
-      points: POINTS_RARITY_MAP[rarity] || 100,
-      caught: false,
-      cp,
-      sprite,
-      types: data.types.map((t: any) => t.type.name),
-      stats: {
-        ...baseStats,
-        level,
-        maxHp: baseStats.hp,
-      },
-      moves,
-      catchModifier: captureRate,
-      isShiny,
-    };
-
-    return pokemon;
-  } catch (error) {
-    console.error('Failed to fetch Pokémon:', error);
-    throw error;
-  }
 };
 
 export const sleep = (ms: number) =>
