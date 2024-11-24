@@ -1,5 +1,6 @@
-import { Sparkles } from "lucide-react";
+import { Cat, Sparkles } from "lucide-react";
 import React, { useState } from "react";
+import Stardust from "../../assets/icons/Stardust";
 import useGameState from "../../hooks/useGameState";
 import { Pokemon } from "../../types";
 import SelectedPokemon from "./SelectedPokemon";
@@ -11,7 +12,7 @@ const PokemonPouch: React.FC = () => {
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
   const [gameState] = useGameState();
-  const { buddyPokemon, inventory = [] } = gameState || {};
+  const { buddyPokemon, inventory = [], points } = gameState || {};
 
   const sortedPokemon = [...inventory]?.sort((a, b) => {
     switch (sortBy) {
@@ -56,7 +57,17 @@ const PokemonPouch: React.FC = () => {
           </div>
         </div>
       )}
-      <h1 className="text-md pt-8 text-center">POKEMON</h1>
+      <div className="pt-8 grid grid-cols-3 gap-4 place-items-center">
+        <div className="flex items-center gap-1">
+          <Cat className="w-4 h-4" />
+          {inventory.length}
+        </div>
+        <h1 className="text-md text-center">POKEMON</h1>
+        <div className="flex items-center gap-1">
+          <Stardust className="w-6 h-6" />
+          {points}
+        </div>
+      </div>
       <div className="p-4 flex flex-col gap-2">
         <input
           value={searchTerm}

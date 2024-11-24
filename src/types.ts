@@ -38,6 +38,18 @@ export interface Pokemon {
   currentSpeed?: number;
   cp?: number;
   isShiny?: boolean;
+  ivs?: {
+    attack: number;
+    defense: number;
+    speed: number;
+    hp: number;
+  };
+  ivModifiers?: {
+    attack: number;
+    defense: number;
+    speed: number;
+    hp: number;
+  };
 }
 
 export interface WildPokemonState extends Pokemon {

@@ -1,5 +1,6 @@
-import { Sparkle, Sparkles, UserCheck, UserPlus, X } from "lucide-react";
+import { Sparkles, UserCheck, UserPlus, X } from "lucide-react";
 import { useState } from "react";
+import Stardust from "../../assets/icons/Stardust";
 import useCanEvolve from "../../hooks/useCanEvolve";
 import useGameState from "../../hooks/useGameState";
 import { Pokemon } from "../../types";
@@ -137,6 +138,22 @@ const SelectedPokemon = ({
 
             <div className="border-b-2 border-zinc-300 w-full" />
 
+            <button
+              onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy}
+              className={`w-64 justify-center rounded-full text-xl border-2 gap-2 flex items-center px-6 py-3 transition-colors ${
+                isBuddyPokemon
+                  ? "bg-lime-200 border-lime-300 bg-gradient-to-r from-lime-200 to-teal-200 drop-shadow-lg"
+                  : "border-teal-800 bg-white drop-shadow-none"
+              }`}
+            >
+              {isBuddyPokemon ? (
+                <UserCheck className="h-6 w-6" />
+              ) : (
+                <UserPlus className="h-6 w-6" />
+              )}
+              {isBuddyPokemon ? "Current Buddy" : "Select as Buddy"}
+            </button>
+
             <div className="grid grid-cols-3 place-items-center gap-4 px-2 pb-4 w-full">
               <div className="grid place-items-center">
                 <p className="font-bold text-md">{pokemon.stats.attack}</p>
@@ -170,7 +187,7 @@ const SelectedPokemon = ({
             +1000
           </button> */}
               <div className="flex flex-1 items-center gap-1">
-                <Sparkle className="h-4 w-4" />
+                <Stardust className="w-6 h-6" />
                 <span className={`${isLevelUpDisabled && "text-red-500"}`}>
                   {formatNumber(levelUpCost)}
                 </span>
@@ -193,7 +210,7 @@ const SelectedPokemon = ({
                   EVOLVE
                 </button>
                 <div className="flex flex-1 items-center gap-1">
-                  <Sparkle className="h-4 w-4" />
+                  <Stardust className="w-6 h-6" />
                   <span className={`${!canEvolve && "text-red-500"}`}>
                     {formatNumber(evolutionCost)}
                   </span>
@@ -229,26 +246,10 @@ const SelectedPokemon = ({
                 </button>
               )}
               <div className="flex flex-1 items-center gap-1">
-                <Sparkle className="h-4 w-4" />
-                <span>+{formatNumber(transferStardust)}</span>
+                <Stardust className="w-6 h-6" />
+                <span>+ {formatNumber(transferStardust)}</span>
               </div>
             </div>
-
-            <button
-              onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy}
-              className={`w-64 justify-center rounded-full text-xl border-2 gap-2 flex items-center px-6 py-3 transition-colors ${
-                isBuddyPokemon
-                  ? "bg-lime-200 border-lime-300 bg-gradient-to-r from-lime-200 to-teal-200 drop-shadow-lg"
-                  : "border-teal-800 bg-white drop-shadow-none"
-              }`}
-            >
-              {isBuddyPokemon ? (
-                <UserCheck className="h-6 w-6" />
-              ) : (
-                <UserPlus className="h-6 w-6" />
-              )}
-              {isBuddyPokemon ? "Current Buddy" : "Select as Buddy"}
-            </button>
           </div>
         </div>
       </div>

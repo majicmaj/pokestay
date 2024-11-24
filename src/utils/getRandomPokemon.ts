@@ -52,18 +52,38 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
     const range = levelRanges[rarity];
     // const range = { min: 49, max: 50 }
 
+    const ivs = {
+      attack: Math.floor(Math.random() * 16),
+      defense: Math.floor(Math.random() * 16),
+      speed: Math.floor(Math.random() * 16),
+      hp: Math.floor(Math.random() * 16),
+    };
+
+    const ivMod = {
+      attack: 0.9 + ivs.attack / 15 / 10,
+      defense: 0.9 + ivs.defense / 15 / 10,
+      speed: 0.9 + ivs.speed / 15 / 10,
+      hp: 0.9 + ivs.hp / 15 / 10,
+    };
+
+    // console.log({ ivs, ivMod });
+
     const level =
       Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
 
     const [hp, attack, defense, spAttack, spDefense, speed] = data?.stats || [];
-    const baseAttack = (attack.base_stat + spAttack.base_stat) / 1.5;
-    const baseDefense = (defense.base_stat + spDefense.base_stat) / 1.5;
+    const baseHp = hp.base_stat * ivMod.hp;
+    const baseSpeed = speed.base_stat * ivMod.speed;
+    const baseAttack =
+      ((attack.base_stat + spAttack.base_stat) / 1.5) * ivMod.attack;
+    const baseDefense =
+      ((defense.base_stat + spDefense.base_stat) / 1.5) * ivMod.defense;
 
     const baseStats = {
-      hp: Math.floor(hp.base_stat * Math.sqrt(level)),
+      hp: Math.floor(baseHp * Math.sqrt(level)),
       attack: Math.floor(baseAttack * Math.sqrt(level)),
       defense: Math.floor(baseDefense * Math.sqrt(level)),
-      speed: Math.floor(speed.base_stat * Math.sqrt(level)),
+      speed: Math.floor(baseSpeed * Math.sqrt(level)),
     };
 
     const cp = calculateCP(baseStats);
@@ -105,6 +125,13 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
         level,
         maxHp: baseStats.hp,
       },
+      ivs: {
+        attack: ivs.attack,
+        defense: ivs.defense,
+        speed: ivs.speed,
+        hp: ivs.hp,
+      },
+      ivModifiers: ivMod,
       moves,
       catchModifier: captureRate,
       isShiny,
