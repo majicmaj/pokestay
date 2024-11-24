@@ -106,7 +106,7 @@ const SelectedPokemon = ({
       <div className="absolute h-screen w-screen overflow-auto top-0 flex px-2 flex-col gap-4 items-center">
         <div className="relative top-[200px] bottom-0 grid h-full min-h-max rounded-t-xl w-full bg-white drop-shadow-xl">
           <div className="relative top-[-200px] bottom-0 h-full w-full flex flex-col min-h-max items-center gap-4 overflow-x-auto px-2">
-            <div className="relative max-w-96 w-full flex pt-8 max-h-96 aspect-square flex-col justify-between items-center">
+            <div className="relative max-w-96 w-full flex py-8 mb-[-32px] max-h-96 aspect-square flex-col justify-between items-center">
               <div className="text-white">
                 <span className="text-sm font-medium opacity-60 pr-1">CP</span>
                 <span className="text-4xl">{pokemon.cp}</span>
@@ -116,7 +116,7 @@ const SelectedPokemon = ({
                 alt={pokemon.name}
                 className="pixelated absolute p-12 bottom-0 w-96 h-96 object-contain"
               />
-              <div className="flex items-center flex-col">
+              <div className="relative flex items-center flex-col">
                 <div className="font-semibold text-3xl mt-[-16px] flex items-center">
                   {pokemon.isShiny && <Sparkles className="w-8" />}
                   {pokemon.name}
