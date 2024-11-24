@@ -38,7 +38,7 @@ const SelectedPokemon = ({
   const isBuddyPokemon =
     JSON.stringify(buddyPokemon) === JSON.stringify(pokemon);
 
-  const levelUpCost = Math.round(10 * pokemon.stats.level ** 1.5);
+  const levelUpCost = Math.round(10 * pokemon.stats.level ** 1.6);
 
   const isMaxLevel = level >= 50;
 
