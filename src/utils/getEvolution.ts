@@ -32,18 +32,36 @@ export const evolvePokemon = async (
           );
           const evolvedData = await evolvedResponse.json();
 
+          const ivs = {
+            attack: pokemon.ivs?.attack || Math.floor(Math.random() * 16),
+            defense: pokemon.ivs?.defense || Math.floor(Math.random() * 16),
+            speed: pokemon.ivs?.speed || Math.floor(Math.random() * 16),
+            hp: pokemon.ivs?.hp || Math.floor(Math.random() * 16),
+          };
+
+          const ivMod = {
+            attack: 0.9 + ivs.attack / 15 / 10,
+            defense: 0.9 + ivs.defense / 15 / 10,
+            speed: 0.9 + ivs.speed / 15 / 10,
+            hp: 0.9 + ivs.hp / 15 / 10,
+          };
+
           // Recalculate stats for the evolved Pokémon based on the current level
           const level = pokemon.stats.level;
           const [hp, attack, defense, spAttack, spDefense, speed] =
-            evolvedData.stats || [];
-          const baseAttack = (attack.base_stat + spAttack.base_stat) / 1.5;
-          const baseDefense = (defense.base_stat + spDefense.base_stat) / 1.5;
+            evolvedData.stats;
+          const baseHp = hp.base_stat * ivMod.hp;
+          const baseSpeed = speed.base_stat * ivMod.speed;
+          const baseAttack =
+            ((attack.base_stat + spAttack.base_stat) / 1.5) * ivMod.attack;
+          const baseDefense =
+            ((defense.base_stat + spDefense.base_stat) / 1.5) * ivMod.defense;
 
           const baseStats = {
-            hp: Math.floor(hp.base_stat * Math.sqrt(level)),
+            hp: Math.floor(baseHp * Math.sqrt(level)),
             attack: Math.floor(baseAttack * Math.sqrt(level)),
             defense: Math.floor(baseDefense * Math.sqrt(level)),
-            speed: Math.floor(speed.base_stat * Math.sqrt(level)),
+            speed: Math.floor(baseSpeed * Math.sqrt(level)),
           };
 
           const cp = calculateCP(baseStats);

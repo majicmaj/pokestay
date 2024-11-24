@@ -194,6 +194,20 @@ const SelectedPokemon = ({
                 <span className="opacity-70">/ {formatNumber(points)}</span>
               </div>
             </div>
+            {/* ADd 1000 points */}
+            {/* <div>
+              <button
+                onClick={() =>
+                  setGameState({
+                    ...gameState,
+                    points: points + 1000,
+                  })
+                }
+                className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-lime-500 to-teal-500 gap-2 flex items-center px-8 py-3`}
+              >
+                +1000
+              </button>
+            </div> */}
 
             {/* Evolution */}
             {canPokemonEvolve && (
