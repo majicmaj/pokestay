@@ -4,13 +4,8 @@ import useGameState from "../../hooks/useGameState";
 import { Pokemon } from "../../types";
 import SelectedPokemon from "./SelectedPokemon";
 
-interface PokemonPouchProps {
-  // onSelectBuddy: (pokemon: Pokemon) => void;
-  // currentBuddy: Pokemon | null;
-}
-
 type SortBy = "level" | "recent" | "name" | "cp" | "id";
-const PokemonPouch: React.FC<PokemonPouchProps> = ({}) => {
+const PokemonPouch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<SortBy>("recent");
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
