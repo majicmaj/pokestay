@@ -75,7 +75,7 @@ const SelectedPokemon = ({
     if (!evolvedPokemon) return;
 
     const newInventory = [...inventory].map((p) =>
-      p.id === pokemon.id ? evolvedPokemon : p
+      JSON.stringify(p) === JSON.stringify(pokemon) ? evolvedPokemon : p
     );
 
     setGameState({
@@ -90,7 +90,9 @@ const SelectedPokemon = ({
 
   const transferStardust = 100;
   const transferPokemon = () => {
-    const newInventory = inventory.filter((p: Pokemon) => p.id !== pokemon.id);
+    const newInventory = inventory.filter(
+      (p: Pokemon) => JSON.stringify(p) !== JSON.stringify(pokemon)
+    );
 
     setGameState({
       ...gameState,

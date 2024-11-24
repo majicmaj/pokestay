@@ -34,7 +34,6 @@
   animation: pokemon-shrink 1s forwards ease-in-out;
 }
 
-
 .animate-pokemon-grow {
   animation: pokemon-grow 0.5s forwards ease-in-out;
 }
@@ -140,7 +139,7 @@
   animation: bounce-slow 2s infinite ease-in-out;
 }
 
-* {
+.animate-bounce-slow-and-mirro * {
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
