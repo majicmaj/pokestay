@@ -114,7 +114,7 @@ const SelectedPokemon = ({
               <img
                 src={pokemon.sprite}
                 alt={pokemon.name}
-                className="pixelated absolute p-12 bottom-0 w-96 h-96 object-contain"
+                className="animate-bounce-slow pixelated absolute p-12 bottom-0 w-96 h-96 object-contain"
               />
               <div className="relative flex items-center flex-col">
                 <div className="font-semibold text-3xl mt-[-16px] flex items-center">
