@@ -9,6 +9,7 @@ import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { PokemonState, WildPokemonState } from "./types";
 import { addToPokedex } from "./utils/addToPokedex";
 import { calculateCatchProbability } from "./utils/calculateCatchProbability";
+import { calculateTypeAdvantage } from "./utils/calculateTypeAdvantage";
 import { getRandomPokemon } from "./utils/getRandomPokemon";
 import { sleep } from "./utils/sleep";
 
@@ -49,16 +50,24 @@ function App() {
     const caught = Math.random() < catchProbability;
     const flees = !caught && Math.random() < 0.4; // 40% chance to flee on failed catch
 
+    const advantage = calculateTypeAdvantage(
+      gameState.buddyPokemon,
+      currentPokemon.types
+    );
+
     if (caught) {
       setPokemonState("caught");
       const updatedState = addToPokedex(currentPokemon, gameState);
+
+      const extraPoints = Math.round(advantage * currentPokemon.points);
+
       setGameState({
         ...updatedState,
-        points: updatedState.points + currentPokemon.points,
+        points: updatedState.points + extraPoints,
       });
 
       setCatchMessage(
-        `Caught ${currentPokemon.name}! +${currentPokemon.points} stardust`
+        `${currentPokemon.name} caught! +${extraPoints} stardust`
       );
       await sleep(Math.random() * 3000 + 1000);
     } else {

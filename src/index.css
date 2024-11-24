@@ -11,10 +11,11 @@
   }
   50% {
     transform: translate(0, 0) scale(1);
-    filter: brightness(1) drop-shadow(0 0 -5vw white);
+    filter: brightness(1) contrast(1) grayscale(0) drop-shadow(0 0 -5vw white);
   }
   100% {
-    filter: brightness(10) drop-shadow(0 0 20vw white);
+    filter: brightness(0) contrast(1) invert(1) grayscale(1)
+      drop-shadow(0 0 20vw white);
     transform: translate(0, 0) scale(0.5);
   }
 }
