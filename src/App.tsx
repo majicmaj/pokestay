@@ -14,6 +14,7 @@ import { sleep } from "./utils/sleep";
 
 function App() {
   const [gameState, setGameState] = useGameState();
+
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
   const [currentPokemon, setCurrentPokemon] = useState<WildPokemonState | null>(

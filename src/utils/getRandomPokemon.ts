@@ -1,4 +1,4 @@
-import { PokemonMove, WildPokemonState } from "../types";
+import { Move, PokemonMove, PokemonType, WildPokemonState } from "../types";
 import { calculateCP } from "./calculateCp";
 import { getPokemonId } from "./getPokemonId";
 
@@ -68,8 +68,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
 
     const cp = calculateCP(baseStats);
 
-    // Get moves from API
-    const moves: PokemonMove[] = data.moves.slice(0, 4).map((move: any) => ({
+    const moves: PokemonMove[] = data.moves.slice(0, 4).map((move: Move) => ({
       id: move.move.url.split("/").slice(-2, -1)[0],
       name: move.move.name.replace("-", " "),
       type: data.types[0].type.name,
@@ -80,7 +79,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
       effect: {
         type: ["damage", "defense_down", "speed_down", "catch_rate_up"][
           Math.floor(Math.random() * 4)
-        ] as any,
+        ],
         value: Math.floor(Math.random() * 30) + 10,
         chance: Math.floor(Math.random() * 30) + 70,
       },
@@ -100,7 +99,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
       caught: false,
       cp,
       sprite,
-      types: data.types.map((t: any) => t.type.name),
+      types: data.types.map((t: PokemonType) => t.type.name),
       stats: {
         ...baseStats,
         level,
