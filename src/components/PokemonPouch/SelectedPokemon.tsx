@@ -177,26 +177,28 @@ const SelectedPokemon = ({
             </div>
 
             {/* Evolution */}
-            <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
-              {/* Pink magenta button */}
-              <button
-                onClick={evolve}
-                disabled={!canEvolve}
-                className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-pink-500 to-purple-500 gap-2 flex items-center px-8 py-3 ${
-                  !canEvolve &&
-                  "opacity-50 cursor-not-allowed border-3 bored-red-500"
-                }`}
-              >
-                EVOLVE
-              </button>
-              <div className="flex flex-1 items-center gap-1">
-                <Sparkle className="h-4 w-4" />
-                <span className={`${!canEvolve && "text-red-500"}`}>
-                  {formatNumber(evolutionCost)}
-                </span>
-                <span className="opacity-70">/ {formatNumber(points)}</span>
+            {canPokemonEvolve && (
+              <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
+                {/* Pink magenta button */}
+                <button
+                  onClick={evolve}
+                  disabled={!canEvolve}
+                  className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-pink-500 to-purple-500 gap-2 flex items-center px-8 py-3 ${
+                    !canEvolve &&
+                    "opacity-50 cursor-not-allowed border-3 bored-red-500"
+                  }`}
+                >
+                  EVOLVE
+                </button>
+                <div className="flex flex-1 items-center gap-1">
+                  <Sparkle className="h-4 w-4" />
+                  <span className={`${!canEvolve && "text-red-500"}`}>
+                    {formatNumber(evolutionCost)}
+                  </span>
+                  <span className="opacity-70">/ {formatNumber(points)}</span>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Transfer */}
             <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
