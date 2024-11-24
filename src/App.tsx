@@ -7,12 +7,10 @@ import SlidingMenus from "./components/SlidingMenus/SlidingMenus";
 import useGameState from "./hooks/useGameState";
 import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { PokemonState, WildPokemonState } from "./types";
-import {
-  addToPokedex,
-  calculateCatchProbability,
-  sleep,
-} from "./utils/gameLogic";
+import { addToPokedex } from "./utils/addToPokedex";
+import { calculateCatchProbability } from "./utils/calculateCatchProbability";
 import { getRandomPokemon } from "./utils/getRandomPokemon";
+import { sleep } from "./utils/sleep";
 
 function App() {
   const [gameState, setGameState] = useGameState();
