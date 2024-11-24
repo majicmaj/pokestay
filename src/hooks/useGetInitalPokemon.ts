@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { getRandomPokemon } from '../utils/gameLogic';
 import { WildPokemonState } from '../types';
+import { getRandomPokemon } from '../utils/getRandomPokemon';
 
 const useGetInitalPokemon = ({
   setCurrentPokemon,

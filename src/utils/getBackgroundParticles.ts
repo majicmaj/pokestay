@@ -16,6 +16,7 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
           random: false,
           straight: false,
           outModes: "out",
+
         },
       },
     },
