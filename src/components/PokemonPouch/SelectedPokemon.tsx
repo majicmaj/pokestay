@@ -1,4 +1,5 @@
 import { Sparkle, Sparkles, UserCheck, UserPlus, X } from "lucide-react";
+import { useState } from "react";
 import useCanEvolve from "../../hooks/useCanEvolve";
 import useGameState from "../../hooks/useGameState";
 import { Pokemon } from "../../types";
@@ -15,6 +16,7 @@ const SelectedPokemon = ({
   setSelectedPokemon: (pokemon: Pokemon | null) => void;
 }) => {
   const [gameState, setGameState] = useGameState();
+  const [confirmTransfer, setConfirmTransfer] = useState(false);
   const canEvolve = useCanEvolve(pokemon);
 
   const handleMakeBuddy = () =>
@@ -84,6 +86,19 @@ const SelectedPokemon = ({
     });
 
     setSelectedPokemon(evolvedPokemon);
+  };
+
+  const transferStardust = 100;
+  const transferPokemon = () => {
+    const newInventory = inventory.filter((p: Pokemon) => p.id !== pokemon.id);
+
+    setGameState({
+      ...gameState,
+      inventory: newInventory,
+      points: points + transferStardust,
+    });
+
+    setSelectedPokemon(null);
   };
 
   return (
@@ -180,6 +195,38 @@ const SelectedPokemon = ({
               {formatNumber(evolutionCost)}
             </span>
             <span className="opacity-70">/ {formatNumber(points)}</span>
+          </div>
+        </div>
+
+        {/* Transfer */}
+        <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
+          {!confirmTransfer && (
+            <button
+              onClick={() => setConfirmTransfer(true)}
+              className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-red-500 to-rose-500 gap-2 flex items-center px-8 py-3`}
+            >
+              TRANSFER
+            </button>
+          )}
+          {confirmTransfer && (
+            <button
+              onClick={transferPokemon}
+              className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-red-500 to-rose-500 gap-2 flex items-center px-8 py-3`}
+            >
+              Yes
+            </button>
+          )}
+          {confirmTransfer && (
+            <button
+              onClick={() => setConfirmTransfer(false)}
+              className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-lime-500 to-teal-500 gap-2 flex items-center px-8 py-3`}
+            >
+              CANCEL
+            </button>
+          )}
+          <div className="flex flex-1 items-center gap-1">
+            <Sparkle className="h-4 w-4" />
+            <span>+{formatNumber(transferStardust)}</span>
           </div>
         </div>
 
