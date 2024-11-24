@@ -6,7 +6,7 @@ export interface PokemonMove {
   accuracy: number | null;
   pp: number;
   effect: {
-    type: 'damage' | 'defense_down' | 'speed_down' | 'catch_rate_up';
+    type: "damage" | "defense_down" | "speed_down" | "catch_rate_up";
     value: number;
     chance: number;
   };
@@ -25,7 +25,7 @@ export interface PokemonStats {
 export interface Pokemon {
   id: number;
   name: string;
-  rarity: 'common' | 'uncommon' | 'rare' | 'legendary';
+  rarity: "common" | "uncommon" | "rare" | "legendary";
   points: number;
   caught: boolean;
   caughtAt?: Date;
@@ -47,30 +47,15 @@ export interface WildPokemonState extends Pokemon {
   catchModifier: number;
 }
 
-export interface Upgrade {
-  id: string;
-  name: string;
-  description: string;
-  cost: number;
-  purchased: boolean;
-  type: 'ball' | 'skill';
-}
-
 export interface GameState {
-  points: number;
+  inventory: Pokemon[];
   pokedex: Pokemon[];
-  catchesPerClick: number;
-  autoClicksPerSecond: number;
-  pokeballs: number;
-  greatballs: boolean;
-  ultraballs: boolean;
-  masterballs: boolean;
   uniquePokemonCaught: number;
   buddyPokemon: Pokemon | null;
   selectedMove: PokemonMove | null;
-  inventory: Pokemon[];
+  points: number;
 }
 
-export type Menus = 'none' | 'pokedex' | 'inventory' | 'shop';
-export type PokemonState = 'idle' | 'caught' | 'fled';
-export type Pokeball = 'pokeball' | 'greatball' | 'ultraball' | 'masterball';
+export type Menus = "none" | "pokedex" | "inventory" | "shop";
+export type PokemonState = "idle" | "caught" | "fled";
+export type Pokeball = "pokeball" | "greatball" | "ultraball" | "masterball";

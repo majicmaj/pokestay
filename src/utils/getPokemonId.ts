@@ -1,4 +1,5 @@
-import { LEGENDARY_POKEMON_IDS, POKEDEX_LAST_POKEMON } from "../constants";
+import { POKEDEX_LAST_POKEMON } from "../constants";
+import { LEGENDARY_POKEMON_IDS } from "../constants/legendaryPokemonIds";
 
 export const getNonLegendaryPokemonId = () => {
   let pokemonId;
@@ -9,10 +10,11 @@ export const getNonLegendaryPokemonId = () => {
 };
 
 export const getLegendaryPokemonId = () => {
-  const index = Math.floor(Math.random() * 12)
-  const pokemonId = LEGENDARY_POKEMON_IDS[index]
+  const index = Math.floor(Math.random() * 12);
+  const pokemonId = LEGENDARY_POKEMON_IDS[index];
 
-  return pokemonId
-}
+  return pokemonId;
+};
 
-export const getPokemonId = (isLegendary: boolean) => isLegendary ? getLegendaryPokemonId() : getNonLegendaryPokemonId()
+export const getPokemonId = (isLegendary: boolean) =>
+  isLegendary ? getLegendaryPokemonId() : getNonLegendaryPokemonId();

@@ -1,114 +1,5 @@
-import { Pokemon, GameState, WildPokemonState } from '../types';
-
-const TYPE_CHART = {
-  normal: { weakTo: ['fighting'], resistantTo: [], immuneTo: ['ghost'] },
-  fire: {
-    weakTo: ['water', 'ground', 'rock'],
-    resistantTo: ['fire', 'grass', 'ice', 'bug', 'steel', 'fairy'],
-  },
-  water: {
-    weakTo: ['electric', 'grass'],
-    resistantTo: ['fire', 'water', 'ice', 'steel'],
-  },
-  electric: {
-    weakTo: ['ground'],
-    resistantTo: ['electric', 'flying', 'steel'],
-  },
-  grass: {
-    weakTo: ['fire', 'ice', 'poison', 'flying', 'bug'],
-    resistantTo: ['water', 'electric', 'grass', 'ground'],
-  },
-  ice: { weakTo: ['fire', 'fighting', 'rock', 'steel'], resistantTo: ['ice'] },
-  fighting: {
-    weakTo: ['flying', 'psychic', 'fairy'],
-    resistantTo: ['bug', 'rock', 'dark'],
-  },
-  poison: {
-    weakTo: ['ground', 'psychic'],
-    resistantTo: ['grass', 'fighting', 'poison', 'bug', 'fairy'],
-  },
-  ground: {
-    weakTo: ['water', 'grass', 'ice'],
-    resistantTo: ['poison', 'rock'],
-    immuneTo: ['electric'],
-  },
-  flying: {
-    weakTo: ['electric', 'ice', 'rock'],
-    resistantTo: ['grass', 'fighting', 'bug'],
-    immuneTo: ['ground'],
-  },
-  psychic: {
-    weakTo: ['bug', 'ghost', 'dark'],
-    resistantTo: ['fighting', 'psychic'],
-  },
-  bug: {
-    weakTo: ['fire', 'flying', 'rock'],
-    resistantTo: ['grass', 'fighting', 'ground'],
-  },
-  rock: {
-    weakTo: ['water', 'grass', 'fighting', 'ground', 'steel'],
-    resistantTo: ['normal', 'fire', 'poison', 'flying'],
-  },
-  ghost: {
-    weakTo: ['ghost', 'dark'],
-    resistantTo: ['poison', 'bug'],
-    immuneTo: ['normal', 'fighting'],
-  },
-  dragon: {
-    weakTo: ['ice', 'dragon', 'fairy'],
-    resistantTo: ['fire', 'water', 'electric', 'grass'],
-  },
-  dark: {
-    weakTo: ['fighting', 'bug', 'fairy'],
-    resistantTo: ['ghost', 'dark'],
-    immuneTo: ['psychic'],
-  },
-  steel: {
-    weakTo: ['fire', 'fighting', 'ground'],
-    resistantTo: [
-      'normal',
-      'grass',
-      'ice',
-      'flying',
-      'psychic',
-      'bug',
-      'rock',
-      'dragon',
-      'steel',
-      'fairy',
-    ],
-    immuneTo: ['poison'],
-  },
-  fairy: {
-    weakTo: ['poison', 'steel'],
-    resistantTo: ['fighting', 'bug', 'dark'],
-    immuneTo: ['dragon'],
-  },
-};
-
-// const POINTS_RARITY_MAP = {
-//   'common': 100,
-//   'uncommon': 150,
-//   'rare': 300,
-//   'legendary': 1000,
-// }
-
-// export const calculateTypeAdvantage = (attackerTypes: string[], defenderTypes: string[]): number => {
-//   let multiplier = 1;
-
-//   attackerTypes.forEach(attackerType => {
-//     const chart = TYPE_CHART[attackerType as keyof typeof TYPE_CHART];
-//     if (!chart) return;
-
-//     defenderTypes.forEach(defenderType => {
-//       if (chart.weakTo.includes(defenderType)) multiplier *= 1.5;
-//       if (chart.resistantTo.includes(defenderType)) multiplier *= 0.75;
-//       if (chart.immuneTo.includes(defenderType)) multiplier *= 0.5;
-//     });
-//   });
-
-//   return multiplier;
-// };
+import { TYPE_CHART } from "../constants/typeChart";
+import { GameState, Pokemon, WildPokemonState } from "../types";
 
 export const calculateCatchProbability = (
   throwSpeed: number,
@@ -116,30 +7,25 @@ export const calculateCatchProbability = (
   targetPokemon: WildPokemonState
 ): number => {
   // Base catch rate 100%
-  let catchRate = 1;
+  const catchRate = 1;
 
   // Speed modifier (1.0-2.0x based on throw speed)
-  const speedModifier = 
-  throwSpeed > 7 ? 1 :
-  throwSpeed > 5 ? 3 :
-  throwSpeed > 3 ? 2 :
-  1
+  const speedModifier =
+    throwSpeed > 7 ? 1 : throwSpeed > 5 ? 3 : throwSpeed > 3 ? 2 : 1;
 
   // Calculate buddy bonus if applicable
-  let buddyModifier = 1;
+  const buddyModifier = buddyPokemon
+    ? calculateTypeAdvantage(buddyPokemon.types, targetPokemon.types)
+    : 1;
 
-  if (buddyPokemon) {
-    buddyModifier = calculateTypeAdvantage(
-      buddyPokemon.types,
-      targetPokemon.types
-    );
-  }
-
-  const cpModifier = Math.min(Math.max(1, ((buddyPokemon?.cp || 1) / (targetPokemon?.cp || 1))), 2)
+  const cpModifier = Math.min(
+    Math.max(1, (buddyPokemon?.cp || 1) / (targetPokemon?.cp || 1)),
+    2
+  );
 
   const catchModifier = targetPokemon.catchModifier;
 
-  const levelModifier = (((50 - targetPokemon.stats.level) / 50) * 0.5) + 0.5
+  const levelModifier = ((50 - targetPokemon.stats.level) / 50) * 0.8 + 0.2;
 
   const finalCatchRate =
     catchRate *
@@ -149,15 +35,15 @@ export const calculateCatchProbability = (
     buddyModifier *
     catchModifier;
 
-    // console.log({
-    //   catchRate,
-    //   speedModifier,
-    //   levelModifier,
-    //   buddyModifier,
-    //   catchModifier,
-    //   cpModifier,
-    //   finalCatchRate
-    // })
+  // console.log({
+  //   catchRate,
+  //   speedModifier,
+  //   levelModifier,
+  //   buddyModifier,
+  //   catchModifier,
+  //   cpModifier,
+  //   finalCatchRate
+  // })
 
   return Math.min(finalCatchRate, 0.8);
 };
@@ -171,9 +57,9 @@ export const addToPokedex = (
 ): GameState => {
   const existingEntry = gameState.pokedex.find((p) => p.id === pokemon.id);
 
-  const caughtAt = new Date
+  const caughtAt = new Date();
 
-  const caughtPokemon = {...pokemon, caughtAt}
+  const caughtPokemon = { ...pokemon, caughtAt };
   if (!existingEntry) {
     // Add new entry to Pokédex
     return {
