@@ -17,7 +17,7 @@ const SelectedPokemon = ({
 }) => {
   const [gameState, setGameState] = useGameState();
   const [confirmTransfer, setConfirmTransfer] = useState(false);
-  const canEvolve = useCanEvolve(pokemon);
+  const canPokemonEvolve = useCanEvolve(pokemon);
 
   const handleMakeBuddy = () =>
     setGameState({
@@ -45,12 +45,10 @@ const SelectedPokemon = ({
   const isLevelUpDisabled = isMaxLevel || points < levelUpCost;
 
   const levelUp = () => {
-    const leveledUpPokemon = levelUpPokemon(pokemon);
-
-    // check if points are enough to level up
-    if (points < levelUpCost) {
+    if (points < levelUpCost || isMaxLevel) {
       return;
     }
+    const leveledUpPokemon = levelUpPokemon(pokemon);
 
     const newInventory = [...inventory].map((p) =>
       p.id === pokemon.id ? leveledUpPokemon : p
@@ -67,8 +65,10 @@ const SelectedPokemon = ({
 
   const evolutionCost = 10000;
 
+  const canEvolve = canPokemonEvolve && points >= evolutionCost;
+
   const evolve = async () => {
-    if (!canEvolve) return;
+    if (!canEvolve || points < evolutionCost) return;
 
     const evolvedPokemon = await evolvePokemon(pokemon);
 
