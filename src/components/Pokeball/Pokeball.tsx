@@ -1,19 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 interface PokeballProps {
   onClick: (throwSpeed: number) => void;
-  type: 'pokeball' | 'greatball' | 'ultraball' | 'masterball';
+  type: "pokeball" | "greatball" | "ultraball" | "masterball";
   disabled: boolean;
 }
 
-const getThrowAnimation = (throwSpeed: number, throwDirection: 'left' | 'right') => {
-  const direction = throwDirection === 'left' ? '-left' : '-right';
+const getThrowAnimation = (
+  throwSpeed: number,
+  throwDirection: "left" | "right"
+) => {
+  const direction = throwDirection === "left" ? "-left" : "-right";
 
   if (throwSpeed > 5) return `excellent-throw${direction}`;
   if (throwSpeed > 3) return `great-throw${direction}`;
   if (throwSpeed > 1) return `nice-throw`;
 
-  return 'throw';
+  return "throw";
 };
 
 const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
@@ -21,7 +24,9 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   // const [startTime, setStartTime] = useState(0);
-  const [recentPositions, setRecentPositions] = useState<{ time: number; y: number; x: number}[]>([]);
+  const [recentPositions, setRecentPositions] = useState<
+    { time: number; y: number; x: number }[]
+  >([]);
 
   const ballRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,18 +34,18 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   const CONSTANT_MODIFIER = 1.2; // Adjust this value to tweak the throw speed
 
   const colors = {
-    pokeball: { top: 'bg-red-500', bottom: 'bg-white' },
-    greatball: { top: 'bg-blue-500', bottom: 'bg-white' },
-    ultraball: { top: 'bg-yellow-500', bottom: 'bg-white' },
-    masterball: { top: 'bg-purple-500', bottom: 'bg-white' },
+    pokeball: { top: "bg-red-500", bottom: "bg-white" },
+    greatball: { top: "bg-blue-500", bottom: "bg-white" },
+    ultraball: { top: "bg-yellow-500", bottom: "bg-white" },
+    masterball: { top: "bg-purple-500", bottom: "bg-white" },
   };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent | TouchEvent) => {
       if (!isDragging || disabled) return;
 
-      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
 
       const currentTime = performance.now();
       setPosition({
@@ -58,68 +63,70 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
     // e: MouseEvent | TouchEvent
     const handleMouseUp = () => {
       if (!isDragging || disabled) return;
-    
+
       const endTime = performance.now();
-      const validPositions = recentPositions.filter((p) => endTime - p.time <= 50);
+      const validPositions = recentPositions.filter(
+        (p) => endTime - p.time <= 50
+      );
       const firstPosition = validPositions[0];
       const lastPosition = validPositions[validPositions.length - 1];
-    
+
       let throwSpeed = 0;
-      let throwDirection: 'left' | 'right' = 'right';
-    
+      let throwDirection: "left" | "right" = "right";
+
       if (firstPosition && lastPosition) {
         const distanceY = firstPosition.y - lastPosition.y;
         const distanceX = lastPosition.x - firstPosition.x; // Horizontal direction
         const duration = lastPosition.time - firstPosition.time;
-    
+
         throwSpeed = distanceY / duration;
-        throwDirection = distanceX > 0 ? 'right' : 'left'; // Determine curve direction
+        throwDirection = distanceX > 0 ? "right" : "left"; // Determine curve direction
         // console.log({distanceX, throwDirection})
       }
-    
+
       throwSpeed *= CONSTANT_MODIFIER;
-    
+
       if (throwSpeed > 0.5) {
         onClick(throwSpeed);
-    
+
         if (ballRef.current) {
           const throwAnimation = getThrowAnimation(throwSpeed, throwDirection);
           ballRef.current.style.animation = `${throwAnimation} 1s ease-in`;
         }
       }
-    
+
       setIsDragging(false);
       setPosition({ x: 0, y: 0 });
       setRecentPositions([]);
-    
+
       if (ballRef.current) {
-        ballRef.current.style.transition = 'transform 0.2s ease-out';
-        ballRef.current.style.transform = 'translate(0px, 0px)';
+        ballRef.current.style.transition = "transform 0.2s ease-out";
+        ballRef.current.style.transform = "translate(0px, 0px)";
       }
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('touchmove', handleMouseMove);
-    document.addEventListener('touchend', handleMouseUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("touchmove", handleMouseMove);
+    document.addEventListener("touchend", handleMouseUp);
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchmove', handleMouseMove);
-      document.removeEventListener('touchend', handleMouseUp);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleMouseMove);
+      document.removeEventListener("touchend", handleMouseUp);
     };
   }, [isDragging, startPos, recentPositions, onClick, disabled]);
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     if (disabled) return;
 
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
 
     if (ballRef.current) {
-      ballRef.current.style.transition = 'none';
-      ballRef.current.style.animation = 'none';
+      ballRef.current.style.transition = "none";
+      ballRef.current.style.animation = "none";
     }
 
     // setStartTime(performance.now());
@@ -135,7 +142,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
     <div
       ref={containerRef}
       className={`mb-8 w-32 h-32 ${
-        disabled ? 'cursor-not-allowed opacity-50' : 'cursor-grab'
+        disabled ? "cursor-not-allowed opacity-50" : "cursor-grab"
       }`}
     >
       <div
@@ -143,17 +150,17 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
         className={`w-32 h-32 rounded-full overflow-hidden relative
           ${
             isDragging && !disabled
-              ? 'cursor-grabbing'
+              ? "cursor-grabbing"
               : disabled
-              ? 'cursor-not-allowed'
-              : 'cursor-grab'
+              ? "cursor-not-allowed"
+              : "cursor-grab"
           } 
           touch-none select-none transition-opacity duration-300`}
         onMouseDown={handleMouseDown}
         onTouchStart={handleMouseDown}
         style={{
           transform: `translate(${position.x}px, ${position.y}px)`,
-          touchAction: 'none',
+          touchAction: "none",
         }}
       >
         {/* Top half */}

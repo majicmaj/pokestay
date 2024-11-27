@@ -1,5 +1,6 @@
-import { Cat, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import React, { useState } from "react";
+import Pokeball from "../../assets/icons/Pokeball";
 import Stardust from "../../assets/icons/Stardust";
 import useGameState from "../../hooks/useGameState";
 import { Pokemon } from "../../types";
@@ -59,7 +60,7 @@ const PokemonPouch: React.FC = () => {
       )}
       <div className="pt-8 grid grid-cols-3 gap-4 place-items-center">
         <div className="flex items-center gap-1">
-          <Cat className="w-4 h-4" />
+          <Pokeball className="w-6 h-6" />
           {inventory.length}
         </div>
         <h1 className="text-md text-center">POKEMON</h1>

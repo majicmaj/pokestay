@@ -1,6 +1,6 @@
-import { Sparkles } from 'lucide-react';
-import { PokemonState, WildPokemonState } from '../../types';
-import TypeBadge from '../TypeBadge/TypeBadge';
+import { Sparkles } from "lucide-react";
+import { PokemonState, WildPokemonState } from "../../types";
+import TypeBadge from "../TypeBadge/TypeBadge";
 
 const Pokemon = ({
   pokemonState,
@@ -13,43 +13,51 @@ const Pokemon = ({
 }) => {
   if (!currentPokemon) return null;
 
-  const { cp, isShiny } = currentPokemon || {}
+  const { cp, isShiny } = currentPokemon || {};
   return (
     <div
-      className={`transform h-full justify-center flex flex-col items-center`}
+      className={`transform h-full justify-end pb-4 flex flex-col items-center`}
     >
       <div className="flex flex-col items-center gap-4">
-        <div className={`transition-all duration-150 ${pokemonState === 'caught'
-            ? 'scale-0'
-            : pokemonState === 'fled'
-              ? 'translate-y-[100vh]'
-              : ''
-          }`}>
-
+        <div
+          className={`transition-all duration-150 ${
+            pokemonState === "caught"
+              ? "scale-0"
+              : pokemonState === "fled"
+              ? "translate-y-[100vh]"
+              : ""
+          }`}
+        >
           <div className={`animate-bounce-slow flex flex-col items-center `}>
             <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
               {isShiny && <Sparkles />}
               <h2>{currentPokemon.name}</h2>
-              <p className='opacity-50'>/</p>
-              <p className='font-light'><span className='text-sm pr-1'>
-                CP
-              </span>
+              <p className="opacity-50">/</p>
+              <p className="font-light">
+                <span className="text-sm pr-1">CP</span>
                 {cp}
               </p>
-
             </div>
-        <div className="flex mt-1 gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
-          <div className="flex -space-x-2">
-            {currentPokemon.types.map((t) => (
-              <TypeBadge type={t} />
-            ))}
-          </div>
-        </div>
-            <img
-              src={currentPokemon.sprite}
-              alt={currentPokemon.name}
-              className={`w-[300px] pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${isPokeballDisabled && "animate-pokemon-shrink"} ${!isPokeballDisabled && pokemonState==='idle' &&  "animate-pokemon-grow"}`}
-            />
+            <div className="flex mt-1 gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
+              <div className="flex -space-x-2">
+                {currentPokemon.types.map((t) => (
+                  <TypeBadge type={t} />
+                ))}
+              </div>
+            </div>
+            <div className="relative w-[300px] h-[300px] overflow-visible">
+              <img
+                src={currentPokemon.sprite}
+                alt={currentPokemon.name}
+                className={`relative min-w-[300px] pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${
+                  isPokeballDisabled && "animate-pokemon-shrink"
+                } ${
+                  !isPokeballDisabled &&
+                  pokemonState === "idle" &&
+                  "animate-pokemon-grow"
+                }`}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -63,7 +71,6 @@ const Pokemon = ({
 };
 
 export default Pokemon;
-
 
 // const pokemon = {
 //   "id": 22,

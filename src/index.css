@@ -4,10 +4,10 @@
 
 @keyframes pokemon-shrink {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) scale(1.5);
   }
   25% {
-    transform: translate(0, 20px) scale(1);
+    transform: translate(0, 20px) scale(1.5);
   }
   50% {
     transform: translate(0, 0) scale(1);
@@ -27,7 +27,7 @@
   }
   100% {
     filter: brightness(1);
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) scale(1.5);
   }
 }
 

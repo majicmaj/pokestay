@@ -9,7 +9,7 @@ export const getBackgroundColor = (currentPokemon: WildPokemonState | null) => {
     water:
       "bg-gradient-to-br from-blue-400 to-blue-600 dark:from-blue-700 dark:to-blue-900",
     grass:
-      "bg-gradient-to-br from-green-400 to-green-600 dark:from-green-700 dark:to-green-900",
+      "bg-gradient-to-br from-lime-400 to-lime-600 dark:from-lime-700 dark:to-lime-900",
     electric:
       "bg-gradient-to-br from-yellow-300 to-yellow-500 dark:from-yellow-600 dark:to-yellow-800",
     ice: "bg-gradient-to-br from-cyan-300 to-cyan-500 dark:from-cyan-600 dark:to-cyan-800",
