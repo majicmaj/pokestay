@@ -8,6 +8,7 @@ export const INITIAL_STATE: GameState = {
   pokedex: [],
   selectedMove: null,
   uniquePokemonCaught: 0,
+  currentPokemon: null,
 };
 
 export const POKEDEX_LAST_POKEMON = 251;
