@@ -15,13 +15,13 @@ import { sleep } from "./utils/sleep";
 
 function App() {
   const [gameState, setGameState] = useGameState();
-
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
-  const [currentPokemon, setCurrentPokemon] = useState<WildPokemonState | null>(
-    null
-  );
   const [pokemonState, setPokemonState] = useState<PokemonState>("idle");
+
+  const { currentPokemon } = gameState;
+  const setCurrentPokemon = (pokemon: WildPokemonState) =>
+    setGameState({ ...gameState, currentPokemon: pokemon });
 
   useGetInitalPokemon({
     setCurrentPokemon,
@@ -32,10 +32,35 @@ function App() {
     if (throwSpeed > 7) return setCatchMessage("Too far!");
     setIsThrowDisabled(true);
 
+    const advantage = calculateTypeAdvantage(
+      gameState.buddyPokemon,
+      currentPokemon.types
+    );
+
+    const advantageMessage =
+      advantage >= 2
+        ? "Super effective!"
+        : advantage > 1
+        ? "Effective!"
+        : advantage < 1
+        ? "Not very effective!"
+        : "";
+
+    const speedMessage =
+      throwSpeed > 5
+        ? "Excellent!"
+        : throwSpeed > 3
+        ? "Great!"
+        : throwSpeed > 1
+        ? "Nice!"
+        : "Poor!";
+
     // console.log(throwSpeed)
-    if (throwSpeed > 5) setCatchMessage("Excellent!");
-    else if (throwSpeed > 3) setCatchMessage("Great!");
-    else if (throwSpeed > 1) setCatchMessage("Nice!");
+    // if (throwSpeed > 5) setCatchMessage("Excellent!");
+    // else if (throwSpeed > 3) setCatchMessage("Great!");
+    // else if (throwSpeed > 1) setCatchMessage("Nice!");
+
+    setCatchMessage(`${speedMessage} ${advantageMessage} `);
 
     const catchProbability = calculateCatchProbability(
       throwSpeed,
@@ -49,11 +74,6 @@ function App() {
 
     const caught = Math.random() < catchProbability;
     const flees = !caught && Math.random() < 0.4; // 40% chance to flee on failed catch
-
-    const advantage = calculateTypeAdvantage(
-      gameState.buddyPokemon,
-      currentPokemon.types
-    );
 
     if (caught) {
       setPokemonState("caught");

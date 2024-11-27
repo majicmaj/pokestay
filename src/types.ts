@@ -66,6 +66,7 @@ export interface GameState {
   buddyPokemon: Pokemon | null;
   selectedMove: PokemonMove | null;
   points: number;
+  currentPokemon: WildPokemonState | null;
 }
 
 export type Menus = "none" | "pokedex" | "inventory" | "shop";

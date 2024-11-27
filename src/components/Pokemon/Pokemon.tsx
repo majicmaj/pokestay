@@ -16,7 +16,7 @@ const Pokemon = ({
   const { cp, isShiny } = currentPokemon || {};
   return (
     <div
-      className={`transform h-full justify-end pb-4 flex flex-col items-center`}
+      className={`transform h-full justify-center pb-4 flex flex-col items-center`}
     >
       <div className="flex flex-col items-center gap-4">
         <div
