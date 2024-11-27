@@ -1,16 +1,10 @@
 import { Cat, LogOut, X } from "lucide-react";
 import { useState } from "react";
-import { GameState, Menus } from "../../types";
+import { Menus } from "../../types";
 import PokemonPouch from "../PokemonPouch/PokemonPouch";
 import BuddyPokemon from "./BuddyPokemon";
 
-const SlidingMenus = ({
-  gameState,
-  handleFlee,
-}: {
-  gameState: GameState;
-  handleFlee: () => void;
-}) => {
+const SlidingMenus = ({ handleFlee }: { handleFlee: () => void }) => {
   const [activeMenu, setActiveMenu] = useState<Menus>("none");
 
   const toggleMenu = (menu: Menus) => {

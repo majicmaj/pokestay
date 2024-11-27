@@ -23,9 +23,7 @@ function App() {
   const setCurrentPokemon = (pokemon: WildPokemonState) =>
     setGameState({ ...gameState, currentPokemon: pokemon });
 
-  useGetInitalPokemon({
-    setCurrentPokemon,
-  });
+  useGetInitalPokemon();
 
   const handleThrow = async (throwSpeed: number) => {
     if (isThrowDisabled || !currentPokemon) return;
@@ -154,7 +152,7 @@ function App() {
         disabled={isThrowDisabled}
       />
 
-      <SlidingMenus gameState={gameState} handleFlee={handleFlee} />
+      <SlidingMenus handleFlee={handleFlee} />
     </div>
   );
 }
