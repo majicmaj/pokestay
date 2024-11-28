@@ -15,16 +15,14 @@ import TypeBadge from "../TypeBadge/TypeBadge";
 
 const SelectedPokemon = ({
   pokemon,
-  setSelectedPokemon,
   pokemonList,
   currentIndex,
   setCurrentIndex,
 }: {
   pokemon: Pokemon;
-  setSelectedPokemon: (pokemon: Pokemon | null) => void;
   pokemonList: Pokemon[];
   currentIndex: number;
-  setCurrentIndex: Dispatch<SetStateAction<number>>;
+  setCurrentIndex: Dispatch<SetStateAction<number | null>>;
 }) => {
   const [gameState, setGameState] = useGameState();
   const [confirmTransfer, setConfirmTransfer] = useState(false);
@@ -75,7 +73,7 @@ const SelectedPokemon = ({
       buddyPokemon: leveledUpPokemon,
     });
 
-    setSelectedPokemon(leveledUpPokemon);
+    // setSelectedPokemon(leveledUpPokemon);
   };
 
   const evolutionCost = 10000;
@@ -255,20 +253,14 @@ const SelectedPokemon = ({
                     <span className="opacity-70">/ {formatNumber(points)}</span>
                   </div>
                 </div>
-                {/* ADd 1000 points */}
                 {/* <div>
-              <button
-                onClick={() =>
-                  setGameState({
-                    ...gameState,
-                    points: points + 1000,
-                  })
-                }
-                className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-lime-500 to-teal-500 gap-2 flex items-center px-8 py-3`}
-              >
-                +1000
-              </button>
-            </div> */}
+                  <button
+                    onClick={() => setPoints(points + 1000)}
+                    className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-lime-500 to-teal-500 gap-2 flex items-center px-8 py-3`}
+                  >
+                    +1000
+                  </button>
+                </div> */}
 
                 {/* Evolution */}
                 {canPokemonEvolve && (
@@ -333,7 +325,7 @@ const SelectedPokemon = ({
 
           <button
             className="absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-teal-600 p-2 text-lime-200 border border-lime-200"
-            onClick={() => setSelectedPokemon(null)}
+            onClick={() => setCurrentIndex(null)}
           >
             <X className="h-6 w-6" />
           </button>

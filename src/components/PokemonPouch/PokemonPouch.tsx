@@ -5,20 +5,19 @@ import Stardust from "../../assets/icons/Stardust";
 import useGameState from "../../hooks/useGameState";
 import useInventory from "../../hooks/useInventory";
 import usePoints from "../../hooks/usePoints";
-import { Pokemon } from "../../types";
 import SelectedPokemon from "./SelectedPokemon";
 
 type SortBy = "level" | "recent" | "name" | "cp" | "id";
 const PokemonPouch: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<SortBy>("recent");
-  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
   const [gameState] = useGameState();
   const { buddyPokemon } = gameState || {};
   const [inventory] = useInventory();
   const [points] = usePoints();
+  const selectedPokemon = inventory[currentIndex] || null;
 
   const sortedPokemon = [...inventory]?.sort((a, b) => {
     switch (sortBy) {
@@ -56,7 +55,6 @@ const PokemonPouch: React.FC = () => {
       {selectedPokemon && (
         <SelectedPokemon
           pokemon={filteredPokemon[currentIndex]}
-          setSelectedPokemon={setSelectedPokemon}
           pokemonList={filteredPokemon}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
@@ -121,7 +119,7 @@ const PokemonPouch: React.FC = () => {
               className={`flex flex-col items-center ${
                 buddyIndex === i ? "bg-lime-200/80" : ""
               } rounded-lg p-2 cursor-pointer`}
-              onClick={() => setSelectedPokemon(pokemon)}
+              onClick={() => setCurrentIndex(i)}
             >
               <div className="mb-[-12px]">
                 <span className="text-sm font-medium opacity-60 pr-1">CP</span>
