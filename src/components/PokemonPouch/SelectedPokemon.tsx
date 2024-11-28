@@ -45,7 +45,7 @@ const SelectedPokemon = ({
   const isBuddyPokemon =
     JSON.stringify(buddyPokemon) === JSON.stringify(pokemon);
 
-  const levelUpCost = Math.round(10 * pokemon.stats.level ** 1.6);
+  const levelUpCost = Math.round(3 * pokemon.stats.level ** 1.6);
 
   const isMaxLevel = level >= 50;
 
@@ -61,18 +61,19 @@ const SelectedPokemon = ({
       p.id === pokemon.id ? leveledUpPokemon : p
     );
 
+    if (isBuddyPokemon) {
+      setGameState({
+        ...gameState,
+        buddyPokemon: leveledUpPokemon,
+      });
+    }
     setInventory(newInventory);
-
     setPoints(points - levelUpCost);
-    setGameState({
-      ...gameState,
-      buddyPokemon: leveledUpPokemon,
-    });
 
     // setSelectedPokemon(leveledUpPokemon);
   };
 
-  const evolutionCost = 10000;
+  const evolutionCost = 2500;
 
   const canEvolve = canPokemonEvolve && points >= evolutionCost;
 
@@ -94,6 +95,8 @@ const SelectedPokemon = ({
       ...gameState,
       buddyPokemon: evolvedPokemon,
     });
+
+    setCurrentIndex(null);
 
     // setSelectedPokemon(evolvedPokemon);
   };
