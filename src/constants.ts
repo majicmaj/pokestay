@@ -1,5 +1,4 @@
 import { GameState } from "./types";
-export const POINTS_TO_WIN = 10000;
 
 export const INITIAL_STATE: GameState = {
   buddyPokemon: null,

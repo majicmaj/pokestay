@@ -1,55 +1,79 @@
-import { Sparkles } from "lucide-react";
 import React, { useState } from "react";
-import Pokeball from "../../assets/icons/Pokeball";
-import Stardust from "../../assets/icons/Stardust";
 import useGameState from "../../hooks/useGameState";
 import useInventory from "../../hooks/useInventory";
 import usePoints from "../../hooks/usePoints";
+import { Pokemon } from "../../types";
+import HeaderSection from "./Header";
+import PokemonGrid from "./PokemonGrid";
+import SearchAndSort from "./SearchAndSort";
 import SelectedPokemon from "./SelectedPokemon";
+import TypeFilter from "./TypeFilter";
 
 type SortBy = "level" | "recent" | "name" | "cp" | "id";
+
 const PokemonPouch: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState<number | null>(0);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<SortBy>("recent");
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
   const [gameState] = useGameState();
   const { buddyPokemon } = gameState || {};
   const [inventory] = useInventory();
   const [points] = usePoints();
-  const selectedPokemon =
-    currentIndex !== null ? inventory[currentIndex] : null;
 
-  const sortedPokemon = [...inventory]?.sort((a, b) => {
-    switch (sortBy) {
-      case "cp":
-        return (b.cp || 0) - (a.cp || 0);
-      case "id":
-        return a.id - b.id;
-      case "level":
-        return b.stats.level - a.stats.level;
-      case "name":
-        return a.name.localeCompare(b.name);
-      case "recent":
-      default:
-        return 0; // Assumes the array is already in chronological order
-    }
-  });
+  const allTypes = Array.from(
+    new Set(inventory.flatMap((pokemon: Pokemon) => pokemon.types))
+  ).sort() as string[];
 
-  const filteredPokemon = sortedPokemon.filter(
-    (pokemon) =>
-      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pokemon.types.some((type: string) =>
-        type.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-  );
+  const toggleTypeFilter = (type: string) => {
+    setSelectedTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+    );
+  };
 
-  const buddyIndex = buddyPokemon
-    ? filteredPokemon.findIndex(
-        (p) =>
-          p.id === buddyPokemon.id && p.stats.level === buddyPokemon.stats.level
-      )
-    : -1;
+  const sortedPokemon = React.useMemo(() => {
+    return [...inventory].sort((a, b) => {
+      switch (sortBy) {
+        case "cp":
+          return (b.cp || 0) - (a.cp || 0);
+        case "id":
+          return a.id - b.id;
+        case "level":
+          return b.stats.level - a.stats.level;
+        case "name":
+          return a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
+    });
+  }, [inventory, sortBy]);
+
+  const filteredPokemon = React.useMemo(() => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+
+    return sortedPokemon.filter((pokemon) => {
+      const matchesSearch =
+        pokemon.name.toLowerCase().includes(lowerSearchTerm) ||
+        pokemon.types.some((type: string) =>
+          type.toLowerCase().includes(lowerSearchTerm)
+        );
+      const matchesTypeFilter =
+        selectedTypes.length === 0 ||
+        pokemon.types.some((type: string) => selectedTypes.includes(type));
+      return matchesSearch && matchesTypeFilter;
+    });
+  }, [sortedPokemon, searchTerm, selectedTypes]);
+
+  const buddyIndex = React.useMemo(() => {
+    if (!buddyPokemon) return -1;
+    return filteredPokemon.findIndex(
+      (p) =>
+        p.id === buddyPokemon.id && p.stats.level === buddyPokemon.stats.level
+    );
+  }, [filteredPokemon, buddyPokemon]);
+
+  const selectedPokemon = filteredPokemon[currentIndex || 0];
 
   return (
     <>
@@ -62,85 +86,23 @@ const PokemonPouch: React.FC = () => {
         />
       )}
       <div className="h-screen overflow-auto flex flex-col items-center">
-        <div className="pt-8 w-full grid grid-cols-3 gap-4 place-items-center">
-          <div className="flex items-center gap-1">
-            <Pokeball className="w-6 h-6" />
-            {inventory.length}
-          </div>
-          <h1 className="text-md text-center">POKEMON</h1>
-          <div className="flex items-center gap-1">
-            <Stardust className="w-6 h-6" />
-            {points}
-          </div>
-        </div>
-        <div className="w-full p-4 px-8 flex flex-col gap-2">
-          <input
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="px-3 py-1 bg-lime-200 w-full rounded-full"
-          />
-          <div className="flex w-full gap-4 text-sm">
-            <p className="opacity-60">Sort By</p>
-            <button
-              className={sortBy === "cp" ? "underline" : ""}
-              onClick={() => setSortBy("cp")}
-            >
-              CP
-            </button>
-            <button
-              className={sortBy === "level" ? "underline" : ""}
-              onClick={() => setSortBy("level")}
-            >
-              Level
-            </button>
-            <button
-              className={sortBy === "name" ? "underline" : ""}
-              onClick={() => setSortBy("name")}
-            >
-              Name
-            </button>
-            <button
-              className={sortBy === "id" ? "underline" : ""}
-              onClick={() => setSortBy("id")}
-            >
-              ID
-            </button>
-            <button
-              className={sortBy === "recent" ? "underline" : ""}
-              onClick={() => setSortBy("recent")}
-            >
-              Recent
-            </button>
-          </div>
-        </div>
-        <div className="grid max-w-[900px] px-4 pb-24 pt-4 gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6gap-3">
-          {filteredPokemon.map((pokemon, i) => (
-            <div
-              key={`${pokemon.id}-${pokemon.stats.level}`}
-              className={`flex flex-col items-center ${
-                buddyIndex === i ? "bg-lime-200/80" : ""
-              } rounded-lg p-2 cursor-pointer`}
-              onClick={() => setCurrentIndex(i)}
-            >
-              <div className="mb-[-12px]">
-                <span className="text-sm font-medium opacity-60 pr-1">CP</span>
-
-                <span className="text-xl font-bold">{pokemon.cp}</span>
-              </div>
-              <div className="h-full w-full aspect-square flex items-center justify-center">
-                <img
-                  src={pokemon.sprite}
-                  alt={pokemon.name}
-                  className="pixelated w-full h-full aspect-square object-contain"
-                />
-              </div>
-              <div className="font-semibold mt-[-16px] flex items-center">
-                {pokemon.isShiny && <Sparkles className="w-4" />}
-                {pokemon.name}
-              </div>
-            </div>
-          ))}
-        </div>
+        <HeaderSection inventoryCount={inventory.length} points={points} />
+        <SearchAndSort
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
+        <TypeFilter
+          allTypes={allTypes}
+          selectedTypes={selectedTypes}
+          toggleTypeFilter={toggleTypeFilter}
+        />
+        <PokemonGrid
+          pokemonList={filteredPokemon}
+          buddyIndex={buddyIndex}
+          setCurrentIndex={setCurrentIndex}
+        />
       </div>
     </>
   );
