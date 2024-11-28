@@ -12,12 +12,12 @@ const TypeFilter: React.FC<TypeFilterProps> = ({
   toggleTypeFilter,
 }) => {
   return (
-    <div className="w-full px-4 justify-between flex">
+    <div className="w-full px-4 justify-between overflow-auto min-h-max flex">
       {allTypes.map((type) => (
         <button
           key={type}
           onClick={() => toggleTypeFilter(type)}
-          className={`m-[-6px] border rounded-full ${
+          className={`m-[-6px] min-w-max border rounded-full ${
             selectedTypes.includes(type)
               ? "border-lime-500 opacity-100 saturate-100"
               : "border-transparent opacity-80 saturate-70"
