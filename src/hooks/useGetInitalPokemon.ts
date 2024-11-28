@@ -1,14 +1,9 @@
 import { useEffect } from "react";
-import { WildPokemonState } from "../types";
 import { getRandomPokemon } from "../utils/getRandomPokemon";
-import useGameState from "./useGameState";
+import useCurrentPokemon from "./useCurrentPokemon";
 
 const useGetInitalPokemon = () => {
-  const [gameState, setGameState] = useGameState();
-
-  const { currentPokemon } = gameState;
-  const setCurrentPokemon = (pokemon: WildPokemonState) =>
-    setGameState({ ...gameState, currentPokemon: pokemon });
+  const [currentPokemon, setCurrentPokemon] = useCurrentPokemon();
 
   useEffect(() => {
     if (currentPokemon) return;
@@ -23,6 +18,7 @@ const useGetInitalPokemon = () => {
     };
 
     fetchInitialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

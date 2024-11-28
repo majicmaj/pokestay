@@ -27,6 +27,8 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
 
   const advantageClass = getTypeAdvantageClass(typeAdvantage);
 
+  if (!buddyPokemon) return null;
+
   return (
     <div className="fixed bottom-6 left-6 flex flex-col gap-4 items-end z-30">
       <button

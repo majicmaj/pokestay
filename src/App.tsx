@@ -4,24 +4,26 @@ import MessageBox from "./components/MessageBox/MessageBox";
 import Pokeball from "./components/Pokeball/Pokeball";
 import Pokemon from "./components/Pokemon/Pokemon";
 import SlidingMenus from "./components/SlidingMenus/SlidingMenus";
+import useCurrentPokemon from "./hooks/useCurrentPokemon";
 import useGameState from "./hooks/useGameState";
 import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
-import { PokemonState, WildPokemonState } from "./types";
-import { addToPokedex } from "./utils/addToPokedex";
+import useInventory from "./hooks/useInventory";
+import usePoints from "./hooks/usePoints";
+import { PokemonState } from "./types";
 import { calculateCatchProbability } from "./utils/calculateCatchProbability";
 import { calculateTypeAdvantage } from "./utils/calculateTypeAdvantage";
 import { getRandomPokemon } from "./utils/getRandomPokemon";
 import { sleep } from "./utils/sleep";
 
 function App() {
-  const [gameState, setGameState] = useGameState();
+  const [gameState] = useGameState();
+  const [inventory, setInventory] = useInventory();
+  const [currentPokemon, setCurrentPokemon] = useCurrentPokemon();
+  const [points, setPoints] = usePoints();
+
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
   const [pokemonState, setPokemonState] = useState<PokemonState>("idle");
-
-  const { currentPokemon } = gameState;
-  const setCurrentPokemon = (pokemon: WildPokemonState) =>
-    setGameState({ ...gameState, currentPokemon: pokemon });
 
   useGetInitalPokemon();
 
@@ -75,14 +77,10 @@ function App() {
 
     if (caught) {
       setPokemonState("caught");
-      const updatedState = addToPokedex(currentPokemon, gameState);
-
       const extraPoints = Math.round(advantage * currentPokemon.points);
 
-      setGameState({
-        ...updatedState,
-        points: updatedState.points + extraPoints,
-      });
+      setPoints(points + extraPoints);
+      setInventory([...inventory, currentPokemon]);
 
       setCatchMessage(
         `${currentPokemon.name} caught! +${extraPoints} stardust`
@@ -141,7 +139,6 @@ function App() {
     >
       <Background currentPokemon={currentPokemon} />
       <Pokemon
-        currentPokemon={currentPokemon}
         pokemonState={pokemonState}
         isPokeballDisabled={isThrowDisabled}
       />

@@ -1,16 +1,18 @@
 import { Sparkles } from "lucide-react";
-import { PokemonState, WildPokemonState } from "../../types";
+import useCurrentPokemon from "../../hooks/useCurrentPokemon";
+import { PokemonState } from "../../types";
 import TypeBadge from "../TypeBadge/TypeBadge";
 
 const Pokemon = ({
   pokemonState,
-  currentPokemon,
   isPokeballDisabled,
 }: {
   pokemonState: PokemonState;
-  currentPokemon: WildPokemonState | null;
   isPokeballDisabled?: boolean;
 }) => {
+  const [currentPokemon] = useCurrentPokemon();
+
+  console.log(currentPokemon);
   if (!currentPokemon) return null;
 
   const { cp, isShiny } = currentPokemon || {};
@@ -40,8 +42,8 @@ const Pokemon = ({
             </div>
             <div className="flex mt-1 gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
               <div className="flex -space-x-2">
-                {currentPokemon.types.map((t) => (
-                  <TypeBadge type={t} />
+                {currentPokemon?.types?.map((t: string) => (
+                  <TypeBadge type={t} key={t} />
                 ))}
               </div>
             </div>
