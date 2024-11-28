@@ -12,7 +12,6 @@ const Pokemon = ({
 }) => {
   const [currentPokemon] = useCurrentPokemon();
 
-  console.log(currentPokemon);
   if (!currentPokemon) return null;
 
   const { cp, isShiny } = currentPokemon || {};
@@ -40,14 +39,14 @@ const Pokemon = ({
                 {cp}
               </p>
             </div>
-            <div className="flex mt-1 gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
+            <div className="flex mt-2 gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
               <div className="flex -space-x-2">
                 {currentPokemon?.types?.map((t: string) => (
                   <TypeBadge type={t} key={t} />
                 ))}
               </div>
             </div>
-            <div className="relative w-[300px] h-[300px] overflow-visible">
+            <div className="mt-8 relative w-[300px] h-[300px] overflow-visible">
               <img
                 src={currentPokemon.sprite}
                 alt={currentPokemon.name}

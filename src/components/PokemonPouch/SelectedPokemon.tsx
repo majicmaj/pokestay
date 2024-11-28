@@ -148,22 +148,23 @@ const SelectedPokemon = ({
   const slideIn = swipeDirection ? (swipeDirection === "left" ? 100 : -100) : 0;
 
   return (
-    <animated.div
-      {...bind()}
-      style={{
-        transform: x.to((val) => `translateX(${val}px)`),
-      }}
-      onTransitionEnd={handleTransitionEnd}
-      className="relative w-full h-full"
-    >
-      <div
+    <div className="absolute w-full h-full border bg-black/10 backdrop-blur-md z-10 left-0">
+      <animated.div
+        {...bind()}
         style={{
-          transform: `translateX(${slideIn}%)`,
-          transition: "transform 0.3s ease",
+          transform: x.to((val) => `translateX(${val}px)`),
         }}
+        onTransitionEnd={handleTransitionEnd}
+        className="h-full w-full"
       >
-        <div className="flex justify-center items-center">
-          <div className="absolute h-screen w-screen overflow-auto top-0 flex px-2 flex-col gap-4 items-center">
+        <div
+          className="flex justify-center items-center"
+          style={{
+            transform: `translateX(${slideIn}%)`,
+            transition: "transform 0.3s ease",
+          }}
+        >
+          <div className="h-screen w-screen overflow-auto top-0 flex px-2 flex-col gap-4 items-center">
             <div className="relative top-[200px] bottom-0 grid h-full min-h-max rounded-t-xl w-full bg-white drop-shadow-xl">
               <div className="relative top-[-200px] bottom-0 h-full w-full flex flex-col min-h-max items-center gap-4 overflow-x-auto px-2">
                 <div className="relative max-w-96 w-full flex py-8 mb-[-32px] max-h-96 aspect-square flex-col justify-between items-center">
@@ -336,8 +337,8 @@ const SelectedPokemon = ({
             <X className="h-6 w-6" />
           </button>
         </div>
-      </div>
-    </animated.div>
+      </animated.div>
+    </div>
   );
 };
 

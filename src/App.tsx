@@ -135,7 +135,7 @@ function App() {
 
   return (
     <div
-      className={`max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center`}
+      className={`max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none`}
     >
       <Background currentPokemon={currentPokemon} />
       <Pokemon
