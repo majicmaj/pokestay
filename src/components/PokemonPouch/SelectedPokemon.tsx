@@ -6,6 +6,7 @@ import Stardust from "../../assets/icons/Stardust";
 import useCanEvolve from "../../hooks/useCanEvolve";
 import useGameState from "../../hooks/useGameState";
 import useInventory from "../../hooks/useInventory";
+import usePoints from "../../hooks/usePoints";
 import { Pokemon } from "../../types";
 import { formatNumber } from "../../utils/formatNumber";
 import { evolvePokemon } from "../../utils/getEvolution";
@@ -41,7 +42,8 @@ const SelectedPokemon = ({
       buddyPokemon: null,
     });
 
-  const { points, buddyPokemon } = gameState || {};
+  const { buddyPokemon } = gameState || {};
+  const [points, setPoints] = usePoints();
   const [inventory, setInventory] = useInventory();
   const { stats } = pokemon || {};
   const { level } = stats || {};
@@ -67,10 +69,10 @@ const SelectedPokemon = ({
 
     setInventory(newInventory);
 
+    setPoints(points - levelUpCost);
     setGameState({
       ...gameState,
       buddyPokemon: leveledUpPokemon,
-      points: points - levelUpCost,
     });
 
     setSelectedPokemon(leveledUpPokemon);
@@ -93,10 +95,10 @@ const SelectedPokemon = ({
 
     setInventory(newInventory);
 
+    setPoints(points - evolutionCost);
     setGameState({
       ...gameState,
       buddyPokemon: evolvedPokemon,
-      points: points - evolutionCost,
     });
 
     setSelectedPokemon(evolvedPokemon);
@@ -109,10 +111,9 @@ const SelectedPokemon = ({
     );
 
     setInventory(newInventory);
-
+    setPoints(Number(points) + Number(transferStardust));
     setGameState({
       ...gameState,
-      points: points + transferStardust,
     });
 
     setSelectedPokemon(null);

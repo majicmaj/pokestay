@@ -79,7 +79,7 @@ function App() {
       setPokemonState("caught");
       const extraPoints = Math.round(advantage * currentPokemon.points);
 
-      setPoints(points + extraPoints);
+      setPoints(Number(points) + Number(extraPoints));
       setInventory([...inventory, currentPokemon]);
 
       setCatchMessage(

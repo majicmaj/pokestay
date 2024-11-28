@@ -4,6 +4,7 @@ import Pokeball from "../../assets/icons/Pokeball";
 import Stardust from "../../assets/icons/Stardust";
 import useGameState from "../../hooks/useGameState";
 import useInventory from "../../hooks/useInventory";
+import usePoints from "../../hooks/usePoints";
 import { Pokemon } from "../../types";
 import SelectedPokemon from "./SelectedPokemon";
 
@@ -15,8 +16,9 @@ const PokemonPouch: React.FC = () => {
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
   const [gameState] = useGameState();
-  const { buddyPokemon, points } = gameState || {};
+  const { buddyPokemon } = gameState || {};
   const [inventory] = useInventory();
+  const [points] = usePoints();
 
   const sortedPokemon = [...inventory]?.sort((a, b) => {
     switch (sortBy) {
