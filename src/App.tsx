@@ -32,7 +32,7 @@ function App() {
 
     const advantage = calculateTypeAdvantage(
       gameState.buddyPokemon,
-      currentPokemon.types
+      currentPokemon?.types
     );
 
     const advantageMessage =

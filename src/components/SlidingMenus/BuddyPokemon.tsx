@@ -22,7 +22,7 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
 
   const typeAdvantage = calculateTypeAdvantage(
     buddyPokemon?.types,
-    currentPokemon.types
+    currentPokemon?.types
   );
 
   const advantageClass = getTypeAdvantageClass(typeAdvantage);
