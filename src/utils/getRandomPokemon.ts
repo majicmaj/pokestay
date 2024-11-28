@@ -133,7 +133,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
       },
       ivModifiers: ivMod,
       moves,
-      catchModifier: captureRate,
+      catchModifier: isShiny ? captureRate * 10 : captureRate,
       isShiny,
     };
 

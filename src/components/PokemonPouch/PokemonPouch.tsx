@@ -97,6 +97,7 @@ const PokemonPouch: React.FC = () => {
           allTypes={allTypes}
           selectedTypes={selectedTypes}
           toggleTypeFilter={toggleTypeFilter}
+          setSelectedTypes={setSelectedTypes}
         />
         <PokemonGrid
           pokemonList={filteredPokemon}

@@ -10,4 +10,4 @@ export const INITIAL_STATE: GameState = {
   currentPokemon: null,
 };
 
-export const POKEDEX_LAST_POKEMON = 251;
+export const POKEDEX_LAST_POKEMON = 493;

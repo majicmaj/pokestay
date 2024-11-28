@@ -39,6 +39,7 @@ export const LEGENDARY_POKEMON_IDS = [
   491, // Darkrai
   492, // Shaymin
   493, // Arceus
+
   638, // Cobalion
   639, // Terrakion
   640, // Virizion

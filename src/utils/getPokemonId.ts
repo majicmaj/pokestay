@@ -10,7 +10,7 @@ export const getNonLegendaryPokemonId = () => {
 };
 
 export const getLegendaryPokemonId = () => {
-  const index = Math.floor(Math.random() * 12);
+  const index = Math.floor(Math.random() * 36);
   const pokemonId = LEGENDARY_POKEMON_IDS[index];
 
   return pokemonId;

@@ -1,3 +1,4 @@
+import useCurrentPokemon from "../../hooks/useCurrentPokemon";
 import useGameState from "../../hooks/useGameState";
 import { Menus } from "../../types";
 import { calculateTypeAdvantage } from "../../utils/calculateTypeAdvantage";
@@ -16,9 +17,9 @@ const getTypeAdvantageClass = (advantage: number) => {
 
 const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
   const [gameState] = useGameState();
+  const [currentPokemon] = useCurrentPokemon();
 
   const buddyPokemon = gameState.buddyPokemon;
-  const currentPokemon = gameState.currentPokemon;
 
   const typeAdvantage = calculateTypeAdvantage(
     buddyPokemon?.types,
@@ -45,6 +46,9 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
           src={gameState.buddyPokemon?.sprite}
         />
       </button>
+      <p className="absolute bottom-1 left-1/2 -translate-x-1/2 text-white text-xs">
+        {(typeAdvantage * 100).toFixed(0)}%
+      </p>
     </div>
   );
 };
