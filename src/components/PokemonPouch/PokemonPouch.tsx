@@ -17,7 +17,8 @@ const PokemonPouch: React.FC = () => {
   const { buddyPokemon } = gameState || {};
   const [inventory] = useInventory();
   const [points] = usePoints();
-  const selectedPokemon = inventory[currentIndex] || null;
+  const selectedPokemon =
+    currentIndex !== null ? inventory[currentIndex] : null;
 
   const sortedPokemon = [...inventory]?.sort((a, b) => {
     switch (sortBy) {
@@ -52,9 +53,9 @@ const PokemonPouch: React.FC = () => {
 
   return (
     <>
-      {selectedPokemon && (
+      {selectedPokemon && currentIndex !== null && (
         <SelectedPokemon
-          pokemon={filteredPokemon[currentIndex]}
+          pokemon={selectedPokemon}
           pokemonList={filteredPokemon}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
