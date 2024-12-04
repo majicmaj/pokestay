@@ -27,9 +27,7 @@ const PokemonPouch: React.FC = () => {
   ).sort() as string[];
 
   const toggleTypeFilter = (type: string) => {
-    setSelectedTypes((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-    );
+    setSelectedTypes([type]);
   };
 
   const sortedPokemon = React.useMemo(() => {

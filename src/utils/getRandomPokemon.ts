@@ -107,9 +107,9 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
     }));
 
     const isShiny = Math.random() * 256 < (isLegendary ? 10 : 1);
-    const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-      isShiny ? "shiny/" : ""
-    }${pokemonId}.png`;
+    const sprite = `https://play.pokemonshowdown.com/sprites/xyani${
+      isShiny ? "-shiny/" : "/"
+    }${data.name}.gif`;
 
     const pokemon: WildPokemonState = {
       id: pokemonId,

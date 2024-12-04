@@ -139,6 +139,18 @@ const SelectedPokemon = ({
                   <div className="font-semibold text-3xl mt-[-16px] flex items-center">
                     {pokemon.isShiny && <Sparkles className="w-8" />}
                     {pokemon.name}
+                    <button
+                      onClick={
+                        isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy
+                      }
+                      className={`ml-2 justify-center rounded-full text-xl border gap-2 flex items-center p-1 transition-colors ${
+                        isBuddyPokemon
+                          ? "bg-lime-200 border-lime-300 bg-gradient-to-r from-lime-200 to-teal-200 drop-shadow-lg"
+                          : "border-teal-800 bg-white drop-shadow-none"
+                      }`}
+                    >
+                      {isBuddyPokemon ? <UserCheck /> : <UserPlus />}
+                    </button>
                   </div>
                   <p className="text-sm">
                     {pokemon.stats.hp} HP / Lv.{pokemon.stats.level}
@@ -146,29 +158,16 @@ const SelectedPokemon = ({
                 </div>
               </div>
 
-              <div className="flex rounded-full border-2">
+              <div className="flex gap-1 rounded-full">
                 {pokemon.types.map((type) => (
-                  <TypeBadge key={type} type={type} />
+                  <div key={type} className="flex flex-col items-center w-24">
+                    <TypeBadge key={type} type={type} />
+                    <p>{type}</p>
+                  </div>
                 ))}
               </div>
 
               <div className="border-b-2 border-zinc-300 w-full" />
-
-              <button
-                onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy}
-                className={`w-64 justify-center rounded-full text-xl border-2 gap-2 flex items-center px-6 py-3 transition-colors ${
-                  isBuddyPokemon
-                    ? "bg-lime-200 border-lime-300 bg-gradient-to-r from-lime-200 to-teal-200 drop-shadow-lg"
-                    : "border-teal-800 bg-white drop-shadow-none"
-                }`}
-              >
-                {isBuddyPokemon ? (
-                  <UserCheck className="h-6 w-6" />
-                ) : (
-                  <UserPlus className="h-6 w-6" />
-                )}
-                {isBuddyPokemon ? "Current Buddy" : "Select as Buddy"}
-              </button>
 
               <div className="grid grid-cols-3 place-items-center gap-4 px-2 pb-4 w-full">
                 <div className="grid place-items-center">

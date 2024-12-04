@@ -73,9 +73,9 @@ export const evolvePokemon = async (
             name:
               evolvedData.name.charAt(0).toUpperCase() +
               evolvedData.name.slice(1),
-            sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-              pokemon.isShiny ? "shiny/" : ""
-            }${evolvedData.id}.png`,
+            sprite: `https://play.pokemonshowdown.com/sprites/xyani ${
+              pokemon.isShiny ? "-shiny/" : "/"
+            }${evolvedData.name}.gif`,
             stats: {
               ...baseStats,
               level,

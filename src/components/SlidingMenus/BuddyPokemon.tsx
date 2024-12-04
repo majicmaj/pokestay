@@ -46,7 +46,7 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
           src={gameState.buddyPokemon?.sprite}
         />
       </button>
-      <p className="absolute bottom-1 left-1/2 -translate-x-1/2 text-white text-xs">
+      <p className="pixelated-font absolute bottom-1 left-1/2 -translate-x-1/2 text-white text-xs">
         {(typeAdvantage * 100).toFixed(0)}%
       </p>
     </div>
