@@ -30,6 +30,7 @@ export interface Pokemon {
   caught: boolean;
   caughtAt?: Date;
   sprite: string;
+  sprite2d?: string;
   types: string[];
   stats: PokemonStats;
   moves: PokemonMove[];

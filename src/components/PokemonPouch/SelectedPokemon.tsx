@@ -1,4 +1,14 @@
-import { Sparkles, UserCheck, UserPlus, X } from "lucide-react";
+import {
+  Sparkles,
+  UserCheck,
+  UserPlus,
+  UserRoundCheck,
+  UserRoundPlus,
+  X,
+} from "lucide-react";
+
+import { motion, AnimatePresence } from "framer-motion";
+
 import { Dispatch, SetStateAction, useState } from "react";
 import Stardust from "../../assets/icons/Stardust";
 import useCanEvolve from "../../hooks/useCanEvolve";
@@ -118,13 +128,13 @@ const SelectedPokemon = ({
   };
 
   return (
-    <div className="absolute w-full h-full border bg-black/10 backdrop-blur-md z-10 left-0">
+    <div className="absolute w-full h-full border bg-black/10 backdrop-blur-md z-20 left-0">
       <div className="flex justify-center items-center">
         <div className="h-screen w-screen overflow-auto top-0 flex px-2 flex-col gap-4 items-center">
           <div className="relative top-[200px] bottom-0 grid h-full min-h-max rounded-t-xl w-full bg-white drop-shadow-xl">
             <div className="relative top-[-200px] bottom-0 h-full w-full flex flex-col min-h-max items-center gap-4 overflow-x-auto px-2">
               <div className="relative max-w-96 w-full flex py-8 mb-[-32px] max-h-96 aspect-square flex-col justify-between items-center">
-                <div className="text-white">
+                <div className="relative z-10 text-teal-800  bg-white/80 px-2 rounded-full">
                   <span className="text-sm font-medium opacity-60 pr-1">
                     CP
                   </span>
@@ -136,20 +146,20 @@ const SelectedPokemon = ({
                   className="animate-bounce-slow pixelated absolute p-12 bottom-0 w-96 h-96 object-contain"
                 />
                 <div className="relative flex items-center flex-col">
-                  <div className="font-semibold text-3xl mt-[-16px] flex items-center">
+                  <div className="font-semibold text-3xl mt-[-16px] flex items-center bg-white/80 px-2 rounded-full">
                     {pokemon.isShiny && <Sparkles className="w-8" />}
                     {pokemon.name}
                     <button
                       onClick={
                         isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy
                       }
-                      className={`ml-2 justify-center rounded-full text-xl border gap-2 flex items-center p-1 transition-colors ${
+                      className={`ml-2 justify-center rounded-full text-xl border gap-2 flex items-center p-1 transition-colors active:scale-110 ${
                         isBuddyPokemon
                           ? "bg-lime-200 border-lime-300 bg-gradient-to-r from-lime-200 to-teal-200 drop-shadow-lg"
-                          : "border-teal-800 bg-white drop-shadow-none"
+                          : "border-teal-800 bg-lime-100/50 drop-shadow-none"
                       }`}
                     >
-                      {isBuddyPokemon ? <UserCheck /> : <UserPlus />}
+                      {isBuddyPokemon ? <UserRoundCheck /> : <UserRoundPlus />}
                     </button>
                   </div>
                   <p className="text-sm">
@@ -162,7 +172,7 @@ const SelectedPokemon = ({
                 {pokemon.types.map((type) => (
                   <div key={type} className="flex flex-col items-center w-24">
                     <TypeBadge key={type} type={type} />
-                    <p>{type}</p>
+                    <p>{type.slice(0, 1).toUpperCase() + type.slice(1)}</p>
                   </div>
                 ))}
               </div>

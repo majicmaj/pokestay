@@ -9,6 +9,16 @@ const POINTS_RARITY_MAP = {
   legendary: 1000,
 };
 
+const isValidImageUrl = async (url: string): Promise<boolean> => {
+  const image = new Image();
+  image.src = url;
+
+  return new Promise((resolve) => {
+    image.onload = () => resolve(true);
+    image.onerror = () => resolve(false);
+  });
+};
+
 export const getRandomPokemon = async (): Promise<WildPokemonState> => {
   // Get random Pokémon ID based on rarity
 
@@ -107,9 +117,16 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
     }));
 
     const isShiny = Math.random() * 256 < (isLegendary ? 10 : 1);
-    const sprite = `https://play.pokemonshowdown.com/sprites/xyani${
+
+    const sprite3d = `https://play.pokemonshowdown.com/sprites/xyani${
       isShiny ? "-shiny/" : "/"
-    }${data.name}.gif`;
+    }${data.name.replace("-", "")}.gif`;
+
+    const sprite2d =
+      data.sprites.front_default ||
+      data.sprites.other["official-artwork"].front_default;
+
+    const sprite = (await isValidImageUrl(sprite3d)) ? sprite3d : sprite2d;
 
     const pokemon: WildPokemonState = {
       id: pokemonId,
@@ -119,6 +136,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
       caught: false,
       cp,
       sprite,
+      sprite2d: sprite2d,
       types: data.types.map((t: PokemonType) => t.type.name),
       stats: {
         ...baseStats,

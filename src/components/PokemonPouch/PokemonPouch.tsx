@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import useGameState from "../../hooks/useGameState";
 import useInventory from "../../hooks/useInventory";
 import usePoints from "../../hooks/usePoints";
@@ -75,15 +76,23 @@ const PokemonPouch: React.FC = () => {
 
   return (
     <>
-      {selectedPokemon && currentIndex !== null && (
-        <SelectedPokemon
-          pokemon={selectedPokemon}
-          pokemonList={filteredPokemon}
-          currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
-        />
-      )}
-      <div className="h-screen overflow-auto flex flex-col items-center">
+      <AnimatePresence>
+        {selectedPokemon && currentIndex !== null && (
+          <SelectedPokemon
+            pokemon={selectedPokemon}
+            pokemonList={filteredPokemon}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+          />
+        )}
+      </AnimatePresence>
+      <motion.div
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        exit={{ y: "100%" }}
+        transition={{ type: "spring", damping: 25, stiffness: 500 }}
+        className="h-screen overflow-auto flex flex-col items-center"
+      >
         <HeaderSection inventoryCount={inventory.length} points={points} />
         <SearchAndSort
           searchTerm={searchTerm}
@@ -102,7 +111,7 @@ const PokemonPouch: React.FC = () => {
           buddyIndex={buddyIndex}
           setCurrentIndex={setCurrentIndex}
         />
-      </div>
+      </motion.div>
     </>
   );
 };

@@ -70,7 +70,7 @@ function App() {
 
     // Add suspense
     setPokemonState("idle");
-    await sleep(1000 + Math.random() * 5000);
+    await sleep(1000 + Math.random() * 2000);
 
     const caught = Math.random() < catchProbability;
     const flees = !caught && Math.random() < 0.4; // 40% chance to flee on failed catch
@@ -85,12 +85,12 @@ function App() {
       setCatchMessage(
         `${currentPokemon.name} caught! +${extraPoints} stardust`
       );
-      await sleep(Math.random() * 3000 + 1000);
+      await sleep(Math.random() * 2000 + 1000);
     } else {
       if (flees) {
         setPokemonState("fled");
         setCatchMessage(`${currentPokemon.name} fled!`);
-        await sleep(Math.random() * 3000 + 1000);
+        await sleep(Math.random() * 2000 + 1000);
       } else {
         setCatchMessage(`${currentPokemon.name} broke free!`);
       }

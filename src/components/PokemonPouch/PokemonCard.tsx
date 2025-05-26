@@ -24,7 +24,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       } rounded-lg p-2 cursor-pointer`}
       onClick={onClick}
     >
-      <div className="mb-[-12px]">
+      <div className="z-10 mb-[-12px] bg-white/80 px-2 rounded-full">
         <span className="text-sm font-medium opacity-60 pr-1">CP</span>
         <span className="text-xl font-bold">{pokemon.cp}</span>
       </div>
@@ -35,7 +35,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
           className="pixelated w-full h-full aspect-square object-contain"
         />
       </div>
-      <div className="font-semibold mt-[-16px] flex items-center">
+      <div className="font-semibold mt-[-16px] flex items-center bg-white/80 px-2 rounded-full">
         {pokemon.isShiny && <Sparkles className="w-4" />}
         {pokemon.name}
       </div>
