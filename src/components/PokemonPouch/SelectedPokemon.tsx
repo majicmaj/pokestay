@@ -1,13 +1,4 @@
-import {
-  Sparkles,
-  UserCheck,
-  UserPlus,
-  UserRoundCheck,
-  UserRoundPlus,
-  X,
-} from "lucide-react";
-
-import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, UserRoundCheck, UserRoundPlus, X } from "lucide-react";
 
 import { Dispatch, SetStateAction, useState } from "react";
 import Stardust from "../../assets/icons/Stardust";
