@@ -103,7 +103,10 @@ const SelectedPokemon = ({
     // setSelectedPokemon(evolvedPokemon);
   };
 
-  const transferStardust = 100;
+  const baseTransferStardust = 100;
+  const transferStardust = Math.round(
+    baseTransferStardust + pokemon.stats.level * 10
+  );
   const transferPokemon = () => {
     const newInventory = inventory.filter(
       (p: Pokemon) => JSON.stringify(p) !== JSON.stringify(pokemon)
