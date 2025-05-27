@@ -45,5 +45,5 @@ export const calculateCatchProbability = (
   //   finalCatchRate
   // })
 
-  return Math.min(finalCatchRate, 0.8);
+  return Math.min(finalCatchRate, 1);
 };

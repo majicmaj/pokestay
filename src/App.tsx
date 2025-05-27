@@ -15,6 +15,8 @@ import { calculateTypeAdvantage } from "./utils/calculateTypeAdvantage";
 import { getRandomPokemon } from "./utils/getRandomPokemon";
 import { sleep } from "./utils/sleep";
 
+const speedMod = 1;
+
 function App() {
   const [gameState] = useGameState();
   const [inventory, setInventory] = useInventory();
@@ -70,7 +72,7 @@ function App() {
 
     // Add suspense
     setPokemonState("idle");
-    await sleep(1000 + Math.random() * 2000);
+    await sleep(speedMod * (1000 + Math.random() * 2000));
 
     const caught = Math.random() < catchProbability;
     const flees = !caught && Math.random() < 0.4; // 40% chance to flee on failed catch
@@ -85,7 +87,7 @@ function App() {
       setCatchMessage(
         `${currentPokemon.name} caught! +${extraPoints} stardust`
       );
-      await sleep(Math.random() * 2000 + 1000);
+      await sleep(speedMod * (Math.random() * 2000 + 1000));
     } else {
       if (flees) {
         setPokemonState("fled");
@@ -121,7 +123,7 @@ function App() {
     setTimeout(() => {
       setCatchMessage(null);
     }, 2000);
-    await sleep(Math.random() * 3000 + 1000);
+    await sleep(speedMod * (Math.random() * 3000 + 1000));
 
     const newPokemon = await getRandomPokemon();
     setCurrentPokemon(newPokemon);
