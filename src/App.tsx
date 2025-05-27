@@ -16,7 +16,7 @@ import { getRandomPokemon } from "./utils/getRandomPokemon";
 import { sleep } from "./utils/sleep";
 import { getLocation } from "./utils/getLocation";
 
-const speedMod = 0.2;
+const speedMod = 1;
 
 function App() {
   const [gameState] = useGameState();
