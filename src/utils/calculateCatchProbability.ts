@@ -9,7 +9,7 @@ export const calculateCatchProbability = (
   // Base catch rate 100%
   const catchRate = 1;
 
-  // Speed modifier (1.0-2.0x based on throw speed)
+  // Speed modifier (1x for slow throws, 3x for fast throws)
   const speedModifier =
     throwSpeed > 7 ? 1 : throwSpeed > 5 ? 3 : throwSpeed > 3 ? 2 : 1;
 
@@ -18,9 +18,10 @@ export const calculateCatchProbability = (
     ? calculateTypeAdvantage(buddyPokemon.types, targetPokemon.types)
     : 1;
 
+  // Calculate CP modifier (1x for equal CP, 2x for double CP, 0.5x for half CP)
   const cpModifier = Math.min(
     Math.max(1, (buddyPokemon?.cp || 1) / (targetPokemon?.cp || 1)),
-    2
+    3
   );
 
   const catchModifier = targetPokemon.catchModifier;
