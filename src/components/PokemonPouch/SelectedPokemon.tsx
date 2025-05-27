@@ -119,6 +119,44 @@ const SelectedPokemon = ({
     setCurrentIndex(null);
   };
 
+  const set3dSprite = () => {
+    const sprite = `https://play.pokemonshowdown.com/sprites/xyani${
+      pokemon.isShiny ? "-shiny/" : "/"
+    }${pokemon.name.toLowerCase().replace("-", "")}.gif`;
+
+    console.log(sprite);
+
+    const updatedPokemon = {
+      ...pokemon,
+      sprite: sprite,
+    };
+
+    const newInventory = inventory.map((p: Pokemon) =>
+      p.id === pokemon.id ? updatedPokemon : p
+    );
+
+    setInventory(newInventory);
+  };
+
+  const set2dSprite = () => {
+    const sprite2d =
+      pokemon.sprite2d ||
+      `https://play.pokemonshowdown.com/sprites/xyani${
+        pokemon.isShiny ? "-shiny/" : "/"
+      }${pokemon.name.replace("-", "")}.gif`;
+
+    const updatedPokemon = {
+      ...pokemon,
+      sprite: sprite2d,
+    };
+
+    const newInventory = inventory.map((p: Pokemon) =>
+      p.id === pokemon.id ? updatedPokemon : p
+    );
+
+    setInventory(newInventory);
+  };
+
   return (
     <div className="absolute w-full h-full border bg-black/10 backdrop-blur-md z-20 left-0">
       <div className="flex justify-center items-center">
@@ -159,7 +197,6 @@ const SelectedPokemon = ({
                   </p>
                 </div>
               </div>
-
               <div className="flex gap-1 rounded-full">
                 {pokemon.types.map((type) => (
                   <div key={type} className="flex flex-col items-center w-24">
@@ -168,9 +205,7 @@ const SelectedPokemon = ({
                   </div>
                 ))}
               </div>
-
               <div className="border-b-2 border-zinc-300 w-full" />
-
               <div className="grid grid-cols-3 place-items-center gap-4 px-2 pb-4 w-full">
                 <div className="grid place-items-center">
                   <p className="font-bold text-md">{pokemon.stats.attack}</p>
@@ -185,7 +220,6 @@ const SelectedPokemon = ({
                   <p className="opacity-80 text-sm">Speed</p>
                 </div>
               </div>
-
               {/* Level Up */}
               <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
                 <button
@@ -219,7 +253,6 @@ const SelectedPokemon = ({
                     +1000
                   </button>
                 </div> */}
-
               {/* Evolution */}
               {canPokemonEvolve && (
                 <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
@@ -243,7 +276,6 @@ const SelectedPokemon = ({
                   </div>
                 </div>
               )}
-
               {/* Transfer */}
               <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
                 {!confirmTransfer && (
@@ -275,9 +307,7 @@ const SelectedPokemon = ({
                   <span>+ {formatNumber(transferStardust)}</span>
                 </div>
               </div>
-
               <div className="border-b-2 border-zinc-300 w-full" />
-
               {/* Information (caught at, rarity, etc) */}
               <div className="flex flex-col gap-2 w-full">
                 <div className="flex items-center justify-between">
@@ -305,6 +335,22 @@ const SelectedPokemon = ({
                   <p className="text-sm opacity-70">ID:</p>
                   <p className="text-sm">#{pokemon.id}</p>
                 </div>
+              </div>
+              <div className="border-b-2 border-zinc-300 w-full" />
+              <div className="flex items-center justify-between gap-1">
+                <button
+                  onClick={set3dSprite}
+                  className="text-sm text-teal-500 hover:underline"
+                >
+                  3D
+                </button>
+                /
+                <button
+                  onClick={set2dSprite}
+                  className="text-sm text-teal-500 hover:underline"
+                >
+                  2D
+                </button>
               </div>
             </div>
           </div>

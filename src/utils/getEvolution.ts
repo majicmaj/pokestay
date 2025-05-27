@@ -66,6 +66,10 @@ export const evolvePokemon = async (
 
           const cp = calculateCP(baseStats);
 
+          const sprite = `https://play.pokemonshowdown.com/sprites/xyani${
+            pokemon.isShiny ? "-shiny/" : "/"
+          }${evolvedData.name.replace("-", "")}.gif`;
+
           // Create the evolved Pokémon object
           const evolvedPokemon: Pokemon = {
             ...pokemon,
@@ -73,9 +77,7 @@ export const evolvePokemon = async (
             name:
               evolvedData.name.charAt(0).toUpperCase() +
               evolvedData.name.slice(1),
-            sprite: `https://play.pokemonshowdown.com/sprites/xyani ${
-              pokemon.isShiny ? "-shiny/" : "/"
-            }${evolvedData.name}.gif`,
+            sprite,
             stats: {
               ...baseStats,
               level,
