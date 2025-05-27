@@ -12,7 +12,6 @@ import { evolvePokemon } from "../../utils/getEvolution";
 import { levelUpPokemon } from "../../utils/levelUpPokemon";
 import TypeBadge from "../TypeBadge/TypeBadge";
 import { capitalize } from "../../utils/capitalize";
-import { cn } from "../../utils/cn";
 
 const SelectedPokemon = ({
   pokemon,
@@ -137,16 +136,18 @@ const SelectedPokemon = ({
     );
 
     setInventory(newInventory);
+    if (isBuddyPokemon) {
+      setGameState({
+        ...gameState,
+        buddyPokemon: updatedPokemon,
+      });
+    }
   };
 
-  const has2dSprite = !!pokemon.sprite2d;
-
   const set2dSprite = () => {
-    const sprite2d =
-      pokemon.sprite2d ||
-      `https://play.pokemonshowdown.com/sprites/xyani${
-        pokemon.isShiny ? "-shiny/" : "/"
-      }${pokemon.name.replace("-", "")}.gif`;
+    const sprite2d = `https://play.pokemonshowdown.com/sprites/gen5/${pokemon.name
+      .toLowerCase()
+      .replace("-", "")}.png`;
 
     const updatedPokemon = {
       ...pokemon,
@@ -158,6 +159,12 @@ const SelectedPokemon = ({
     );
 
     setInventory(newInventory);
+    if (isBuddyPokemon) {
+      setGameState({
+        ...gameState,
+        buddyPokemon: updatedPokemon,
+      });
+    }
   };
 
   return (
@@ -351,13 +358,7 @@ const SelectedPokemon = ({
                 /
                 <button
                   onClick={set2dSprite}
-                  disabled={!has2dSprite}
-                  className={cn(
-                    "text-sm text-teal-500",
-                    !has2dSprite &&
-                      "opacity-50 cursor-not-allowed line-through",
-                    has2dSprite && "hover:underline"
-                  )}
+                  className={"text-sm text-teal-500 hover:underline"}
                 >
                   2D
                 </button>

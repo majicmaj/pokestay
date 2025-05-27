@@ -70,6 +70,11 @@ export const evolvePokemon = async (
             pokemon.isShiny ? "-shiny/" : "/"
           }${evolvedData.name.replace("-", "")}.gif`;
 
+          const sprite2d = `https://play.pokemonshowdown.com/sprites/gen5/${evolvedData.name.replace(
+            "-",
+            ""
+          )}.png`;
+
           // Create the evolved Pokémon object
           const evolvedPokemon: Pokemon = {
             ...pokemon,
@@ -78,6 +83,7 @@ export const evolvePokemon = async (
               evolvedData.name.charAt(0).toUpperCase() +
               evolvedData.name.slice(1),
             sprite,
+            sprite2d,
             stats: {
               ...baseStats,
               level,
