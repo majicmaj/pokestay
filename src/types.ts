@@ -51,6 +51,11 @@ export interface Pokemon {
     speed: number;
     hp: number;
   };
+  caughtLocation?: {
+    city?: string;
+    state?: string;
+    country?: string;
+  };
 }
 
 export interface WildPokemonState extends Pokemon {

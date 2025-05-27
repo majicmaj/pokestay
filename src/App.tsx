@@ -14,8 +14,9 @@ import { calculateCatchProbability } from "./utils/calculateCatchProbability";
 import { calculateTypeAdvantage } from "./utils/calculateTypeAdvantage";
 import { getRandomPokemon } from "./utils/getRandomPokemon";
 import { sleep } from "./utils/sleep";
+import { getLocation } from "./utils/getLocation";
 
-const speedMod = 1;
+const speedMod = 0.2;
 
 function App() {
   const [gameState] = useGameState();
@@ -57,11 +58,6 @@ function App() {
         ? "Nice!"
         : "Poor!";
 
-    // console.log(throwSpeed)
-    // if (throwSpeed > 5) setCatchMessage("Excellent!");
-    // else if (throwSpeed > 3) setCatchMessage("Great!");
-    // else if (throwSpeed > 1) setCatchMessage("Nice!");
-
     setCatchMessage(`${speedMessage} ${advantageMessage} `);
 
     const catchProbability = calculateCatchProbability(
@@ -81,8 +77,17 @@ function App() {
       setPokemonState("caught");
       const extraPoints = Math.round(advantage * currentPokemon.points);
 
+      // Get location when Pokemon is caught
+      const location = await getLocation();
+
+      const caughtPokemon = {
+        ...currentPokemon,
+        caughtAt: new Date(),
+        caughtLocation: location,
+      };
+
       setPoints(Number(points) + Number(extraPoints));
-      setInventory([...inventory, currentPokemon]);
+      setInventory([...inventory, caughtPokemon]);
 
       setCatchMessage(
         `${currentPokemon.name} caught! +${extraPoints} stardust`

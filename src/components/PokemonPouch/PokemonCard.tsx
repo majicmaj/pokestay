@@ -32,7 +32,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         <img
           src={pokemon.sprite}
           alt={pokemon.name}
-          className="pixelated w-full h-full aspect-square object-contain"
+          className="pixelated w-full h-full aspect-square object-contain p-4"
         />
       </div>
       <div className="font-semibold mt-[-16px] flex items-center bg-white/80 px-2 rounded-full">

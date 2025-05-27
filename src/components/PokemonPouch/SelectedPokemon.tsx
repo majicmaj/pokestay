@@ -11,6 +11,7 @@ import { formatNumber } from "../../utils/formatNumber";
 import { evolvePokemon } from "../../utils/getEvolution";
 import { levelUpPokemon } from "../../utils/levelUpPokemon";
 import TypeBadge from "../TypeBadge/TypeBadge";
+import { capitalize } from "../../utils/capitalize";
 
 const SelectedPokemon = ({
   pokemon,
@@ -134,7 +135,7 @@ const SelectedPokemon = ({
                 <img
                   src={pokemon.sprite}
                   alt={pokemon.name}
-                  className="animate-bounce-slow pixelated absolute p-12 bottom-0 w-96 h-96 object-contain"
+                  className="animate-bounce-slow pixelated absolute p-24 bottom-0 w-96 h-96 object-contain"
                 />
                 <div className="relative flex items-center flex-col">
                   <div className="font-semibold text-3xl mt-[-16px] flex items-center bg-white/80 px-2 rounded-full">
@@ -272,6 +273,37 @@ const SelectedPokemon = ({
                 <div className="flex flex-1 items-center gap-1">
                   <Stardust className="w-6 h-6" />
                   <span>+ {formatNumber(transferStardust)}</span>
+                </div>
+              </div>
+
+              <div className="border-b-2 border-zinc-300 w-full" />
+
+              {/* Information (caught at, rarity, etc) */}
+              <div className="flex flex-col gap-2 w-full">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm opacity-70">Caught at:</p>
+                  <p className="text-sm">
+                    {pokemon?.caughtAt
+                      ? new Date(
+                          pokemon?.caughtAt || ""
+                        ).toLocaleDateString() || "_"
+                      : "_"}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm opacity-70">Location:</p>
+                  <p className="text-sm">
+                    {pokemon?.caughtLocation?.city || "_"},{" "}
+                    {pokemon?.caughtLocation?.country || "_"}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm opacity-70">Rarity:</p>
+                  <p className="text-sm">{capitalize(pokemon.rarity)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm opacity-70">ID:</p>
+                  <p className="text-sm">#{pokemon.id}</p>
                 </div>
               </div>
             </div>
