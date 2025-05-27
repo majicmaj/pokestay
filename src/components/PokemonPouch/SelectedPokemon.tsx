@@ -12,6 +12,7 @@ import { evolvePokemon } from "../../utils/getEvolution";
 import { levelUpPokemon } from "../../utils/levelUpPokemon";
 import TypeBadge from "../TypeBadge/TypeBadge";
 import { capitalize } from "../../utils/capitalize";
+import { cn } from "../../utils/cn";
 
 const SelectedPokemon = ({
   pokemon,
@@ -137,6 +138,8 @@ const SelectedPokemon = ({
 
     setInventory(newInventory);
   };
+
+  const has2dSprite = !!pokemon.sprite2d;
 
   const set2dSprite = () => {
     const sprite2d =
@@ -307,9 +310,9 @@ const SelectedPokemon = ({
                   <span>+ {formatNumber(transferStardust)}</span>
                 </div>
               </div>
-              <div className="border-b-2 border-zinc-300 w-full" />
+
               {/* Information (caught at, rarity, etc) */}
-              <div className="flex flex-col gap-2 w-full">
+              <div className="flex flex-col gap-2 w-full mx-2 bg-lime-100 rounded-lg p-2">
                 <div className="flex items-center justify-between">
                   <p className="text-sm opacity-70">Caught at:</p>
                   <p className="text-sm">
@@ -337,6 +340,7 @@ const SelectedPokemon = ({
                 </div>
               </div>
               <div className="border-b-2 border-zinc-300 w-full" />
+              <p>Update Sprite</p>
               <div className="flex items-center justify-between gap-1">
                 <button
                   onClick={set3dSprite}
@@ -347,7 +351,13 @@ const SelectedPokemon = ({
                 /
                 <button
                   onClick={set2dSprite}
-                  className="text-sm text-teal-500 hover:underline"
+                  disabled={!has2dSprite}
+                  className={cn(
+                    "text-sm text-teal-500",
+                    !has2dSprite &&
+                      "opacity-50 cursor-not-allowed line-through",
+                    has2dSprite && "hover:underline"
+                  )}
                 >
                   2D
                 </button>
