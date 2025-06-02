@@ -1,3 +1,4 @@
+import { Cat } from "lucide-react";
 import useCurrentPokemon from "../../hooks/useCurrentPokemon";
 import useGameState from "../../hooks/useGameState";
 import { Menus } from "../../types";
@@ -26,12 +27,13 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
     currentPokemon?.types
   );
 
-  const advantageClass = getTypeAdvantageClass(typeAdvantage);
-
-  if (!buddyPokemon) return null;
+  const hasBuddyPokemon = Boolean(buddyPokemon?.name);
+  const advantageClass = hasBuddyPokemon
+    ? getTypeAdvantageClass(typeAdvantage)
+    : "";
 
   return (
-    <div className="fixed bottom-6 left-6 flex flex-col gap-4 items-end z-30">
+    <div className="fixed bottom-6 right-6 flex flex-col gap-4 items-end z-30">
       <button
         onClick={() => toggleMenu("inventory")}
         className={`relative grid place-items-center h-14 w-14 p-4 rounded-full shadow-lg transition-all border-2 ${
@@ -41,12 +43,16 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
         }
         ${advantageClass}`}
       >
-        <img
-          className="pixelated absolute min-w-16 aspect-square"
-          src={gameState.buddyPokemon?.sprite}
-        />
+        {hasBuddyPokemon ? (
+          <img
+            className="pixelated absolute"
+            src={gameState.buddyPokemon?.sprite}
+          />
+        ) : (
+          <Cat className="w-full h-full" />
+        )}
       </button>
-      <p className="pixelated-font absolute bottom-1 left-1/2 -translate-x-1/2 text-white text-xs">
+      <p className="pixelated-font absolute bottom-1 left-1/2 -translate-x-1/2 text-white shadow-md text-xs">
         {(typeAdvantage * 100).toFixed(0)}%
       </p>
     </div>
