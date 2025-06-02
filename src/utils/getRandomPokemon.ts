@@ -135,6 +135,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
       points: POINTS_RARITY_MAP[rarity] || 100,
       caught: false,
       cp,
+      height: data.height,
       sprite,
       sprite2d: sprite2d,
       types: data.types.map((t: PokemonType) => t.type.name),

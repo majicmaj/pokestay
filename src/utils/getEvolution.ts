@@ -84,6 +84,7 @@ export const evolvePokemon = async (
               evolvedData.name.slice(1),
             sprite,
             sprite2d,
+            height: evolvedData.height,
             stats: {
               ...baseStats,
               level,

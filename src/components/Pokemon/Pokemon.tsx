@@ -1,7 +1,15 @@
 import { Sparkles } from "lucide-react";
 import useCurrentPokemon from "../../hooks/useCurrentPokemon";
-import { PokemonState } from "../../types";
+import { type Pokemon, PokemonState } from "../../types";
 import TypeBadge from "../TypeBadge/TypeBadge";
+import { cn } from "../../utils/cn";
+
+const getScale = (pokemon: Pokemon) => {
+  // height = 1 => scale = 20
+  // height < 20 => scale = 100
+
+  return 40 + Math.min(60, pokemon?.height || 20 * 5);
+};
 
 const Pokemon = ({
   pokemonState,
@@ -46,17 +54,24 @@ const Pokemon = ({
                 ))}
               </div>
             </div>
-            <div className="mt-8 relative w-[300px] h-[300px] overflow-visible">
+
+            <div
+              className="mt-8 relative w-[300px] h-[300px] overflow-visible"
+              style={{
+                transform: `scale(${getScale(currentPokemon) / 100})`,
+                transition: "transform 0.3s ease-in-out",
+              }}
+            >
               <img
                 src={currentPokemon.sprite}
                 alt={currentPokemon.name}
-                className={`relative min-w-[300px] pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300 ${
-                  isPokeballDisabled && "animate-pokemon-shrink"
-                } ${
+                className={cn(
+                  `relative min-w-[300px] pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300`,
+                  isPokeballDisabled && "animate-pokemon-shrink",
                   !isPokeballDisabled &&
-                  pokemonState === "idle" &&
-                  "animate-pokemon-grow"
-                }`}
+                    pokemonState === "idle" &&
+                    "animate-pokemon-grow"
+                )}
               />
             </div>
           </div>
