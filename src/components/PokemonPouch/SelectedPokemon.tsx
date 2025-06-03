@@ -1,4 +1,4 @@
-import { Sparkles, UserRoundCheck, UserRoundPlus, X } from "lucide-react";
+import { Gem, Sparkles, UserRoundCheck, UserRoundPlus, X } from "lucide-react";
 
 import { Dispatch, SetStateAction, useState } from "react";
 import Stardust from "../../assets/icons/Stardust";
@@ -13,6 +13,7 @@ import { levelUpPokemon } from "../../utils/levelUpPokemon";
 import TypeBadge from "../TypeBadge/TypeBadge";
 import { capitalize } from "../../utils/capitalize";
 import { isValidImageUrl } from "../../utils/isValidImageUrl";
+import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
 
 const SelectedPokemon = ({
   pokemon,
@@ -191,6 +192,8 @@ const SelectedPokemon = ({
     }
   };
 
+  const isLegendary = LEGENDARY_POKEMON_IDS.includes(pokemon.id);
+
   return (
     <div className="absolute w-full h-full border bg-black/10 backdrop-blur-md z-20 left-0">
       <div className="flex justify-center items-center">
@@ -207,11 +210,13 @@ const SelectedPokemon = ({
                 <img
                   src={pokemon.sprite}
                   alt={pokemon.name}
-                  className="animate-bounce-slow pixelated absolute p-24 bottom-0 w-96 h-96 object-contain"
+                  className="animate-bounce-slow pixelated absolute p-24 bottom-0 aspect-square size-96 min-w-96 object-contain"
                 />
                 <div className="relative flex items-center flex-col">
                   <div className="font-semibold text-3xl mt-[-16px] flex items-center bg-white/80 px-2 rounded-full">
                     {pokemon.isShiny && <Sparkles className="w-8" />}
+                    {isLegendary && <Gem />}
+
                     {pokemon.name}
                     <button
                       onClick={
@@ -343,7 +348,7 @@ const SelectedPokemon = ({
               </div>
 
               {/* Information (caught at, rarity, etc) */}
-              <div className="flex flex-col gap-2 w-full mx-2 bg-lime-100 rounded-lg p-2">
+              <div className="flex flex-col gap-2 w-full bg-lime-100 rounded-lg p-2">
                 <div className="flex items-center justify-between">
                   <p className="text-sm opacity-70">Caught at:</p>
                   <p className="text-sm">

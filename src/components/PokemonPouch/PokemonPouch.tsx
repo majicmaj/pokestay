@@ -16,6 +16,7 @@ const PokemonPouch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<SortBy>("recent");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [expanded, setExpanded] = useState(false);
 
   const [gameState] = useGameState();
   const { buddyPokemon } = gameState || {};
@@ -73,6 +74,17 @@ const PokemonPouch: React.FC = () => {
 
   const selectedPokemon = filteredPokemon[currentIndex || 0];
 
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    // if the blur event is triggered outside the expanded section, collapse it
+    if (
+      e.currentTarget.contains(e.relatedTarget) ||
+      e.currentTarget.id === "search-and-sort"
+    ) {
+      return;
+    }
+    setExpanded(false);
+  };
+
   return (
     <>
       {selectedPokemon && currentIndex !== null && (
@@ -84,19 +96,34 @@ const PokemonPouch: React.FC = () => {
         />
       )}
       <div className="h-screen overflow-auto flex flex-col items-center">
-        <HeaderSection inventoryCount={inventory.length} points={points} />
-        <SearchAndSort
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
-        <TypeFilter
-          allTypes={allTypes}
-          selectedTypes={selectedTypes}
-          toggleTypeFilter={toggleTypeFilter}
-          setSelectedTypes={setSelectedTypes}
-        />
+        {!expanded && (
+          <div className="p-4 w-full" id="search-and-sort">
+            <button
+              onClick={() => setExpanded(true)}
+              className="bg-lime-200 text-teal-700 px-2 p-1 rounded-full w-full"
+            >
+              Search Pokemon
+            </button>
+          </div>
+        )}
+        {expanded && (
+          <div className="w-full" onBlur={handleBlur}>
+            <HeaderSection inventoryCount={inventory.length} points={points} />
+            <SearchAndSort
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+            />
+            <TypeFilter
+              allTypes={allTypes}
+              selectedTypes={selectedTypes}
+              toggleTypeFilter={toggleTypeFilter}
+              setSelectedTypes={setSelectedTypes}
+            />
+          </div>
+        )}
+
         <PokemonGrid
           pokemonList={filteredPokemon}
           buddyIndex={buddyIndex}

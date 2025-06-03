@@ -19,6 +19,7 @@ const SearchAndSort: React.FC<SearchAndSortProps> = ({
     <div className="w-full p-4 px-8 flex flex-col gap-4">
       <input
         value={searchTerm}
+        autoFocus
         onChange={(e) => setSearchTerm(e.target.value)}
         className="px-3 py-1 bg-lime-200 w-full rounded-full"
         placeholder="Search Pokemon"
