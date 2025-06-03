@@ -12,6 +12,7 @@ import { evolvePokemon } from "../../utils/getEvolution";
 import { levelUpPokemon } from "../../utils/levelUpPokemon";
 import TypeBadge from "../TypeBadge/TypeBadge";
 import { capitalize } from "../../utils/capitalize";
+import { isValidImageUrl } from "../../utils/isValidImageUrl";
 
 const SelectedPokemon = ({
   pokemon,
@@ -122,10 +123,20 @@ const SelectedPokemon = ({
     setCurrentIndex(null);
   };
 
-  const set3dSprite = () => {
-    const sprite = `https://play.pokemonshowdown.com/sprites/xyani${
+  const set3dSprite = async () => {
+    const sprite3dBase = `https://play.pokemonshowdown.com/sprites/xyani${
       pokemon.isShiny ? "-shiny/" : "/"
     }${pokemon.name.toLowerCase().replace("-", "")}.gif`;
+
+    const hasDashInName = pokemon.name.includes("-");
+    const is3dValid = await isValidImageUrl(sprite3dBase);
+
+    const sprite =
+      hasDashInName && !is3dValid
+        ? `https://play.pokemonshowdown.com/sprites/xyani${
+            pokemon.isShiny ? "-shiny/" : "/"
+          }${pokemon.name.toLowerCase().split("-")[0]}.gif`
+        : sprite3dBase;
 
     console.log(sprite);
 
@@ -147,10 +158,20 @@ const SelectedPokemon = ({
     }
   };
 
-  const set2dSprite = () => {
-    const sprite2d = `https://play.pokemonshowdown.com/sprites/gen5/${pokemon.name
+  const set2dSprite = async () => {
+    const sprite2dBase = `https://play.pokemonshowdown.com/sprites/gen5/${pokemon.name
       .toLowerCase()
       .replace("-", "")}.png`;
+
+    const hasDashInName = pokemon.name.includes("-");
+    const is2dValid = await isValidImageUrl(sprite2dBase);
+
+    const sprite2d =
+      hasDashInName && !is2dValid
+        ? `https://play.pokemonshowdown.com/sprites/gen5/${
+            pokemon.name.toLowerCase().split("-")[0]
+          }.png`
+        : sprite2dBase;
 
     const updatedPokemon = {
       ...pokemon,

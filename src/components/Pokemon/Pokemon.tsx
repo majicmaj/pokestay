@@ -1,14 +1,15 @@
-import { Sparkles } from "lucide-react";
+import { Gem, Sparkles } from "lucide-react";
 import useCurrentPokemon from "../../hooks/useCurrentPokemon";
 import { type Pokemon, PokemonState } from "../../types";
 import TypeBadge from "../TypeBadge/TypeBadge";
 import { cn } from "../../utils/cn";
+import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
 
 const getScale = (pokemon: Pokemon) => {
   // height = 1 => scale = 20
   // height < 20 => scale = 100
 
-  return 40 + Math.min(60, pokemon?.height || 20 * 5);
+  return 40 + Math.min(60, (pokemon?.height || 20) * 5);
 };
 
 const Pokemon = ({
@@ -22,7 +23,10 @@ const Pokemon = ({
 
   if (!currentPokemon) return null;
 
-  const { cp, isShiny } = currentPokemon || {};
+  const { cp, isShiny, id } = currentPokemon || {};
+
+  const isLegendary = LEGENDARY_POKEMON_IDS.includes(id);
+
   return (
     <div
       className={`transform h-full justify-center pb-4 flex flex-col items-center`}
@@ -37,9 +41,17 @@ const Pokemon = ({
               : ""
           }`}
         >
-          <div className={`animate-bounce-slow flex flex-col items-center `}>
-            <div className="flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5">
+          <div
+            className={cn(`animate-bounce-slow flex flex-col items-center `)}
+          >
+            <div
+              className={cn(
+                "flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5",
+                isLegendary && "pokemon-legendary-text pokemon-legendary-shadow"
+              )}
+            >
               {isShiny && <Sparkles />}
+              {isLegendary && <Gem />}
               <h2>{currentPokemon.name}</h2>
               <p className="opacity-50">/</p>
               <p className="font-light">

@@ -1,20 +1,14 @@
-// Array of all legendary Pokémon IDs
+// Array of all legendary (non-mythical) Pokémon IDs
 export const LEGENDARY_POKEMON_IDS = [
   144, // Articuno
   145, // Zapdos
   146, // Moltres
-
   150, // Mewtwo
-  151, // Mew
   243, // Raikou
-
   244, // Entei
   245, // Suicune
   249, // Lugia
-
   250, // Ho-oh
-  251, // Celebi
-
   377, // Regirock
   378, // Regice
   379, // Registeel
@@ -23,8 +17,6 @@ export const LEGENDARY_POKEMON_IDS = [
   382, // Kyogre
   383, // Groudon
   384, // Rayquaza
-  385, // Jirachi
-  386, // Deoxys
   480, // Uxie
   481, // Mesprit
   482, // Azelf
@@ -34,12 +26,6 @@ export const LEGENDARY_POKEMON_IDS = [
   486, // Regigigas
   487, // Giratina
   488, // Cresselia
-  489, // Phione
-  490, // Manaphy
-  491, // Darkrai
-  492, // Shaymin
-  493, // Arceus
-
   638, // Cobalion
   639, // Terrakion
   640, // Virizion
@@ -49,15 +35,9 @@ export const LEGENDARY_POKEMON_IDS = [
   644, // Zekrom
   645, // Landorus
   646, // Kyurem
-  647, // Keldeo
-  648, // Meloetta
-  649, // Genesect
   716, // Xerneas
   717, // Yveltal
   718, // Zygarde
-  719, // Diancie
-  720, // Hoopa
-  721, // Volcanion
   785, // Tapu Koko
   786, // Tapu Lele
   787, // Tapu Bulu
@@ -67,9 +47,6 @@ export const LEGENDARY_POKEMON_IDS = [
   791, // Solgaleo
   792, // Lunala
   800, // Necrozma
-  801, // Magearna
-  802, // Marshadow
-  807, // Zeraora
   888, // Zacian
   889, // Zamazenta
   890, // Eternatus
@@ -80,4 +57,26 @@ export const LEGENDARY_POKEMON_IDS = [
   896, // Glastrier
   897, // Spectrier
   898, // Calyrex
+];
+
+// Array of all mythical Pokémon IDs (pulled out of the original list)
+export const MYTHICAL_POKEMON_IDS = [
+  151, // Mew
+  251, // Celebi
+  385, // Jirachi
+  386, // Deoxys
+  489, // Phione
+  490, // Manaphy
+  491, // Darkrai
+  492, // Shaymin
+  493, // Arceus
+  647, // Keldeo
+  648, // Meloetta
+  649, // Genesect
+  719, // Diancie
+  720, // Hoopa
+  721, // Volcanion
+  801, // Magearna
+  802, // Marshadow
+  807, // Zeraora
 ];

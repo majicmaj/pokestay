@@ -1,22 +1,13 @@
 import { Move, PokemonMove, PokemonType, WildPokemonState } from "../types";
 import { calculateCP } from "./calculateCp";
 import { getPokemonId } from "./getPokemonId";
+import { isValidImageUrl } from "./isValidImageUrl";
 
 const POINTS_RARITY_MAP = {
   common: 100,
   uncommon: 150,
   rare: 300,
   legendary: 1000,
-};
-
-const isValidImageUrl = async (url: string): Promise<boolean> => {
-  const image = new Image();
-  image.src = url;
-
-  return new Promise((resolve) => {
-    image.onload = () => resolve(true);
-    image.onerror = () => resolve(false);
-  });
 };
 
 export const getRandomPokemon = async (): Promise<WildPokemonState> => {
@@ -118,9 +109,19 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
 
     const isShiny = Math.random() * 256 < (isLegendary ? 10 : 1);
 
-    const sprite3d = `https://play.pokemonshowdown.com/sprites/xyani${
+    const sprite3dBase = `https://play.pokemonshowdown.com/sprites/xyani${
       isShiny ? "-shiny/" : "/"
     }${data.name.replace("-", "")}.gif`;
+
+    const hasDashInName = data.name.includes("-");
+    const is3dValid = await isValidImageUrl(sprite3dBase);
+
+    const sprite3d =
+      hasDashInName && !is3dValid
+        ? `https://play.pokemonshowdown.com/sprites/xyani${
+            isShiny ? "-shiny/" : "/"
+          }${data.name.split("-")[0]}.gif`
+        : sprite3dBase;
 
     const sprite2d =
       data.sprites.front_default ||
