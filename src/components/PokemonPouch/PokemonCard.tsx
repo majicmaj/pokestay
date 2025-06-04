@@ -1,4 +1,5 @@
 import { Sparkles } from "lucide-react";
+import { cn } from "../../utils/cn";
 
 interface PokemonCardProps {
   pokemon: {
@@ -10,19 +11,26 @@ interface PokemonCardProps {
   };
   isBuddy: boolean;
   onClick: () => void;
+  onContextMenu?: (e: React.MouseEvent) => void;
+  className?: string;
 }
 
 const PokemonCard: React.FC<PokemonCardProps> = ({
   pokemon,
   isBuddy,
   onClick,
+  onContextMenu = () => {},
+  className = "",
 }) => {
   return (
     <div
-      className={`flex flex-col items-center ${
-        isBuddy ? "bg-lime-200/80" : ""
-      } rounded-lg p-2 cursor-pointer`}
+      className={cn(
+        `flex flex-col items-center rounded-lg p-2 cursor-pointer`,
+        isBuddy ? "bg-lime-200/80" : "",
+        className
+      )}
       onClick={onClick}
+      onContextMenu={onContextMenu}
     >
       <div className="z-10 mb-[-12px] bg-white/80 px-2 rounded-full">
         <span className="text-sm font-medium opacity-60 pr-1">CP</span>
