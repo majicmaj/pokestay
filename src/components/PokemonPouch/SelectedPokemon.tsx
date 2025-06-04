@@ -14,6 +14,7 @@ import TypeBadge from "../TypeBadge/TypeBadge";
 import { capitalize } from "../../utils/capitalize";
 import { isValidImageUrl } from "../../utils/isValidImageUrl";
 import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
+import { cn } from "../../utils/cn";
 
 const SelectedPokemon = ({
   pokemon,
@@ -293,28 +294,27 @@ const SelectedPokemon = ({
                   </button>
                 </div> */}
               {/* Evolution */}
-              {canPokemonEvolve && (
-                <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
-                  {/* Pink magenta button */}
-                  <button
-                    onClick={evolve}
-                    disabled={!canEvolve}
-                    className={`rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-pink-500 to-purple-500 gap-2 flex items-center px-8 py-3 ${
-                      !canEvolve &&
+              <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
+                {/* Pink magenta button */}
+                <button
+                  onClick={evolve}
+                  disabled={!canPokemonEvolve || !canEvolve}
+                  className={cn(
+                    `rounded-full w-40 justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-pink-500 to-purple-500 gap-2 flex items-center px-8 py-3`,
+                    (!canEvolve || !canPokemonEvolve) &&
                       "opacity-50 cursor-not-allowed border-3 bored-red-500"
-                    }`}
-                  >
-                    EVOLVE
-                  </button>
-                  <div className="flex flex-1 items-center gap-1">
-                    <Stardust className="w-6 h-6" />
-                    <span className={`${!canEvolve && "text-red-500"}`}>
-                      {formatNumber(evolutionCost)}
-                    </span>
-                    <span className="opacity-70">/ {formatNumber(points)}</span>
-                  </div>
+                  )}
+                >
+                  EVOLVE
+                </button>
+                <div className="flex flex-1 items-center gap-1">
+                  <Stardust className="w-6 h-6" />
+                  <span className={`${!canEvolve && "text-red-500"}`}>
+                    {formatNumber(evolutionCost)}
+                  </span>
+                  <span className="opacity-70">/ {formatNumber(points)}</span>
                 </div>
-              )}
+              </div>
               {/* Transfer */}
               <div className="rounded-full pr-4 items-center justify-between flex gap-4 bg-lime-100/80 w-full">
                 {!confirmTransfer && (
