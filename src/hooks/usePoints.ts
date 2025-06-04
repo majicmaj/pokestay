@@ -5,7 +5,7 @@ const usePoints = () => {
   const [gameState] = useGameState();
   const [points, setPoints] = useLocalStorageState(
     "points",
-    Number(gameState?.points) || []
+    Number(gameState?.points) || 0
   );
 
   return [points, setPoints];

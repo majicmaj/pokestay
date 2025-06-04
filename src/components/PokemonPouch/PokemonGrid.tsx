@@ -76,11 +76,11 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
   const handleBulkTransfer = () => {
     if (bulkSelectedPokemon.length === 0) return;
 
-    const newInventory = pokemonList.filter(
-      (pokemon) => !bulkSelectedPokemon.includes(pokemon)
+    const newInventory = inventory.filter(
+      (pokemon: Pokemon) => !bulkSelectedPokemon.includes(pokemon)
     );
 
-    setPoints((prevPoints) => prevPoints + bulkSelectTransferStardust);
+    setPoints(points + bulkSelectTransferStardust);
     setInventory(newInventory);
     setBulkSelectedPokemon([]);
     setBulkSelectEnabled(false);
