@@ -3,10 +3,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import useEncounterLog from "../../hooks/useEncounterLog";
 import { useEncounterLogSortAndFilter } from "../../hooks/useEncounterLogSortAndFilter";
+import useInventory from "../../hooks/useInventory";
 import EncounterLogFilterControls from "./EncounterLogFilterControls";
 
 const EncounterLog = () => {
   const { log } = useEncounterLog();
+  const [inventory] = useInventory();
   const [filtersExpanded, setFiltersExpanded] = useState(false);
 
   const {
@@ -64,40 +66,50 @@ const EncounterLog = () => {
           <p className="text-center text-gray-500">No matching encounters.</p>
         ) : (
           <div className="space-y-4">
-            {filteredAndSortedLog.map((entry, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-4 p-2 rounded-lg bg-primary"
-              >
-                <img
-                  src={entry.pokemonSprite}
-                  alt={entry.pokemonName}
-                  className="w-16 h-16 object-contain"
-                />
-                <div className="flex-grow">
-                  <p className="font-bold">{entry.pokemonName}</p>
-                  <p className="text-sm">Throws: {entry.throws}</p>
-                  <p className="text-sm">Status: {entry.status}</p>
-                  {entry.status === "caught" && (
-                    <p className="text-sm">Stardust: +{entry.stardust}</p>
-                  )}
-                  {entry.location?.city && (
-                    <p className="text-sm">Location: {entry.location.city}</p>
-                  )}
-                  {entry.pokemonUuid && (
-                    <Link
-                      to={`/pouch/${entry.pokemonUuid}`}
-                      className="text-blue-500 hover:underline"
-                    >
-                      View in Pouch
-                    </Link>
-                  )}
+            {filteredAndSortedLog.map((entry, index) => {
+              const pokemonInInventory = inventory.find(
+                (p) => p.uuid === entry.pokemonUuid
+              );
+              return (
+                <div
+                  key={index}
+                  className="flex items-center gap-4 p-2 rounded-lg bg-primary"
+                >
+                  <img
+                    src={entry.pokemonSprite}
+                    alt={entry.pokemonName}
+                    className="w-16 h-16 object-contain"
+                  />
+                  <div className="flex-grow">
+                    <p className="font-bold">{entry.pokemonName}</p>
+                    <p className="text-sm">Throws: {entry.throws}</p>
+                    <p className="text-sm">Status: {entry.status}</p>
+                    {entry.status === "caught" && (
+                      <p className="text-sm">Stardust: +{entry.stardust}</p>
+                    )}
+                    {entry.location?.city && (
+                      <p className="text-sm">Location: {entry.location.city}</p>
+                    )}
+                    {entry.pokemonUuid &&
+                      (pokemonInInventory ? (
+                        <Link
+                          to={`/pouch/${entry.pokemonUuid}`}
+                          className="text-blue-500 hover:underline"
+                        >
+                          View in Pouch
+                        </Link>
+                      ) : (
+                        <p className="text-sm text-gray-500 italic">
+                          Transferred
+                        </p>
+                      ))}
+                  </div>
+                  <p className="text-xs text-gray-400">
+                    {new Date(entry.timestamp).toLocaleString()}
+                  </p>
                 </div>
-                <p className="text-xs text-gray-400">
-                  {new Date(entry.timestamp).toLocaleString()}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
