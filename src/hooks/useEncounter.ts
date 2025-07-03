@@ -91,11 +91,13 @@ export default function useEncounter() {
       setCatchMessage(
         `${currentPokemon.name} caught! +${extraPoints} stardust`
       );
+      setCurrentPokemon(null);
       await sleep(Math.random() * 2000 + 1000);
     } else {
       if (flees) {
         setPokemonState("fled");
         setCatchMessage(`${currentPokemon.name} fled!`);
+        setCurrentPokemon(null);
         await sleep(Math.random() * 2000 + 1000);
       } else {
         setCatchMessage(`${currentPokemon.name} broke free!`);
@@ -117,6 +119,7 @@ export default function useEncounter() {
   const handleFlee = async () => {
     setPokemonState("fled");
     setCatchMessage(`You have fled!`);
+    setCurrentPokemon(null);
     setTimeout(() => {
       setCatchMessage(null);
     }, 2000);
