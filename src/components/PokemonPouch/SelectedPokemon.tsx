@@ -279,7 +279,7 @@ const SelectedPokemon = ({
             />
 
             {/* Right Column */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <Stats stats={pokemon.stats} />
               <Actions
                 levelUp={levelUp}
