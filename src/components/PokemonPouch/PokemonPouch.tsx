@@ -9,8 +9,11 @@ import FilterControls from "./FilterControls";
 import HeaderSection from "./Header";
 import PokemonGrid from "./PokemonGrid";
 import SelectedPokemon from "./SelectedPokemon";
+import { AnimatePresence, motion, DragControls } from "framer-motion";
 
-const PokemonPouch: React.FC = () => {
+const PokemonPouch: React.FC<{ dragControls: DragControls }> = ({
+  dragControls,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -63,16 +66,32 @@ const PokemonPouch: React.FC = () => {
 
   return (
     <>
-      {selectedPokemon && (
-        <SelectedPokemon
-          pokemon={selectedPokemon}
-          pokemonList={filteredPokemon}
-          onClose={() => navigate("/pouch")}
-          onNavigate={(uuid) => navigate(`/pouch/${uuid}`, { replace: true })}
-        />
-      )}
+      <AnimatePresence>
+        {selectedPokemon && (
+          <motion.div
+            className="absolute inset-0 z-50"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", stiffness: 400, damping: 40 }}
+          >
+            <SelectedPokemon
+              pokemon={selectedPokemon}
+              pokemonList={filteredPokemon}
+              onClose={() => navigate("/pouch")}
+              onNavigate={(uuid) =>
+                navigate(`/pouch/${uuid}`, { replace: true })
+              }
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="h-screen overflow-auto flex flex-col items-center bg-secondary">
-        <HeaderSection inventoryCount={inventory.length} points={points} />
+        <HeaderSection
+          inventoryCount={inventory.length}
+          points={points}
+          dragControls={dragControls}
+        />
         <FilterControls
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

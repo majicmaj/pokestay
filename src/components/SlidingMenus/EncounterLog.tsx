@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, DragControls } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useEncounterLog from "../../hooks/useEncounterLog";
@@ -6,7 +6,9 @@ import { useEncounterLogSortAndFilter } from "../../hooks/useEncounterLogSortAnd
 import useInventory from "../../hooks/useInventory";
 import EncounterLogFilterControls from "./EncounterLogFilterControls";
 
-const EncounterLog = () => {
+const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
+  dragControls,
+}) => {
   const { log } = useEncounterLog();
   const [inventory] = useInventory();
   const [filtersExpanded, setFiltersExpanded] = useState(false);
@@ -31,6 +33,13 @@ const EncounterLog = () => {
 
   return (
     <div className="h-full flex flex-col">
+      <motion.div
+        onPointerDown={(e) => dragControls.start(e)}
+        className="w-full flex flex-col items-center pt-2 cursor-grab touch-none"
+      >
+        <div className="w-12 h-1.5 bg-gray-400 rounded-full mb-2" />
+        <h2 className="text-2xl font-bold text-center">Encounters</h2>
+      </motion.div>
       <div className="p-4">
         <button
           onClick={() => setFiltersExpanded(!filtersExpanded)}
