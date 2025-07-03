@@ -71,48 +71,22 @@ const PokemonPouch: React.FC = () => {
         />
       )}
       <div className="h-screen overflow-auto flex flex-col items-center bg-secondary">
-        {!expanded && (
-          <div className="p-4 w-full" id="search-and-sort">
-            <button
-              onClick={() => setExpanded(true)}
-              className="bg-accent text-accent-content px-2 p-1 rounded-full w-full"
-            >
-              Search Pokemon
-            </button>
-          </div>
-        )}
-        <AnimatePresence>
-          {expanded && (
-            <motion.div
-              className="w-full"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <HeaderSection
-                inventoryCount={inventory.length}
-                points={points}
-              />
-              <FilterControls
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                sortDirection={sortDirection}
-                setSortDirection={setSortDirection}
-                allTypes={allTypes}
-                selectedTypes={selectedTypes}
-                toggleTypeFilter={toggleTypeFilter}
-                setSelectedTypes={setSelectedTypes}
-                allLocations={allLocations}
-                selectedLocation={selectedLocation}
-                setSelectedLocation={setSelectedLocation}
-                onClose={() => setExpanded(false)}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <HeaderSection inventoryCount={inventory.length} points={points} />
+        <FilterControls
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          sortDirection={sortDirection}
+          setSortDirection={setSortDirection}
+          allTypes={allTypes}
+          selectedTypes={selectedTypes}
+          toggleTypeFilter={toggleTypeFilter}
+          setSelectedTypes={setSelectedTypes}
+          allLocations={allLocations}
+          selectedLocation={selectedLocation}
+          setSelectedLocation={setSelectedLocation}
+        />
 
         <PokemonGrid
           pokemonList={filteredPokemon}

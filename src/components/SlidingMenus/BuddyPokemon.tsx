@@ -1,13 +1,8 @@
+import { Link, useLocation } from "react-router-dom";
+import useGameState from "../../hooks/useGameState";
 import { Cat } from "lucide-react";
 import useCurrentPokemon from "../../hooks/useCurrentPokemon";
-import useGameState from "../../hooks/useGameState";
-import { Menus } from "../../types";
 import { calculateTypeAdvantage } from "../../utils/calculateTypeAdvantage";
-
-interface BuddyPokemonProps {
-  activeMenu: string;
-  toggleMenu: (menu: Menus) => void;
-}
 
 const getTypeAdvantageClass = (advantage: number) => {
   if (advantage > 2) return "border-teal-500";
@@ -16,7 +11,7 @@ const getTypeAdvantageClass = (advantage: number) => {
   if (advantage < 1) return "border-red-500";
 };
 
-const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
+const BuddyPokemon = () => {
   const [gameState] = useGameState();
   const [currentPokemon] = useCurrentPokemon();
 
@@ -32,26 +27,30 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
     ? getTypeAdvantageClass(typeAdvantage)
     : "";
 
+  const location = useLocation();
+  const activeMenu = location.pathname.split("/")[1] || "none";
+
   return (
-    <div className="fixed bottom-6 right-6 flex flex-col gap-4 items-end z-30">
-      <button
-        onClick={() => toggleMenu("pouch")}
-        className={`relative grid place-items-center h-14 w-14 p-4 rounded-full shadow-lg transition-all border-2 ${
-          activeMenu === "inventory"
-            ? "bg-blue-500 text-white"
-            : "bg-black/20 backdrop-blur-md text-white hover:bg-blak/30"
-        }
+    <div className="fixed bottom-6 right-6 flex flex-col gap-4 items-end z-10">
+      <Link to="/pouch">
+        <button
+          className={`relative grid place-items-center h-14 w-14 p-4 rounded-full shadow-lg transition-all border-2 ${
+            activeMenu === "inventory"
+              ? "bg-blue-500 text-white"
+              : "bg-black/20 backdrop-blur-md text-white hover:bg-blak/30"
+          }
         ${advantageClass}`}
-      >
-        {hasBuddyPokemon ? (
-          <img
-            className="pixelated absolute"
-            src={gameState.buddyPokemon?.sprite}
-          />
-        ) : (
-          <Cat className="w-full h-full" />
-        )}
-      </button>
+        >
+          {hasBuddyPokemon ? (
+            <img
+              className="pixelated object-contain absolute"
+              src={gameState.buddyPokemon?.sprite}
+            />
+          ) : (
+            <Cat className="w-full h-full" />
+          )}
+        </button>
+      </Link>
       <p className="pixelated-font absolute bottom-1 left-1/2 -translate-x-1/2 text-white shadow-md text-xs">
         {(typeAdvantage * 100).toFixed(0)}%
       </p>

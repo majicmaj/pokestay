@@ -29,12 +29,11 @@ const EncounterLog = () => {
   return (
     <div className="h-full flex flex-col">
       <div className="p-4">
-        <h2 className="text-2xl font-bold text-center">Encounters</h2>
         <button
           onClick={() => setFiltersExpanded(!filtersExpanded)}
           className="bg-accent text-accent-content px-2 p-1 rounded-full w-full mt-2"
         >
-          {filtersExpanded ? "Hide Filters" : "Show Filters"}
+          {filtersExpanded ? "Hide Filters" : "Search Logs"}
         </button>
       </div>
       <AnimatePresence>

@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Route, Routes } from "react-router-dom";
 import Background from "./components/Background/Background";
 import MessageBox from "./components/MessageBox/MessageBox";
 import Pokeball from "./components/Pokeball/Pokeball";
@@ -11,17 +11,15 @@ import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { ThemeProvider } from "./hooks/useTheme/ThemeProvider";
 import ThemeButton from "./components/ui/ThemeButton";
 
-const queryClient = new QueryClient();
-
 const App: React.FC = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <LocationProvider>
-          <Main />
-        </LocationProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ThemeProvider>
+      <LocationProvider>
+        <Routes>
+          <Route path="/*" element={<Main />} />
+        </Routes>
+      </LocationProvider>
+    </ThemeProvider>
   );
 };
 
