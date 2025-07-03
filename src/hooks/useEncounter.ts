@@ -100,6 +100,7 @@ export default function useEncounter() {
         status: "caught",
         stardust: extraPoints,
         timestamp: new Date(),
+        location: location || undefined,
       });
       setCatchMessage(
         `${currentPokemon.name} caught! +${extraPoints} stardust`
@@ -116,6 +117,7 @@ export default function useEncounter() {
           status: "fled",
           stardust: 0,
           timestamp: new Date(),
+          location: location || undefined,
         });
         setCatchMessage(`${currentPokemon.name} fled!`);
         setCurrentPokemon(null);
@@ -148,6 +150,7 @@ export default function useEncounter() {
       status: "fled",
       stardust: 0,
       timestamp: new Date(),
+      location: location || undefined,
     });
     setCurrentPokemon(null);
     setTimeout(() => {

@@ -102,6 +102,7 @@ export type EncounterLogEntry = {
   status: "caught" | "fled";
   stardust: number;
   timestamp: Date;
+  location?: LocationData;
 };
 
 export type LocationData = {
