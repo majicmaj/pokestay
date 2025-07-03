@@ -4,16 +4,7 @@ import { cn } from "../../utils/cn";
 import { X } from "lucide-react";
 import useInventory from "../../hooks/useInventory";
 import usePoints from "../../hooks/usePoints";
-
-interface Pokemon {
-  id: number;
-  name: string;
-  cp: number;
-  sprite: string;
-  types: string[];
-  isShiny: boolean;
-  stats: { level: number };
-}
+import { Pokemon } from "../../types";
 
 interface PokemonGridProps {
   pokemonList: Pokemon[];

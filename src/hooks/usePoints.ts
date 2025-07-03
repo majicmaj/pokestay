@@ -8,7 +8,7 @@ const usePoints = () => {
     Number(gameState?.points) || 0
   );
 
-  return [points, setPoints];
+  return [points, setPoints] as [number, (newPoints: number) => void];
 };
 
 export default usePoints;

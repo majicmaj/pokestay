@@ -1,3 +1,4 @@
+import { Pokemon } from "../types";
 import useGameState from "./useGameState";
 import useLocalStorageState from "./useLocalStorageState";
 
@@ -8,7 +9,10 @@ const useInventory = () => {
     gameState?.inventory || []
   );
 
-  return [inventory, setInventory];
+  return [inventory, setInventory] as [
+    Pokemon[],
+    (newInventory: Pokemon[]) => void
+  ];
 };
 
 export default useInventory;

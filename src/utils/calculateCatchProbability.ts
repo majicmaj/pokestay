@@ -36,15 +36,5 @@ export const calculateCatchProbability = (
     buddyModifier *
     catchModifier;
 
-  // console.log({
-  //   catchRate,
-  //   speedModifier,
-  //   levelModifier,
-  //   buddyModifier,
-  //   catchModifier,
-  //   cpModifier,
-  //   finalCatchRate
-  // })
-
   return Math.min(finalCatchRate, 1);
 };

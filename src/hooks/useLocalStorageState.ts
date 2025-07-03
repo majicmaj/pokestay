@@ -1,56 +1,49 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Utility to get the value from local storage
-const getLocalStorageValue = (key: string, defaultValue: any) => {
+const getLocalStorageValue = <T>(key: string, defaultValue: T): T => {
   const stickyValue = window.localStorage.getItem(key);
-  return stickyValue !== null ? JSON.parse(stickyValue) : defaultValue;
+  if (stickyValue) {
+    try {
+      return JSON.parse(stickyValue);
+    } catch (error) {
+      console.error("Error parsing JSON from localStorage", error);
+      return defaultValue;
+    }
+  }
+  return defaultValue;
 };
 
 // Utility to set the value in local storage
-const setLocalStorageValue = (key: string, value: any) => {
+const setLocalStorageValue = <T>(key: string, value: T) => {
   window.localStorage.setItem(key, JSON.stringify(value));
 };
 
 // Custom hook to interact with local storage using React Query
-export const useLocalStorageState = (key: string, defaultValue: any) => {
+export const useLocalStorageState = <T>(key: string, defaultValue: T) => {
   const queryClient = useQueryClient();
-  const existingValue = getLocalStorageValue(key, defaultValue);
 
-  // console.log({
-  //     existingValue,
-  //     key,
-  //     defaultValue
-  // })
-
-  // Query to read the value
-  const query = useQuery({
+  const { data = defaultValue } = useQuery<T>({
     queryKey: [key],
     queryFn: () => getLocalStorageValue(key, defaultValue),
-    initialData: existingValue,
   });
-  const { data } = query;
 
-  // Mutation to update the value
-  const mutation = useMutation({
-    mutationFn: (newValue: any) => {
+  const mutation = useMutation<void, Error, T>({
+    mutationFn: async (newValue: T) => {
       setLocalStorageValue(key, newValue);
-      return newValue;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [key] });
     },
   });
 
-  // Function to update the value and invalidate the query
-  const setValue = (newValue: any) => {
-    mutation.mutate(newValue, {
-      onSuccess: () => {
-        // Invalidate the query to notify all consumers of the update
-        queryClient.invalidateQueries({
-          queryKey: [key],
-        });
-      },
-    });
+  const setValue = (newValue: T | ((val: T) => T)) => {
+    const valueToStore =
+      newValue instanceof Function ? newValue(data) : newValue;
+    mutation.mutate(valueToStore);
   };
 
-  return [data, setValue, query] as const;
+  return [data, setValue] as [T, (newValue: T | ((val: T) => T)) => void];
 };
 
 export default useLocalStorageState;

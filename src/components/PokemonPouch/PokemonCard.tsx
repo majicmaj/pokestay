@@ -1,14 +1,9 @@
 import { Sparkles } from "lucide-react";
+import { Pokemon } from "../../types";
 import { cn } from "../../utils/cn";
 
 interface PokemonCardProps {
-  pokemon: {
-    name: string;
-    cp: number;
-    sprite: string;
-    isShiny: boolean;
-    stats: { level: number };
-  };
+  pokemon: Pokemon;
   isBuddy: boolean;
   onClick: () => void;
   onContextMenu?: (e: React.MouseEvent) => void;
@@ -34,7 +29,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
     >
       <div className="z-10 mb-[-12px] bg-white/80 px-2 rounded-full">
         <span className="text-sm font-medium opacity-60 pr-1">CP</span>
-        <span className="text-xl font-bold">{pokemon.cp}</span>
+        <span className="text-xl font-bold">{pokemon.cp || 0}</span>
       </div>
       <div className="h-full w-full aspect-square flex items-center justify-center">
         <img
