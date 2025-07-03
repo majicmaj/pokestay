@@ -21,7 +21,10 @@ const Header: React.FC<HeaderSectionProps> = ({ inventoryCount, points }) => {
       <div className="flex items-center gap-1">
         <Stardust className="w-6 h-6" />
         {points}
-        <button onClick={toggleTheme} className="ml-4 p-1 rounded-full">
+        <button
+          onClick={toggleTheme}
+          className="absolute right-4 top-2 ml-4 p-1 rounded-full"
+        >
           {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
         </button>
       </div>
