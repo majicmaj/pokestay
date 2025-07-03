@@ -94,3 +94,9 @@ export interface Move {
     url: string;
   };
 }
+
+export type LocationData = {
+  city?: string;
+  state?: string;
+  country?: string;
+};

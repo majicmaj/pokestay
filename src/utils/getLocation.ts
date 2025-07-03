@@ -1,8 +1,4 @@
-type LocationData = {
-  city?: string;
-  state?: string;
-  country?: string;
-};
+import { LocationData } from "../types";
 
 type CachedLocation = {
   latitude: number;

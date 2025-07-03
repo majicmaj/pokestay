@@ -8,6 +8,7 @@ import { sleep } from "../utils/sleep";
 import useCurrentPokemon from "./useCurrentPokemon";
 import useGameState from "./useGameState";
 import useInventory from "./useInventory";
+import { useLocation } from "./useLocation";
 import usePoints from "./usePoints";
 
 export default function useEncounter() {
@@ -15,6 +16,7 @@ export default function useEncounter() {
   const [inventory, setInventory] = useInventory();
   const [currentPokemon, setCurrentPokemon] = useCurrentPokemon();
   const [points, setPoints] = usePoints();
+  const { location } = useLocation();
 
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
@@ -78,12 +80,10 @@ export default function useEncounter() {
       const extraPoints = Math.round(advantage * currentPokemon.points);
 
       // Get location when Pokemon is caught
-      const location = await getLocation();
-
       const caughtPokemon = {
         ...currentPokemon,
         caughtAt: new Date(),
-        caughtLocation: location,
+        caughtLocation: location || undefined,
       };
 
       setPoints(Number(points) + Number(extraPoints));
