@@ -36,8 +36,8 @@ export default function useEncounter() {
     setIsThrowDisabled(true);
 
     const advantage = calculateTypeAdvantage(
-      gameState.buddyPokemon,
-      currentPokemon?.types
+      gameState?.buddyPokemon?.types || [],
+      currentPokemon?.types || []
     );
 
     const advantageMessage =

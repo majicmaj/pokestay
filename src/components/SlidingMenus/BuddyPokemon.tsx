@@ -23,8 +23,8 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
   const buddyPokemon = gameState.buddyPokemon;
 
   const typeAdvantage = calculateTypeAdvantage(
-    buddyPokemon?.types,
-    currentPokemon?.types
+    buddyPokemon?.types || [],
+    currentPokemon?.types || []
   );
 
   const hasBuddyPokemon = Boolean(buddyPokemon?.name);
