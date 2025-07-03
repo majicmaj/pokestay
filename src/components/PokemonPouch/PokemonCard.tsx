@@ -27,10 +27,13 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       onClick={onClick}
       onContextMenu={onContextMenu}
     >
-      <div className="z-10 mb-[-12px] bg-secondary px-2 rounded-full">
-        <span className="text-sm font-medium opacity-60 pr-1">CP</span>
-        <span className="text-xl font-bold">{pokemon.cp || 0}</span>
+      <div className="z-10 bg-secondary px-2 rounded-full text-center">
+        <div>
+          <span className="text-sm font-medium opacity-60 pr-1">CP</span>
+          <span className="text-xl font-bold">{pokemon.cp || 0}</span>
+        </div>
       </div>
+      <div className="text-xs opacity-60">#{pokemon.id}</div>
       <div className="h-full w-full aspect-square flex items-center justify-center">
         <img
           src={pokemon.sprite}
