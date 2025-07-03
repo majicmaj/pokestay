@@ -4,7 +4,7 @@ import MessageBox from "./components/MessageBox/MessageBox";
 import Pokeball from "./components/Pokeball/Pokeball";
 import Pokemon from "./components/Pokemon/Pokemon";
 import SlidingMenus from "./components/SlidingMenus/SlidingMenus";
-import { LocationProvider } from "./context/LocationProvider";
+import LocationProvider from "./context/LocationProvider";
 import useCurrentPokemon from "./hooks/useCurrentPokemon";
 import useEncounter from "./hooks/useEncounter";
 import useGetInitalPokemon from "./hooks/useGetInitalPokemon";

@@ -1,23 +1,14 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
-import { LocationData } from "../types";
+import { ReactNode, useEffect, useState } from "react";
 import { getLocation } from "../utils/getLocation";
-
-type LocationContextType = {
-  location: LocationData | null;
-  loading: boolean;
-};
-
-export const LocationContext = createContext<LocationContextType>({
-  location: null,
-  loading: true,
-});
+import { LocationContext, LocationContextType } from "./LocationContext";
 
 type LocationProviderProps = {
   children: ReactNode;
 };
 
-export const LocationProvider = ({ children }: LocationProviderProps) => {
-  const [location, setLocation] = useState<LocationData | null>(null);
+const LocationProvider = ({ children }: LocationProviderProps) => {
+  const [location, setLocation] =
+    useState<LocationContextType["location"]>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,3 +34,5 @@ export const LocationProvider = ({ children }: LocationProviderProps) => {
     </LocationContext.Provider>
   );
 };
+
+export default LocationProvider;
