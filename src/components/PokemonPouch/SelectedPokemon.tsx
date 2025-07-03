@@ -198,9 +198,9 @@ const SelectedPokemon = ({
   };
 
   return (
-    <div className="absolute w-full h-full bg-black/50 backdrop-blur-sm z-20 left-0 top-0 flex justify-center items-center">
-      <div className="relative w-full max-w-4xl max-h-[90vh] p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full overflow-y-auto">
+    <div className="z-20 bg-black/50 backdrop-blur-sm absolute left-0 right-0 top-0 bottom-0 overflow-y-auto">
+      <div className="relative w-full max-w-4xl p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Left Column */}
           <Header
             pokemon={pokemon}
@@ -232,7 +232,7 @@ const SelectedPokemon = ({
           </div>
         </div>
         <button
-          className="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-accent p-3 text-accent-content border-2 border-accent-content shadow-lg transition-transform active:scale-95"
+          className="sticky bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-accent p-2 text-accent-content border-2 border-accent-content shadow-lg transition-transform active:scale-95"
           onClick={() => setCurrentIndex(null)}
         >
           <X className="h-6 w-6" />
