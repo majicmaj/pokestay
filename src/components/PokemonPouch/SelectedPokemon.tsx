@@ -13,6 +13,7 @@ import Header from "./SelectedPokemon/Header";
 import Info from "./SelectedPokemon/Info";
 import SpriteSwitcher from "./SelectedPokemon/SpriteSwitcher";
 import Stats from "./SelectedPokemon/Stats";
+import Transfer from "./SelectedPokemon/Transfer";
 
 const SelectedPokemon = ({
   pokemon,
@@ -208,6 +209,7 @@ const SelectedPokemon = ({
             handleMakeBuddy={handleMakeBuddy}
             handleRemoveBuddy={handleRemoveBuddy}
             setPokemon={setPokemon}
+            onClose={() => setCurrentIndex(null)}
           />
 
           {/* Right Column */}
@@ -221,13 +223,16 @@ const SelectedPokemon = ({
               evolve={evolve}
               canEvolve={canEvolve}
               evolutionCost={evolutionCost}
-              transferPokemon={transferPokemon}
-              transferStardust={transferStardust}
             />
             <Info pokemon={pokemon} />
             <SpriteSwitcher
               set3dSprite={set3dSprite}
               set2dSprite={set2dSprite}
+              currentSprite={pokemon.sprite.includes("gen5") ? "2d" : "3d"}
+            />
+            <Transfer
+              transferPokemon={transferPokemon}
+              transferStardust={transferStardust}
             />
           </div>
         </div>

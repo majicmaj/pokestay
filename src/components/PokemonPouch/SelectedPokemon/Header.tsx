@@ -1,4 +1,4 @@
-import { Gem, Sparkles, UserRoundCheck, UserRoundPlus } from "lucide-react";
+import { Gem, Sparkles, UserRoundCheck, UserRoundPlus, X } from "lucide-react";
 import React, { useState } from "react";
 import { Pokemon } from "../../../types";
 import { LEGENDARY_POKEMON_IDS } from "../../../constants/legendaryPokemonIds";
@@ -11,6 +11,7 @@ interface HeaderProps {
   handleMakeBuddy: () => void;
   handleRemoveBuddy: () => void;
   setPokemon: (pokemon: Pokemon) => void;
+  onClose: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -19,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({
   handleMakeBuddy,
   handleRemoveBuddy,
   setPokemon,
+  onClose,
 }) => {
   const isLegendary = LEGENDARY_POKEMON_IDS.includes(pokemon.id);
   const [isEditing, setIsEditing] = useState(false);
@@ -38,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div
       className={cn(
-        "relative w-full flex flex-col items-center p-4 rounded-xl shadow-lg text-white"
+        "relative w-full flex flex-col items-center p-4 pb-0 rounded-xl text-white"
       )}
     >
       <img
@@ -87,8 +89,8 @@ const Header: React.FC<HeaderProps> = ({
         onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy}
         className={`absolute top-4 right-4 justify-center rounded-full text-xl gap-2 flex items-center p-2 transition-colors active:scale-110 ${
           isBuddyPokemon
-            ? "bg-white/30 text-white"
-            : "bg-black/20 text-white/70"
+            ? "bg-accent text-accent-content"
+            : "bg-black/20 text-white"
         }`}
       >
         {isBuddyPokemon ? (
@@ -96,6 +98,12 @@ const Header: React.FC<HeaderProps> = ({
         ) : (
           <UserRoundPlus size={24} />
         )}
+      </button>
+      <button
+        onClick={onClose}
+        className="absolute top-4 left-4 bg-black/20 justify-center rounded-full text-xl gap-2 flex items-center p-2 transition-colors active:scale-110"
+      >
+        <X size={24} />
       </button>
     </div>
   );
