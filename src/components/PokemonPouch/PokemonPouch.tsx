@@ -8,6 +8,7 @@ import HeaderSection from "./Header";
 import PokemonGrid from "./PokemonGrid";
 import SelectedPokemon from "./SelectedPokemon";
 import FilterControls from "./FilterControls";
+import { AnimatePresence, motion } from "framer-motion";
 
 const PokemonPouch: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
@@ -80,27 +81,38 @@ const PokemonPouch: React.FC = () => {
             </button>
           </div>
         )}
-        {expanded && (
-          <div className="w-full">
-            <HeaderSection inventoryCount={inventory.length} points={points} />
-            <FilterControls
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              sortDirection={sortDirection}
-              setSortDirection={setSortDirection}
-              allTypes={allTypes}
-              selectedTypes={selectedTypes}
-              toggleTypeFilter={toggleTypeFilter}
-              setSelectedTypes={setSelectedTypes}
-              allLocations={allLocations}
-              selectedLocation={selectedLocation}
-              setSelectedLocation={setSelectedLocation}
-              onClose={() => setExpanded(false)}
-            />
-          </div>
-        )}
+        <AnimatePresence>
+          {expanded && (
+            <motion.div
+              className="w-full"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <HeaderSection
+                inventoryCount={inventory.length}
+                points={points}
+              />
+              <FilterControls
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                sortDirection={sortDirection}
+                setSortDirection={setSortDirection}
+                allTypes={allTypes}
+                selectedTypes={selectedTypes}
+                toggleTypeFilter={toggleTypeFilter}
+                setSelectedTypes={setSelectedTypes}
+                allLocations={allLocations}
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+                onClose={() => setExpanded(false)}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <PokemonGrid
           pokemonList={filteredPokemon}

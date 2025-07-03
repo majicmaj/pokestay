@@ -9,6 +9,7 @@ import useCurrentPokemon from "./hooks/useCurrentPokemon";
 import useEncounter from "./hooks/useEncounter";
 import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { ThemeProvider } from "./hooks/useTheme/ThemeProvider";
+import ThemeButton from "./components/ui/ThemeButton";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const Main: React.FC = () => {
   return (
     <div className="max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-background text-content">
       <Background currentPokemon={currentPokemon} />
+      <ThemeButton />
       <Pokemon
         pokemonState={pokemonState}
         isPokeballDisabled={isThrowDisabled}

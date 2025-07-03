@@ -90,7 +90,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 onClick={() => toggleTypeFilter(type)}
                 className={`min-w-max border rounded-full ${
                   selectedTypes.includes(type)
-                    ? "border-lime-500 opacity-100"
+                    ? "border-accent"
                     : "border-transparent opacity-70"
                 }`}
               >
@@ -115,7 +115,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                   onClick={() => setSelectedLocation(location)}
                   className={`min-w-max px-2 py-1 rounded-full text-xs ${
                     selectedLocation === location
-                      ? "bg-blue-300 text-blue-800"
+                      ? "bg-accent text-accent-content"
                       : "bg-secondary"
                   }`}
                 >

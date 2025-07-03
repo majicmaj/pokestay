@@ -22,7 +22,7 @@ const Background = ({
   const particleOptions = getBackgroundParticles(pokemonType);
 
   return (
-    <div className="absolute h-screen w-screen overflow-hidden">
+    <div className="opacity-90 dark:opacity-70 absolute h-screen w-screen overflow-hidden">
       {/* Background gradients */}
       <div className={`${bgColor} h-1/2 top-0 w-full absolute`} />
       <div
