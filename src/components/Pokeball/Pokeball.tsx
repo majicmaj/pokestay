@@ -141,13 +141,13 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   return (
     <div
       ref={containerRef}
-      className={`mb-8 w-32 h-32 ${
+      className={`mb-8 size-24 ${
         disabled ? "cursor-not-allowed opacity-50" : "cursor-grab"
       }`}
     >
       <div
         ref={ballRef}
-        className={`w-32 h-32 rounded-full overflow-hidden relative
+        className={`size-24 rounded-full overflow-hidden relative
           ${
             isDragging && !disabled
               ? "cursor-grabbing"
@@ -172,10 +172,10 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           className={`absolute bottom-0 left-0 right-0 h-1/2 ${colors[type].bottom}`}
         ></div>
         {/* Center band */}
-        <div className="absolute w-full h-3 bg-gray-800 top-1/2 -translate-y-1/2"></div>
+        <div className="absolute w-full h-2 bg-gray-800 top-1/2 -translate-y-1/2" />
         {/* Center button */}
-        <div className="absolute w-12 h-12 rounded-full bg-white border-8 border-gray-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="absolute w-5 h-5 rounded-full bg-gray-200 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute size-8 rounded-full border-[6px] border-gray-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute size-full rounded-full bg-gray-300 border-[5px] border-gray-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         </div>
       </div>
     </div>
