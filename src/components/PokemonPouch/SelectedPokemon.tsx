@@ -196,13 +196,13 @@ const SelectedPokemon = ({
   const isLegendary = LEGENDARY_POKEMON_IDS.includes(pokemon.id);
 
   return (
-    <div className="absolute w-full h-full border bg-black/10 backdrop-blur-md z-20 left-0 dark:bg-black/50">
+    <div className="absolute w-full h-full border bg-black/10 backdrop-blur-md z-20 left-0">
       <div className="flex justify-center items-center">
         <div className="h-screen w-screen overflow-auto top-0 flex px-2 flex-col gap-4 items-center">
-          <div className="relative top-[200px] bottom-0 grid h-full min-h-max rounded-t-xl w-full bg-white dark:bg-gray-800 drop-shadow-xl dark:bg-dark-primary">
+          <div className="relative top-[200px] bottom-0 grid h-full min-h-max rounded-t-xl w-full bg-primary drop-shadow-xl">
             <div className="relative top-[-200px] bottom-0 h-full w-full flex flex-col min-h-max items-center gap-4 overflow-x-auto px-2">
               <div className="relative max-w-96 w-full flex py-8 mb-[-32px] max-h-96 aspect-square flex-col justify-between items-center">
-                <div className="relative z-10 text-teal-800 bg-white/80 dark:bg-gray-800/80px-2 rounded-full dark:bg-dark-secondary dark:text-lime-200">
+                <div className="relative z-10 text-accent-content bg-secondary px-2 rounded-full">
                   <span className="text-sm font-medium opacity-60 pr-1">
                     CP
                   </span>
@@ -214,7 +214,7 @@ const SelectedPokemon = ({
                   className="animate-bounce-slow pixelated absolute p-24 bottom-0 aspect-square size-96 min-w-96 object-contain"
                 />
                 <div className="relative flex items-center flex-col">
-                  <div className="font-semibold text-3xl mt-[-16px] flex items-center bg-white/80 dark:bg-gray-800/80 px-2 rounded-full dark:bg-dark-secondary">
+                  <div className="font-semibold text-3xl mt-[-16px] flex items-center bg-secondary px-2 rounded-full">
                     {pokemon.isShiny && <Sparkles className="w-8" />}
                     {isLegendary && <Gem />}
 
@@ -225,8 +225,8 @@ const SelectedPokemon = ({
                       }
                       className={`ml-2 justify-center rounded-full text-xl border gap-2 flex items-center p-1 transition-colors active:scale-110 ${
                         isBuddyPokemon
-                          ? "bg-lime-200 border-lime-300 bg-gradient-to-r from-lime-200 to-teal-200 drop-shadow-lg"
-                          : "border-teal-800 bg-lime-100/50 drop-shadow-none"
+                          ? "bg-accent border-lime-300 bg-gradient-to-r from-lime-200 to-teal-200 drop-shadow-lg"
+                          : "border-accent-content bg-accent/50 drop-shadow-none"
                       }`}
                     >
                       {isBuddyPokemon ? <UserRoundCheck /> : <UserRoundPlus />}
@@ -245,7 +245,7 @@ const SelectedPokemon = ({
                   </div>
                 ))}
               </div>
-              <div className="border-b-2 border-zinc-300 w-full dark:border-zinc-600" />
+              <div className="border-b-2 border-zinc-300 w-full" />
               <div className="grid grid-cols-3 place-items-center gap-4 px-2 pb-4 w-full">
                 <div className="grid place-items-center">
                   <p className="font-bold text-md">{pokemon.stats.attack}</p>

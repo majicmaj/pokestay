@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 147 197 253; /* blue-300 */
+    --content: 31 41 55; /* gray-800 */
+    --primary: 255 255 255; /* white */
+    --secondary: 243 244 246; /* gray-100 */
+    --accent: 217 249 157; /* lime-200 */
+    --accent-content: 13 148 136; /* teal-700 */
+  }
+
+  .dark {
+    --background: 26 26 26; /* #1a1a1a */
+    --content: 255 255 255; /* white */
+    --primary: 42 42 42; /* #2a2a2a */
+    --secondary: 58 58 58; /* #3a3a3a */
+    --accent: 163 230 53; /* lime-500 */
+    --accent-content: 236 252 203; /* lime-100 */
+  }
+}
+
 @keyframes pokemon-shrink {
   0% {
     transform: translate(0, 0) scale(1);

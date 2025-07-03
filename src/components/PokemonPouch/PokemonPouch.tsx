@@ -80,12 +80,12 @@ const PokemonPouch: React.FC = () => {
           setCurrentIndex={setCurrentIndex}
         />
       )}
-      <div className="h-screen overflow-auto flex flex-col items-center dark:bg-dark-secondary">
+      <div className="h-screen overflow-auto flex flex-col items-center bg-secondary">
         {!expanded && (
           <div className="p-4 w-full" id="search-and-sort">
             <button
               onClick={() => setExpanded(true)}
-              className="bg-lime-200 text-teal-700 px-2 p-1 rounded-full w-full dark:bg-lime-800 dark:text-lime-200"
+              className="bg-accent text-accent-content px-2 p-1 rounded-full w-full"
             >
               Search Pokemon
             </button>

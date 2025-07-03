@@ -8,7 +8,6 @@ import useCurrentPokemon from "./hooks/useCurrentPokemon";
 import useEncounter from "./hooks/useEncounter";
 import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { ThemeProvider } from "./hooks/useTheme/ThemeProvider";
-import React from "react";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +35,7 @@ const Main: React.FC = () => {
   useGetInitalPokemon();
 
   return (
-    <div className="max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-blue-300 dark:bg-dark-background dark:text-dark-text">
+    <div className="text-content max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-background text-content">
       <Background currentPokemon={currentPokemon} />
       <Pokemon
         pokemonState={pokemonState}

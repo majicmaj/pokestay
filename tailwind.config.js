@@ -5,12 +5,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark: {
-          background: "#1a1a1a",
-          text: "#ffffff",
-          primary: "#2a2a2a",
-          secondary: "#3a3a3a",
-        },
+        background: "rgb(var(--background) / <alpha-value>)",
+        content: "rgb(var(--content) / <alpha-value>)",
+        primary: "rgb(var(--primary) / <alpha-value>)",
+        secondary: "rgb(var(--secondary) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
+        "accent-content": "rgb(var(--accent-content) / <alpha-value>)",
       },
     },
   },

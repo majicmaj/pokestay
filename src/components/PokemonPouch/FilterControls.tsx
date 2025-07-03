@@ -37,12 +37,12 @@ const FilterControls: React.FC<FilterControlsProps> = ({
   const sortOptions: SortBy[] = ["cp", "level", "name", "id", "recent"];
 
   return (
-    <div className="w-full p-4 flex flex-col gap-4 bg-gray-100 rounded-b-xl dark:bg-dark-primary">
+    <div className="w-full p-4 flex flex-col gap-4 bg-primary rounded-b-xl">
       <input
         value={searchTerm}
         autoFocus
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="px-3 py-2 bg-white dark:bg-gray-800 w-full rounded-full border border-gray-300 dark:bg-dark-secondary dark:border-gray-600 dark:text-white"
+        className="px-3 py-2 bg-secondary w-full rounded-full border border-gray-300"
         placeholder="Search Pokemon by name or type"
       />
       <div className="flex w-full gap-2 text-sm items-center">
@@ -52,8 +52,8 @@ const FilterControls: React.FC<FilterControlsProps> = ({
             key={option}
             className={`px-2 py-1 rounded-full ${
               sortBy === option
-                ? "bg-lime-300 text-lime-800"
-                : "bg-gray-200 dark:bg-dark-secondary"
+                ? "bg-accent text-accent-content"
+                : "bg-secondary"
             }`}
             onClick={() => setSortBy(option)}
           >
@@ -64,7 +64,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
           onClick={() =>
             setSortDirection(sortDirection === "asc" ? "desc" : "asc")
           }
-          className="p-1 rounded-full bg-gray-200 dark:bg-dark-secondary"
+          className="p-1 rounded-full bg-secondary"
         >
           {sortDirection === "asc" ? (
             <ArrowUp size={16} />
@@ -91,7 +91,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 className={`border rounded-full ${
                   selectedTypes.includes(type)
                     ? "border-lime-500 opacity-100"
-                    : "border-transparent opacity-70 dark:opacity-50"
+                    : "border-transparent opacity-70"
                 }`}
               >
                 <TypeBadge type={type} />
@@ -117,7 +117,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                   className={`px-2 py-1 rounded-full text-xs ${
                     selectedLocation === location
                       ? "bg-blue-300 text-blue-800"
-                      : "bg-gray-200 dark:bg-dark-secondary"
+                      : "bg-secondary"
                   }`}
                 >
                   {location}
