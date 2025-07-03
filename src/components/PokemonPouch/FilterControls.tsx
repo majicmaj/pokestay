@@ -42,7 +42,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
         value={searchTerm}
         autoFocus
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="px-3 py-2 bg-secondary w-full rounded-full border border-gray-300"
+        className="px-3 py-2 bg-secondary w-full rounded-full border border-border"
         placeholder="Search Pokemon by name or type"
       />
       <div className="flex w-full gap-2 text-sm items-center">

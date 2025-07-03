@@ -83,7 +83,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
   return (
     <div className="grid max-w-[900px] px-4 pb-24 pt-4 gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
       {bulkSelectEnabled && (
-        <div className="flex gap-2 justify-center items-center col-span-full text-center text-sm text-gray-500 text-content">
+        <div className="flex gap-2 justify-center items-center col-span-full text-center text-sm text-content text-content">
           <X
             className="inline cursor-pointer mr-2"
             onClick={() => {

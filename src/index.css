@@ -10,6 +10,10 @@
     --secondary: 243 244 246; /* gray-100 */
     --accent: 217 249 157; /* lime-200 */
     --accent-content: 13 148 136; /* teal-700 */
+    --danger: 239 68 68; /* red-500 */
+    --link: 20 184 166; /* teal-500 */
+    --divider: 212 212 216; /* zinc-300 */
+    --border: 212 212 216; /* zinc-300 */
   }
 
   .dark {
@@ -19,6 +23,10 @@
     --secondary: 58 58 58; /* #3a3a3a */
     --accent: 163 230 53; /* lime-500 */
     --accent-content: 236 252 203; /* lime-100 */
+    --danger: 248 113 113; /* red-400 */
+    --link: 94 234 212; /* teal-300 */
+    --divider: 82 82 91; /* zinc-600 */
+    --border: 82 82 91; /* zinc-600 */
   }
 }
 
