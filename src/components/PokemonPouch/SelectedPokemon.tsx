@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import useCanEvolve from "../../hooks/useCanEvolve";
 import useGameState from "../../hooks/useGameState";
 import useInventory from "../../hooks/useInventory";
@@ -18,11 +18,13 @@ import Transfer from "./SelectedPokemon/Transfer";
 const SelectedPokemon = ({
   pokemon,
   pokemonList,
-  setCurrentUuid,
+  onClose,
+  onNavigate,
 }: {
   pokemon: Pokemon;
   pokemonList: Pokemon[];
-  setCurrentUuid: Dispatch<SetStateAction<string | null>>;
+  onClose: () => void;
+  onNavigate: (uuid: string) => void;
 }) => {
   const [gameState, setGameState] = useGameState();
   const canPokemonEvolve = useCanEvolve(pokemon);
@@ -65,7 +67,7 @@ const SelectedPokemon = ({
       return;
     }
     setDirection(newDirection);
-    setCurrentUuid(pokemonList[newIndex].uuid as string);
+    onNavigate(pokemonList[newIndex].uuid as string);
   };
 
   const setPokemon = (updatedPokemon: Pokemon) => {
@@ -151,7 +153,7 @@ const SelectedPokemon = ({
       buddyPokemon: evolvedPokemon,
     });
 
-    setCurrentUuid(null);
+    onClose();
   };
 
   const baseTransferStardust = 100;
@@ -170,7 +172,7 @@ const SelectedPokemon = ({
       ...gameState,
     });
 
-    setCurrentUuid(null);
+    onClose();
   };
 
   const set3dSprite = async () => {
@@ -275,7 +277,7 @@ const SelectedPokemon = ({
               handleMakeBuddy={handleMakeBuddy}
               handleRemoveBuddy={handleRemoveBuddy}
               setPokemon={setPokemon}
-              onClose={() => setCurrentUuid(null)}
+              onClose={onClose}
             />
 
             {/* Right Column */}

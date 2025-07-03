@@ -103,6 +103,7 @@ export type EncounterLogEntry = {
   stardust: number;
   timestamp: Date;
   location?: LocationData;
+  pokemonUuid?: string;
 };
 
 export type LocationData = {

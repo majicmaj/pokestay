@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import useGameState from "../../hooks/useGameState";
-import { usePokemonSortAndFilter } from "../../hooks/usePokemonSortAndFilter";
 import useInventory from "../../hooks/useInventory";
 import usePoints from "../../hooks/usePoints";
+import { usePokemonSortAndFilter } from "../../hooks/usePokemonSortAndFilter";
 import { Pokemon } from "../../types";
+import FilterControls from "./FilterControls";
 import HeaderSection from "./Header";
 import PokemonGrid from "./PokemonGrid";
 import SelectedPokemon from "./SelectedPokemon";
-import FilterControls from "./FilterControls";
 
 const PokemonPouch: React.FC = () => {
-  const [selectedPokemonUuid, setSelectedPokemonUuid] = useState<string | null>(
-    null
-  );
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const selectedPokemonUuid = location.pathname.split("/")[2] || null;
 
   const [gameState] = useGameState();
   const { buddyPokemon } = gameState || {};
@@ -52,10 +54,7 @@ const PokemonPouch: React.FC = () => {
 
   const buddyIndex = React.useMemo(() => {
     if (!buddyPokemon) return -1;
-    return filteredPokemon.findIndex(
-      (p) =>
-        p.id === buddyPokemon.id && p.stats.level === buddyPokemon.stats.level
-    );
+    return filteredPokemon.findIndex((p) => p.uuid === buddyPokemon.uuid);
   }, [filteredPokemon, buddyPokemon]);
 
   const selectedPokemon = filteredPokemon.find(
@@ -68,7 +67,8 @@ const PokemonPouch: React.FC = () => {
         <SelectedPokemon
           pokemon={selectedPokemon}
           pokemonList={filteredPokemon}
-          setCurrentUuid={setSelectedPokemonUuid}
+          onClose={() => navigate("/pouch")}
+          onNavigate={(uuid) => navigate(`/pouch/${uuid}`, { replace: true })}
         />
       )}
       <div className="h-screen overflow-auto flex flex-col items-center bg-secondary">
@@ -92,7 +92,7 @@ const PokemonPouch: React.FC = () => {
         <PokemonGrid
           pokemonList={filteredPokemon}
           buddyIndex={buddyIndex}
-          onPokemonSelect={setSelectedPokemonUuid}
+          onPokemonSelect={(uuid) => navigate(`/pouch/${uuid}`)}
         />
       </div>
     </>

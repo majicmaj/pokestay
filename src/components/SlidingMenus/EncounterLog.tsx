@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import useEncounterLog from "../../hooks/useEncounterLog";
 import { useEncounterLogSortAndFilter } from "../../hooks/useEncounterLogSortAndFilter";
 import EncounterLogFilterControls from "./EncounterLogFilterControls";
@@ -82,6 +83,14 @@ const EncounterLog = () => {
                   )}
                   {entry.location?.city && (
                     <p className="text-sm">Location: {entry.location.city}</p>
+                  )}
+                  {entry.pokemonUuid && (
+                    <Link
+                      to={`/pouch/${entry.pokemonUuid}`}
+                      className="text-blue-500 hover:underline"
+                    >
+                      View in Pouch
+                    </Link>
                   )}
                 </div>
                 <p className="text-xs text-gray-400">
