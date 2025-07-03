@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback } from "react";
 import { Particles } from "react-tsparticles";
 import { Engine } from "tsparticles-engine";
@@ -56,6 +57,7 @@ const Background = ({
 }) => {
   const bgColor = getBackgroundColor(currentPokemon);
   const pokemonType = currentPokemon?.types?.[0];
+  const bgSrc = getBg(pokemonType ?? "default");
 
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine); // This ensures all plugins are loaded
@@ -70,10 +72,17 @@ const Background = ({
       <div
         className={`bg-gradient-to-b top-0 absolute from-sky-200/90 to-blue-300/90 dark:from-sky-800/90 dark:to-blue-900/90 h-1/2 w-full`}
       />
-      <img
-        className="absolute pixelated w-full h-full object-cover"
-        src={getBg(pokemonType ?? "default")}
-      />
+      <AnimatePresence>
+        <motion.img
+          key={bgSrc}
+          className="absolute pixelated w-full h-full object-cover"
+          src={bgSrc}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+        />
+      </AnimatePresence>
       <div
         className={`mix-blend-hue transition-colors top-[47%] h-full w-full absolute opacity-10 ${bgColor} `}
       />
