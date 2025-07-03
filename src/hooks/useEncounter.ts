@@ -5,6 +5,7 @@ import { calculateTypeAdvantage } from "../utils/calculateTypeAdvantage";
 import { getRandomPokemon } from "../utils/getRandomPokemon";
 import { sleep } from "../utils/sleep";
 import useCurrentPokemon from "./useCurrentPokemon";
+import useEncounterLog from "./useEncounterLog";
 import useGameState from "./useGameState";
 import useInventory from "./useInventory";
 import { useLocation } from "./useLocation";
@@ -16,6 +17,8 @@ export default function useEncounter() {
   const [currentPokemon, setCurrentPokemon] = useCurrentPokemon();
   const [points, setPoints] = usePoints();
   const { location } = useLocation();
+  const { addEntry: addLogEntry } = useEncounterLog();
+  const [throwCount, setThrowCount] = useState(0);
 
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
@@ -25,6 +28,7 @@ export default function useEncounter() {
     const newPokemon = await getRandomPokemon();
     setCurrentPokemon(newPokemon);
     setPokemonState("idle");
+    setThrowCount(0);
     setCatchMessage(`A wild ${newPokemon.name} has appeared!`);
     setTimeout(() => {
       setCatchMessage(null);
@@ -35,6 +39,7 @@ export default function useEncounter() {
     if (isThrowDisabled || !currentPokemon) return;
     if (throwSpeed > 7) return setCatchMessage("Too far!");
     setIsThrowDisabled(true);
+    setThrowCount(throwCount + 1);
 
     const advantage = calculateTypeAdvantage(
       gameState?.buddyPokemon?.types || [],
@@ -88,6 +93,14 @@ export default function useEncounter() {
       setPoints(Number(points) + Number(extraPoints));
       setInventory([...inventory, caughtPokemon]);
 
+      addLogEntry({
+        pokemonName: currentPokemon.name,
+        pokemonSprite: currentPokemon.sprite,
+        throws: throwCount,
+        status: "caught",
+        stardust: extraPoints,
+        timestamp: new Date(),
+      });
       setCatchMessage(
         `${currentPokemon.name} caught! +${extraPoints} stardust`
       );
@@ -96,6 +109,14 @@ export default function useEncounter() {
     } else {
       if (flees) {
         setPokemonState("fled");
+        addLogEntry({
+          pokemonName: currentPokemon.name,
+          pokemonSprite: currentPokemon.sprite,
+          throws: throwCount,
+          status: "fled",
+          stardust: 0,
+          timestamp: new Date(),
+        });
         setCatchMessage(`${currentPokemon.name} fled!`);
         setCurrentPokemon(null);
         await sleep(Math.random() * 2000 + 1000);
@@ -117,8 +138,17 @@ export default function useEncounter() {
   };
 
   const handleFlee = async () => {
+    if (!currentPokemon) return;
     setPokemonState("fled");
     setCatchMessage(`You have fled!`);
+    addLogEntry({
+      pokemonName: currentPokemon.name,
+      pokemonSprite: currentPokemon.sprite,
+      throws: throwCount,
+      status: "fled",
+      stardust: 0,
+      timestamp: new Date(),
+    });
     setCurrentPokemon(null);
     setTimeout(() => {
       setCatchMessage(null);

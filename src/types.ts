@@ -78,7 +78,7 @@ export interface GameState {
   currentPokemon: WildPokemonState | null;
 }
 
-export type Menus = "none" | "pokedex" | "inventory" | "shop";
+export type Menus = "none" | "buddy" | "pouch" | "log";
 export type PokemonState = "idle" | "caught" | "fled";
 export type Pokeball = "pokeball" | "greatball" | "ultraball" | "masterball";
 
@@ -94,6 +94,15 @@ export interface Move {
     url: string;
   };
 }
+
+export type EncounterLogEntry = {
+  pokemonName: string;
+  pokemonSprite: string;
+  throws: number;
+  status: "caught" | "fled";
+  stardust: number;
+  timestamp: Date;
+};
 
 export type LocationData = {
   city?: string;

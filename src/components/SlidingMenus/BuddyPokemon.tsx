@@ -35,7 +35,7 @@ const BuddyPokemon = ({ activeMenu, toggleMenu }: BuddyPokemonProps) => {
   return (
     <div className="fixed bottom-6 right-6 flex flex-col gap-4 items-end z-30">
       <button
-        onClick={() => toggleMenu("inventory")}
+        onClick={() => toggleMenu("pouch")}
         className={`relative grid place-items-center h-14 w-14 p-4 rounded-full shadow-lg transition-all border-2 ${
           activeMenu === "inventory"
             ? "bg-blue-500 text-white"
