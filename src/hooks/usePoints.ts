@@ -3,7 +3,7 @@ import useLocalStorageState from "./useLocalStorageState";
 
 const usePoints = () => {
   const [gameState] = useGameState();
-  const [points, setPoints] = useLocalStorageState(
+  const [points, setPoints] = useLocalStorageState<number>(
     "points",
     Number(gameState?.points) || 0
   );

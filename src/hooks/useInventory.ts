@@ -4,7 +4,7 @@ import useLocalStorageState from "./useLocalStorageState";
 
 const useInventory = () => {
   const [gameState] = useGameState();
-  const [inventory, setInventory] = useLocalStorageState(
+  const [inventory, setInventory] = useLocalStorageState<Pokemon[]>(
     "inventory",
     gameState?.inventory || []
   );

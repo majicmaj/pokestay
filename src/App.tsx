@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Background from "./components/Background/Background";
 import MessageBox from "./components/MessageBox/MessageBox";
 import Pokeball from "./components/Pokeball/Pokeball";
@@ -6,8 +7,22 @@ import SlidingMenus from "./components/SlidingMenus/SlidingMenus";
 import useCurrentPokemon from "./hooks/useCurrentPokemon";
 import useEncounter from "./hooks/useEncounter";
 import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
+import { ThemeProvider } from "./hooks/useTheme/ThemeProvider";
+import React from "react";
 
-function App() {
+const queryClient = new QueryClient();
+
+const App: React.FC = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <Main />
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
+
+const Main: React.FC = () => {
   const [currentPokemon] = useCurrentPokemon();
 
   const {
@@ -21,7 +36,7 @@ function App() {
   useGetInitalPokemon();
 
   return (
-    <div className="max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none">
+    <div className="max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-blue-300 dark:bg-dark-background dark:text-dark-text">
       <Background currentPokemon={currentPokemon} />
       <Pokemon
         pokemonState={pokemonState}
@@ -37,6 +52,6 @@ function App() {
       <SlidingMenus handleFlee={handleFlee} />
     </div>
   );
-}
+};
 
 export default App;

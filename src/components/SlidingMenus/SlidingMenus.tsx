@@ -33,7 +33,7 @@ const SlidingMenus = ({ handleFlee }: { handleFlee: () => void }) => {
             : "translate-y-full opacity-0"
         }`}
       >
-        <div className="bg-white h-full w-full text-teal-800">
+        <div className="bg-white dark:bg-gray-800 h-full w-full text-teal-800 dark:bg-dark-primary dark:text-dark-text">
           <button
             className="z-20 absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-teal-600 p-2 text-lime-200 border border-lime-200"
             onClick={() => setActiveMenu("none")}

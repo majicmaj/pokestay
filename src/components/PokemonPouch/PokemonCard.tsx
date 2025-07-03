@@ -20,14 +20,14 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
   return (
     <div
       className={cn(
-        `flex flex-col items-center rounded-lg p-2 cursor-pointer`,
+        `flex flex-col items-center rounded-lg p-2 cursor-pointer dark:bg-dark-primary`,
         isBuddy ? "bg-lime-200/80" : "",
         className
       )}
       onClick={onClick}
       onContextMenu={onContextMenu}
     >
-      <div className="z-10 mb-[-12px] bg-white/80 px-2 rounded-full">
+      <div className="z-10 mb-[-12px] bg-white/80 dark:bg-gray-800/80 px-2 rounded-full dark:bg-dark-secondary">
         <span className="text-sm font-medium opacity-60 pr-1">CP</span>
         <span className="text-xl font-bold">{pokemon.cp || 0}</span>
       </div>
@@ -38,7 +38,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
           className="pixelated w-full h-full aspect-square object-contain p-4"
         />
       </div>
-      <div className="font-semibold mt-[-16px] flex items-center bg-white/80 px-2 rounded-full">
+      <div className="font-semibold mt-[-16px] flex items-center bg-white/80 dark:bg-gray-800/80 px-2 rounded-full dark:bg-dark-secondary">
         {pokemon.isShiny && <Sparkles className="w-4" />}
         {pokemon.name}
       </div>

@@ -1,6 +1,8 @@
 import { INITIAL_STATE } from "../constants";
+import { GameState } from "../types";
 import useLocalStorageState from "./useLocalStorageState";
 
-const useGameState = () =>  useLocalStorageState('gamestate', INITIAL_STATE)
+const useGameState = () =>
+  useLocalStorageState<GameState>("gamestate", INITIAL_STATE);
 
-export default useGameState
+export default useGameState;
