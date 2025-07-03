@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Pokemon } from "../../../types";
 import { LEGENDARY_POKEMON_IDS } from "../../../constants/legendaryPokemonIds";
 import TypeBadge from "../../TypeBadge/TypeBadge";
+import { cn } from "../../../utils/cn";
 
 interface HeaderProps {
   pokemon: Pokemon;
@@ -35,69 +36,68 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <>
-      <div className="relative max-w-96 w-full flex py-8 mb-[-32px] max-h-96 aspect-square flex-col justify-between items-center">
-        <div className="relative z-10 text-accent-content bg-secondary px-2 rounded-full">
-          <span className="text-sm font-medium opacity-60 pr-1">CP</span>
-          <span className="text-4xl">{pokemon.cp}</span>
+    <div
+      className={cn(
+        "relative w-full flex flex-col items-center p-4 rounded-xl shadow-lg text-white"
+      )}
+    >
+      <img
+        src={pokemon.sprite}
+        alt={pokemon.name}
+        className="animate-bounce-slow pixelated w-48 h-48 object-contain drop-shadow-lg"
+      />
+      <div className="relative flex items-center flex-col gap-2">
+        <div className="font-semibold text-3xl flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full">
+          {pokemon.isShiny && <Sparkles className="w-8 h-8 text-yellow-300" />}
+          {isLegendary && <Gem className="w-8 h-8 text-cyan-300" />}
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                onBlur={handleSave}
+                autoFocus
+                className="bg-transparent text-center text-3xl font-semibold w-full"
+              />
+              <button
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={handleReset}
+                className="text-sm text-red-300 hover:underline ml-2"
+              >
+                Reset
+              </button>
+            </>
+          ) : (
+            <span onClick={() => setIsEditing(true)} className="cursor-pointer">
+              {pokemon.display_name}
+            </span>
+          )}
         </div>
-        <img
-          src={pokemon.sprite}
-          alt={pokemon.name}
-          className="animate-bounce-slow pixelated absolute p-24 bottom-0 aspect-square size-96 min-w-96 object-contain"
-        />
-        <div className="relative flex items-center flex-col">
-          <div className="font-semibold text-3xl mt-[-16px] flex items-center bg-secondary px-2 rounded-full">
-            {pokemon.isShiny && <Sparkles className="w-8" />}
-            {isLegendary && <Gem />}
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  onBlur={handleSave}
-                  autoFocus
-                  className="bg-transparent text-center"
-                />
-                <button
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={handleReset}
-                  className="text-sm text-danger hover:underline ml-2"
-                >
-                  Reset
-                </button>
-              </>
-            ) : (
-              <span onClick={() => setIsEditing(true)}>
-                {pokemon.display_name}
-              </span>
-            )}
-            <button
-              onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy}
-              className={`ml-2 justify-center rounded-full text-xl border gap-2 flex items-center p-1 transition-colors active:scale-110 ${
-                isBuddyPokemon
-                  ? "bg-accent border-lime-300 bg-gradient-to-r from-lime-200 to-teal-200 drop-shadow-lg"
-                  : "border-accent-content bg-accent/50 drop-shadow-none"
-              }`}
-            >
-              {isBuddyPokemon ? <UserRoundCheck /> : <UserRoundPlus />}
-            </button>
-          </div>
-          <p className="text-sm">
-            {pokemon.stats.hp} HP / Lv.{pokemon.stats.level}
-          </p>
-        </div>
+        <p className="text-sm bg-black/20 px-2 rounded-full">
+          {pokemon.stats.hp} HP / Lv.{pokemon.stats.level} / CP {pokemon.cp}
+        </p>
       </div>
-      <div className="flex gap-1 rounded-full">
+      <div className="flex gap-2 mt-2">
         {pokemon.types.map((type) => (
-          <div key={type} className="flex flex-col items-center w-24">
-            <TypeBadge key={type} type={type} />
-            <p>{type.slice(0, 1).toUpperCase() + type.slice(1)}</p>
-          </div>
+          <TypeBadge key={type} type={type} />
         ))}
       </div>
-    </>
+      <button
+        onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy}
+        className={`absolute top-4 right-4 justify-center rounded-full text-xl gap-2 flex items-center p-2 transition-colors active:scale-110 ${
+          isBuddyPokemon
+            ? "bg-white/30 text-white"
+            : "bg-black/20 text-white/70"
+        }`}
+      >
+        {isBuddyPokemon ? (
+          <UserRoundCheck size={24} />
+        ) : (
+          <UserRoundPlus size={24} />
+        )}
+      </button>
+    </div>
   );
 };
 

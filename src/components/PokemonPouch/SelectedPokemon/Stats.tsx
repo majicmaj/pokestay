@@ -7,7 +7,7 @@ interface StatsProps {
 
 const Stats: React.FC<StatsProps> = ({ stats }) => {
   return (
-    <div className="grid grid-cols-3 place-items-center gap-4 px-2 pb-4 w-full">
+    <div className="bg-primary p-4 rounded-xl grid grid-cols-3 place-items-center gap-4 px-2 pb-4 w-full">
       <div className="grid place-items-center">
         <p className="font-bold text-md">{stats.attack}</p>
         <p className="opacity-80 text-sm">Attack</p>

@@ -1,6 +1,8 @@
-import { WildPokemonState } from "../types";
+import { Pokemon, WildPokemonState } from "../types";
 
-export const getBackgroundColor = (currentPokemon: WildPokemonState | null) => {
+export const getBackgroundColor = (
+  currentPokemon: WildPokemonState | Pokemon | null
+) => {
   if (!currentPokemon?.types?.[0]) return "bg-nature dark:bg-gray-800";
   const typeColors: Record<string, string> = {
     normal:

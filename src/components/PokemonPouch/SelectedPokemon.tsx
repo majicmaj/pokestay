@@ -198,42 +198,41 @@ const SelectedPokemon = ({
   };
 
   return (
-    <div className="absolute w-full h-full border bg-black/10 backdrop-blur-md z-20 left-0">
-      <div className="flex justify-center items-center">
-        <div className="h-screen w-screen overflow-auto top-0 flex px-2 flex-col gap-4 items-center">
-          <div className="relative top-[200px] bottom-0 grid h-full min-h-max rounded-t-xl w-full bg-primary drop-shadow-xl">
-            <div className="relative top-[-200px] bottom-0 h-full w-full flex flex-col min-h-max items-center gap-4 overflow-x-auto px-2">
-              <Header
-                pokemon={pokemon}
-                isBuddyPokemon={isBuddyPokemon}
-                handleMakeBuddy={handleMakeBuddy}
-                handleRemoveBuddy={handleRemoveBuddy}
-                setPokemon={setPokemon}
-              />
-              <div className="border-b-2 border-divider w-full" />
-              <Stats stats={pokemon.stats} />
-              <Actions
-                levelUp={levelUp}
-                isLevelUpDisabled={isLevelUpDisabled}
-                levelUpCost={levelUpCost}
-                points={points}
-                evolve={evolve}
-                canEvolve={canEvolve}
-                evolutionCost={evolutionCost}
-                transferPokemon={transferPokemon}
-                transferStardust={transferStardust}
-              />
-              <Info pokemon={pokemon} />
-              <div className="border-b-2 border-divider w-full" />
-              <SpriteSwitcher
-                set3dSprite={set3dSprite}
-                set2dSprite={set2dSprite}
-              />
-            </div>
+    <div className="absolute w-full h-full bg-black/50 backdrop-blur-sm z-20 left-0 top-0 flex justify-center items-center">
+      <div className="relative w-full max-w-4xl max-h-[90vh] p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full overflow-y-auto">
+          {/* Left Column */}
+          <Header
+            pokemon={pokemon}
+            isBuddyPokemon={isBuddyPokemon}
+            handleMakeBuddy={handleMakeBuddy}
+            handleRemoveBuddy={handleRemoveBuddy}
+            setPokemon={setPokemon}
+          />
+
+          {/* Right Column */}
+          <div className="flex flex-col gap-4">
+            <Stats stats={pokemon.stats} />
+            <Actions
+              levelUp={levelUp}
+              isLevelUpDisabled={isLevelUpDisabled}
+              levelUpCost={levelUpCost}
+              points={points}
+              evolve={evolve}
+              canEvolve={canEvolve}
+              evolutionCost={evolutionCost}
+              transferPokemon={transferPokemon}
+              transferStardust={transferStardust}
+            />
+            <Info pokemon={pokemon} />
+            <SpriteSwitcher
+              set3dSprite={set3dSprite}
+              set2dSprite={set2dSprite}
+            />
           </div>
         </div>
         <button
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-accent-content p-2 text-accent border border-accent"
+          className="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-accent p-3 text-accent-content border-2 border-accent-content shadow-lg transition-transform active:scale-95"
           onClick={() => setCurrentIndex(null)}
         >
           <X className="h-6 w-6" />
