@@ -15,7 +15,7 @@ const SpriteSwitcher: React.FC<SpriteSwitcherProps> = ({
   return (
     <div className="w-full bg-primary rounded-lg p-4 shadow-md flex flex-col items-center gap-2">
       <h3 className="text-sm text-center mb-2">Sprite Style</h3>
-      <div className="flex items-center justify-center gap-4 w-full">
+      <div className="flex items-center justify-center gap-2 w-full">
         <button
           onClick={set2dSprite}
           className={cn(
