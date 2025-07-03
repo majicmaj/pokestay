@@ -103,14 +103,13 @@ export default function useEncounter() {
       }
     }
 
-    // Clear message after 2 seconds
-    setTimeout(() => {
-      setCatchMessage(null);
-    }, 2000);
-
-    // If Pokémon fled or was caught, spawn a new one
+    // If Pokémon fled or was caught, spawn a new one, otherwise clear message after 2 seconds
     if (caught || flees) {
       await spawnNewPokemon();
+    } else {
+      setTimeout(() => {
+        setCatchMessage(null);
+      }, 2000);
     }
 
     setIsThrowDisabled(false);

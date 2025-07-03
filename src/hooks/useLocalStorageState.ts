@@ -23,27 +23,29 @@ const setLocalStorageValue = <T>(key: string, value: T) => {
 export const useLocalStorageState = <T>(key: string, defaultValue: T) => {
   const queryClient = useQueryClient();
 
-  const { data = defaultValue } = useQuery<T>({
+  const { data } = useQuery<T>({
     queryKey: [key],
     queryFn: () => getLocalStorageValue(key, defaultValue),
+    initialData: () => getLocalStorageValue(key, defaultValue),
+    staleTime: Infinity,
   });
 
   const mutation = useMutation<void, Error, T>({
     mutationFn: async (newValue: T) => {
       setLocalStorageValue(key, newValue);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [key] });
+    onSuccess: (_data, variables) => {
+      queryClient.setQueryData([key], variables);
     },
   });
 
   const setValue = (newValue: T | ((val: T) => T)) => {
     const valueToStore =
-      newValue instanceof Function ? newValue(data) : newValue;
+      newValue instanceof Function ? newValue(data as T) : newValue;
     mutation.mutate(valueToStore);
   };
 
-  return [data, setValue] as [T, (newValue: T | ((val: T) => T)) => void];
+  return [data as T, setValue] as [T, (newValue: T | ((val: T) => T)) => void];
 };
 
 export default useLocalStorageState;
