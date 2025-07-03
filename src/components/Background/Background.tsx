@@ -10,6 +10,7 @@ import fairyBg from "../../assets/background/fairy.png";
 import fightingBg from "../../assets/background/fighting.png";
 import fireBg from "../../assets/background/fire.png";
 import iceBg from "../../assets/background/ice.png";
+import poisonBg from "../../assets/background/poison.png";
 import rockBg from "../../assets/background/rock.png";
 import waterBg from "../../assets/background/water.png";
 
@@ -40,13 +41,21 @@ import getBackgroundParticles from "../../utils/getBackgroundParticles";
 
 const getBg = (pokemonType: string) => {
   if (pokemonType === "dark") return darkBg;
+  if (pokemonType === "ghost") return darkBg;
+  if (pokemonType === "poison") return poisonBg;
+  if (pokemonType === "bug") return poisonBg;
+
   if (pokemonType === "electric") return electricBg;
   if (pokemonType === "fairy") return fairyBg;
   if (pokemonType === "fighting") return fightingBg;
   if (pokemonType === "fire") return fireBg;
   if (pokemonType === "ice") return iceBg;
   if (pokemonType === "water") return waterBg;
+
   if (pokemonType === "rock") return rockBg;
+  if (pokemonType === "steel") return rockBg;
+  if (pokemonType === "ground") return rockBg;
+
   return bg;
 };
 
