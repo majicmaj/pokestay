@@ -18,13 +18,11 @@ import Transfer from "./SelectedPokemon/Transfer";
 const SelectedPokemon = ({
   pokemon,
   pokemonList,
-  currentIndex,
-  setCurrentIndex,
+  setCurrentUuid,
 }: {
   pokemon: Pokemon;
   pokemonList: Pokemon[];
-  currentIndex: number;
-  setCurrentIndex: Dispatch<SetStateAction<number | null>>;
+  setCurrentUuid: Dispatch<SetStateAction<string | null>>;
 }) => {
   const [gameState, setGameState] = useGameState();
   const canPokemonEvolve = useCanEvolve(pokemon);
@@ -58,13 +56,16 @@ const SelectedPokemon = ({
   };
 
   const paginate = (newDirection: number) => {
-    if (currentIndex === null) return;
+    const currentIndex = pokemonList.findIndex((p) => p.uuid === pokemon.uuid);
+    if (currentIndex === -1) return;
+
     const newIndex = currentIndex + newDirection;
+
     if (newIndex < 0 || newIndex >= pokemonList.length) {
       return;
     }
     setDirection(newDirection);
-    setCurrentIndex(newIndex);
+    setCurrentUuid(pokemonList[newIndex].uuid as string);
   };
 
   const setPokemon = (updatedPokemon: Pokemon) => {
@@ -114,7 +115,7 @@ const SelectedPokemon = ({
     const leveledUpPokemon = levelUpPokemon(pokemon);
 
     const newInventory = [...inventory].map((p) =>
-      p.id === pokemon.id ? leveledUpPokemon : p
+      p.uuid === pokemon.uuid ? leveledUpPokemon : p
     );
 
     if (isBuddyPokemon) {
@@ -139,7 +140,7 @@ const SelectedPokemon = ({
     if (!evolvedPokemon) return;
 
     const newInventory = [...inventory].map((p) =>
-      JSON.stringify(p) === JSON.stringify(pokemon) ? evolvedPokemon : p
+      p.uuid === pokemon.uuid ? evolvedPokemon : p
     );
 
     setInventory(newInventory);
@@ -150,7 +151,7 @@ const SelectedPokemon = ({
       buddyPokemon: evolvedPokemon,
     });
 
-    setCurrentIndex(null);
+    setCurrentUuid(null);
   };
 
   const baseTransferStardust = 100;
@@ -160,7 +161,7 @@ const SelectedPokemon = ({
 
   const transferPokemon = () => {
     const newInventory = inventory.filter(
-      (p: Pokemon) => JSON.stringify(p) !== JSON.stringify(pokemon)
+      (p: Pokemon) => p.uuid !== pokemon.uuid
     );
 
     setInventory(newInventory);
@@ -169,7 +170,7 @@ const SelectedPokemon = ({
       ...gameState,
     });
 
-    setCurrentIndex(null);
+    setCurrentUuid(null);
   };
 
   const set3dSprite = async () => {
@@ -193,7 +194,7 @@ const SelectedPokemon = ({
     };
 
     const newInventory = inventory.map((p: Pokemon) =>
-      p.id === pokemon.id ? updatedPokemon : p
+      p.uuid === pokemon.uuid ? updatedPokemon : p
     );
 
     setInventory(newInventory);
@@ -226,7 +227,7 @@ const SelectedPokemon = ({
     };
 
     const newInventory = inventory.map((p: Pokemon) =>
-      p.id === pokemon.id ? updatedPokemon : p
+      p.uuid === pokemon.uuid ? updatedPokemon : p
     );
 
     setInventory(newInventory);
@@ -242,7 +243,7 @@ const SelectedPokemon = ({
     <div className="z-20 bg-black/50 backdrop-blur-sm absolute left-0 right-0 top-0 bottom-0 overflow-y-auto grid place-items-center">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
-          key={currentIndex}
+          key={pokemon.uuid}
           custom={direction}
           variants={variants}
           initial="enter"
@@ -274,7 +275,7 @@ const SelectedPokemon = ({
               handleMakeBuddy={handleMakeBuddy}
               handleRemoveBuddy={handleRemoveBuddy}
               setPokemon={setPokemon}
-              onClose={() => setCurrentIndex(null)}
+              onClose={() => setCurrentUuid(null)}
             />
 
             {/* Right Column */}

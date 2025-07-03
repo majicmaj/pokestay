@@ -11,52 +11,57 @@ import { motion } from "framer-motion";
 interface PokemonGridProps {
   pokemonList: Pokemon[];
   buddyIndex: number;
-  setCurrentIndex: (index: number) => void;
+  onPokemonSelect: (uuid: string) => void;
 }
 
 const PokemonGrid: React.FC<PokemonGridProps> = ({
   pokemonList,
   buddyIndex,
-  setCurrentIndex,
+  onPokemonSelect,
 }) => {
   const [bulkSelectEnabled, setBulkSelectEnabled] = useState(false);
-  const [bulkSelectedPokemon, setBulkSelectedPokemon] = useState<Pokemon[]>([]);
+  const [bulkSelectedPokemonUuids, setBulkSelectedPokemonUuids] = useState<
+    string[]
+  >([]);
   const [inventory, setInventory] = useInventory();
   const [points, setPoints] = usePoints();
 
-  const handleAddToBulkSelect = (index: number) => {
-    const selectedPokemon = pokemonList[index];
-    if (bulkSelectedPokemon.includes(selectedPokemon)) {
-      setBulkSelectedPokemon((prev) =>
-        prev.filter((pokemon) => pokemon !== selectedPokemon)
+  const bulkSelectedPokemon = pokemonList.filter((p) =>
+    bulkSelectedPokemonUuids.includes(p.uuid as string)
+  );
+
+  const handleAddToBulkSelect = (pokemon: Pokemon) => {
+    if (bulkSelectedPokemonUuids.includes(pokemon.uuid as string)) {
+      setBulkSelectedPokemonUuids((prev) =>
+        prev.filter((uuid) => uuid !== pokemon.uuid)
       );
     } else {
       // prevent selecting buddy pokemon in bulk select
-      if (buddyIndex === index) return;
-      setBulkSelectedPokemon((prev) => [...prev, selectedPokemon]);
+      if (pokemonList[buddyIndex]?.uuid === pokemon.uuid) return;
+      setBulkSelectedPokemonUuids((prev) => [...prev, pokemon.uuid as string]);
     }
   };
 
-  const handleClick = (index: number) => {
+  const handleClick = (pokemon: Pokemon) => {
     if (bulkSelectEnabled) {
-      handleAddToBulkSelect(index);
+      handleAddToBulkSelect(pokemon);
     } else {
-      setCurrentIndex(index);
+      onPokemonSelect(pokemon.uuid as string);
     }
   };
 
   const isBulkSelected = (pokemon: Pokemon) => {
     if (!bulkSelectEnabled) return false;
-    return bulkSelectedPokemon.includes(pokemon);
+    return bulkSelectedPokemonUuids.includes(pokemon.uuid as string);
   };
 
-  const handleLeftClick = (e: React.MouseEvent, i: number) => {
+  const handleLeftClick = (e: React.MouseEvent, pokemon: Pokemon) => {
     e.preventDefault();
     setBulkSelectEnabled((prev) => {
       if (!prev) {
-        setBulkSelectedPokemon([]);
+        setBulkSelectedPokemonUuids([]);
       }
-      handleAddToBulkSelect(i);
+      handleAddToBulkSelect(pokemon);
       return !prev;
     });
   };
@@ -67,18 +72,19 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
   );
 
   const handleBulkTransfer = () => {
-    if (bulkSelectedPokemon.length === 0) return;
+    if (bulkSelectedPokemonUuids.length === 0) return;
 
     const newInventory = inventory.filter(
-      (pokemon: Pokemon) => !bulkSelectedPokemon.includes(pokemon)
+      (pokemon: Pokemon) =>
+        !bulkSelectedPokemonUuids.includes(pokemon.uuid as string)
     );
 
     setPoints(points + bulkSelectTransferStardust);
     setInventory(newInventory);
-    setBulkSelectedPokemon([]);
+    setBulkSelectedPokemonUuids([]);
     setBulkSelectEnabled(false);
     alert(
-      `Transferred ${bulkSelectedPokemon.length} Pokémon for ${bulkSelectTransferStardust} stardust!`
+      `Transferred ${bulkSelectedPokemonUuids.length} Pokémon for ${bulkSelectTransferStardust} stardust!`
     );
   };
 
@@ -97,16 +103,16 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
               className="inline cursor-pointer mr-2"
               onClick={() => {
                 setBulkSelectEnabled(false);
-                setBulkSelectedPokemon([]);
+                setBulkSelectedPokemonUuids([]);
               }}
             />
-            {bulkSelectedPokemon.length} Pokémon selected
+            {bulkSelectedPokemonUuids.length} Pokémon selected
             <button
               onClick={handleBulkTransfer}
-              disabled={bulkSelectedPokemon.length === 0}
+              disabled={bulkSelectedPokemonUuids.length === 0}
               className={cn(
                 `rounded-full justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-red-500 to-rose-500 gap-2 flex items-center px-3 py-1`,
-                bulkSelectedPokemon.length === 0 &&
+                bulkSelectedPokemonUuids.length === 0 &&
                   "opacity-50 cursor-not-allowed"
               )}
             >
@@ -118,12 +124,12 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
       </AnimatePresence>
       {pokemonList.map((pokemon, i) => (
         <PokemonCard
-          key={`${pokemon.id}-${pokemon.stats.level}-${pokemon.cp}-${i}`}
+          key={`${pokemon.uuid}`}
           pokemon={pokemon}
           isBuddy={buddyIndex === i}
           className={cn(isBulkSelected(pokemon) && "bg-danger/80")}
-          onClick={() => handleClick(i)}
-          onContextMenu={(e) => handleLeftClick(e, i)}
+          onClick={() => handleClick(pokemon)}
+          onContextMenu={(e) => handleLeftClick(e, pokemon)}
         />
       ))}
     </div>

@@ -8,11 +8,11 @@ import HeaderSection from "./Header";
 import PokemonGrid from "./PokemonGrid";
 import SelectedPokemon from "./SelectedPokemon";
 import FilterControls from "./FilterControls";
-import { AnimatePresence, motion } from "framer-motion";
 
 const PokemonPouch: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
-  const [expanded, setExpanded] = useState(false);
+  const [selectedPokemonUuid, setSelectedPokemonUuid] = useState<string | null>(
+    null
+  );
 
   const [gameState] = useGameState();
   const { buddyPokemon } = gameState || {};
@@ -58,16 +58,17 @@ const PokemonPouch: React.FC = () => {
     );
   }, [filteredPokemon, buddyPokemon]);
 
-  const selectedPokemon = filteredPokemon[currentIndex || 0];
+  const selectedPokemon = filteredPokemon.find(
+    (p) => p.uuid === selectedPokemonUuid
+  );
 
   return (
     <>
-      {selectedPokemon && currentIndex !== null && (
+      {selectedPokemon && (
         <SelectedPokemon
           pokemon={selectedPokemon}
           pokemonList={filteredPokemon}
-          currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
+          setCurrentUuid={setSelectedPokemonUuid}
         />
       )}
       <div className="h-screen overflow-auto flex flex-col items-center bg-secondary">
@@ -91,7 +92,7 @@ const PokemonPouch: React.FC = () => {
         <PokemonGrid
           pokemonList={filteredPokemon}
           buddyIndex={buddyIndex}
-          setCurrentIndex={setCurrentIndex}
+          onPokemonSelect={setSelectedPokemonUuid}
         />
       </div>
     </>
