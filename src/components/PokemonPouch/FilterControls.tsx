@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, ChevronUp, X } from "lucide-react";
+import { ArrowDown, ArrowUp, X } from "lucide-react";
 import React, { useState } from "react";
 import { SortBy, SortDirection } from "../../hooks/usePokemonSortAndFilter";
 import TypeBadge from "../TypeBadge/TypeBadge";
