@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { Move, PokemonMove, PokemonType, WildPokemonState } from "../types";
 import { calculateCP } from "./calculateCp";
 import { getPokemonId } from "./getPokemonId";
@@ -130,8 +131,10 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
     const sprite = (await isValidImageUrl(sprite3d)) ? sprite3d : sprite2d;
 
     const pokemon: WildPokemonState = {
+      uuid: uuidv4(),
       id: pokemonId,
       name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
+      display_name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
       rarity,
       points: POINTS_RARITY_MAP[rarity] || 100,
       caught: false,

@@ -26,6 +26,19 @@ const SelectedPokemon = ({
   const [gameState, setGameState] = useGameState();
   const canPokemonEvolve = useCanEvolve(pokemon);
 
+  const setPokemon = (updatedPokemon: Pokemon) => {
+    const newInventory = inventory.map((p) =>
+      p.uuid === updatedPokemon.uuid ? updatedPokemon : p
+    );
+    setInventory(newInventory);
+    if (isBuddyPokemon) {
+      setGameState({
+        ...gameState,
+        buddyPokemon: updatedPokemon,
+      });
+    }
+  };
+
   const handleMakeBuddy = () =>
     setGameState({
       ...gameState,
@@ -195,6 +208,7 @@ const SelectedPokemon = ({
                 isBuddyPokemon={isBuddyPokemon}
                 handleMakeBuddy={handleMakeBuddy}
                 handleRemoveBuddy={handleRemoveBuddy}
+                setPokemon={setPokemon}
               />
               <div className="border-b-2 border-divider w-full" />
               <Stats stats={pokemon.stats} />

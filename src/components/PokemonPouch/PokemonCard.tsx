@@ -40,7 +40,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       </div>
       <div className="font-semibold mt-[-16px] flex items-center bg-secondary px-2 rounded-full">
         {pokemon.isShiny && <Sparkles className="w-4" />}
-        {pokemon.name}
+        {pokemon.display_name}
       </div>
     </div>
   );

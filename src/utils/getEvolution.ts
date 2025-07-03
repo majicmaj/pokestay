@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { Move, Pokemon, PokemonType } from "../types";
 import { calculateCP } from "./calculateCp";
 
@@ -78,8 +79,12 @@ export const evolvePokemon = async (
           // Create the evolved Pokémon object
           const evolvedPokemon: Pokemon = {
             ...pokemon,
+            uuid: uuidv4(),
             id: evolvedData.id,
             name:
+              evolvedData.name.charAt(0).toUpperCase() +
+              evolvedData.name.slice(1),
+            display_name:
               evolvedData.name.charAt(0).toUpperCase() +
               evolvedData.name.slice(1),
             sprite,

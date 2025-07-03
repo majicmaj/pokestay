@@ -1,10 +1,10 @@
-import { Gem, Sparkles, UserRoundCheck, UserRoundPlus } from "lucide-react";
 import React, { useState } from "react";
 import { Pokemon } from "../../../types";
+import { Gem, Sparkles, UserRoundCheck, UserRoundPlus } from "lucide-react";
 import { LEGENDARY_POKEMON_IDS } from "../../../constants/legendaryPokemonIds";
 import TypeBadge from "../../TypeBadge/TypeBadge";
 
-interface HeaderProps {
+interface NameProps {
   pokemon: Pokemon;
   isBuddyPokemon: boolean;
   handleMakeBuddy: () => void;
@@ -12,7 +12,7 @@ interface HeaderProps {
   setPokemon: (pokemon: Pokemon) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
+const Name: React.FC<NameProps> = ({
   pokemon,
   isBuddyPokemon,
   handleMakeBuddy,
@@ -25,12 +25,6 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleSave = () => {
     setPokemon({ ...pokemon, display_name: displayName });
-    setIsEditing(false);
-  };
-
-  const handleReset = () => {
-    setDisplayName(pokemon.name);
-    setPokemon({ ...pokemon, display_name: pokemon.name });
     setIsEditing(false);
   };
 
@@ -51,23 +45,14 @@ const Header: React.FC<HeaderProps> = ({
             {pokemon.isShiny && <Sparkles className="w-8" />}
             {isLegendary && <Gem />}
             {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  onBlur={handleSave}
-                  autoFocus
-                  className="bg-transparent text-center"
-                />
-                <button
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={handleReset}
-                  className="text-sm text-danger hover:underline ml-2"
-                >
-                  Reset
-                </button>
-              </>
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                onBlur={handleSave}
+                autoFocus
+                className="bg-transparent text-center"
+              />
             ) : (
               <span onClick={() => setIsEditing(true)}>
                 {pokemon.display_name}
@@ -101,4 +86,4 @@ const Header: React.FC<HeaderProps> = ({
   );
 };
 
-export default Header;
+export default Name;

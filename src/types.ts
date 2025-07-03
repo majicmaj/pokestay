@@ -23,6 +23,8 @@ export interface PokemonStats {
 }
 
 export interface Pokemon {
+  uuid?: string;
+  display_name?: string;
   id: number;
   name: string;
   height?: number; // in decimetres
