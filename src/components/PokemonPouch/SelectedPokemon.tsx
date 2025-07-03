@@ -265,9 +265,9 @@ const SelectedPokemon = ({
               paginate(-1);
             }
           }}
-          className="relative w- min-w-[100vw] max-w-4xl p-4"
+          className="relative w- min-w-[100vw] max-w-4xl p-2 sm:p-0"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-0">
             {/* Left Column */}
             <Header
               pokemon={pokemon}
@@ -279,7 +279,7 @@ const SelectedPokemon = ({
             />
 
             {/* Right Column */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 sm:max-h-screen sm:p-4 sm:overflow-y-auto">
               <Stats stats={pokemon.stats} />
               <Actions
                 levelUp={levelUp}
@@ -304,12 +304,12 @@ const SelectedPokemon = ({
           </div>
         </motion.div>
       </AnimatePresence>
-      <button
+      {/* <button
         className="sticky bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-accent p-2 text-accent-content border-2 border-accent-content shadow-lg transition-transform active:scale-95 z-20"
         onClick={() => setCurrentIndex(null)}
       >
         <X className="h-6 w-6" />
-      </button>
+      </button> */}
     </div>
   );
 };

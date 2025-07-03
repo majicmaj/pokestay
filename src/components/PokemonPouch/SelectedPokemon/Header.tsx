@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div
       className={cn(
-        "relative w-full flex flex-col items-center p-4 pb-0 rounded-xl text-white"
+        "relative w-full flex flex-col items-center p-4 pb-2 rounded-xl text-white"
       )}
     >
       <img
