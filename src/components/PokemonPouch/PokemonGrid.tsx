@@ -5,6 +5,8 @@ import { X } from "lucide-react";
 import useInventory from "../../hooks/useInventory";
 import usePoints from "../../hooks/usePoints";
 import { Pokemon } from "../../types";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface PokemonGridProps {
   pokemonList: Pokemon[];
@@ -82,35 +84,44 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
 
   return (
     <div className="grid max-w-[900px] px-4 pb-24 pt-4 gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
-      {bulkSelectEnabled && (
-        <div className="flex gap-2 justify-center items-center col-span-full text-center text-sm text-content text-content">
-          <X
-            className="inline cursor-pointer mr-2"
-            onClick={() => {
-              setBulkSelectEnabled(false);
-              setBulkSelectedPokemon([]);
-            }}
-          />
-          {bulkSelectedPokemon.length} Pokémon selected
-          <button
-            onClick={handleBulkTransfer}
-            disabled={bulkSelectedPokemon.length === 0}
-            className={cn(
-              `rounded-full justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-red-500 to-rose-500 gap-2 flex items-center px-3 py-1`,
-              bulkSelectedPokemon.length === 0 &&
-                "opacity-50 cursor-not-allowed"
-            )}
+      <AnimatePresence>
+        {bulkSelectEnabled && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="flex gap-2 justify-center items-center col-span-full text-center text-sm text-content"
           >
-            TRANSFER ({bulkSelectTransferStardust})
-          </button>
-        </div>
-      )}
+            <X
+              className="inline cursor-pointer mr-2"
+              onClick={() => {
+                setBulkSelectEnabled(false);
+                setBulkSelectedPokemon([]);
+              }}
+            />
+            {bulkSelectedPokemon.length} Pokémon selected
+            <button
+              onClick={handleBulkTransfer}
+              disabled={bulkSelectedPokemon.length === 0}
+              className={cn(
+                `rounded-full justify-center text-xl font-medium text-white bg-teal-500 bg-gradient-to-r from-red-500 to-rose-500 gap-2 flex items-center px-3 py-1`,
+                bulkSelectedPokemon.length === 0 &&
+                  "opacity-50 cursor-not-allowed"
+              )}
+            >
+              TRANSFER{" "}
+              <span className="text-xs">({bulkSelectTransferStardust})</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {pokemonList.map((pokemon, i) => (
         <PokemonCard
           key={`${pokemon.id}-${pokemon.stats.level}-${pokemon.cp}-${i}`}
           pokemon={pokemon}
           isBuddy={buddyIndex === i}
-          className={cn(isBulkSelected(pokemon) && "bg-red-200/80")}
+          className={cn(isBulkSelected(pokemon) && "bg-danger/80")}
           onClick={() => handleClick(i)}
           onContextMenu={(e) => handleLeftClick(e, i)}
         />
