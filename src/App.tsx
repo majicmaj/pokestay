@@ -38,7 +38,7 @@ const Main: React.FC = () => {
   useGetInitalPokemon();
 
   return (
-    <div className="text-content max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-background text-content">
+    <div className="max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-background text-content">
       <Background currentPokemon={currentPokemon} />
       <Pokemon
         pokemonState={pokemonState}

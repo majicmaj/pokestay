@@ -59,17 +59,6 @@ const PokemonPouch: React.FC = () => {
 
   const selectedPokemon = filteredPokemon[currentIndex || 0];
 
-  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
-    // if the blur event is triggered outside the expanded section, collapse it
-    if (
-      e.currentTarget.contains(e.relatedTarget) ||
-      e.currentTarget.id === "search-and-sort"
-    ) {
-      return;
-    }
-    setExpanded(false);
-  };
-
   return (
     <>
       {selectedPokemon && currentIndex !== null && (
@@ -92,7 +81,7 @@ const PokemonPouch: React.FC = () => {
           </div>
         )}
         {expanded && (
-          <div className="w-full" onBlur={handleBlur}>
+          <div className="w-full">
             <HeaderSection inventoryCount={inventory.length} points={points} />
             <FilterControls
               searchTerm={searchTerm}
@@ -108,6 +97,7 @@ const PokemonPouch: React.FC = () => {
               allLocations={allLocations}
               selectedLocation={selectedLocation}
               setSelectedLocation={setSelectedLocation}
+              onClose={() => setExpanded(false)}
             />
           </div>
         )}

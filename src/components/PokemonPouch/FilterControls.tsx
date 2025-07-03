@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, X } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronUp, X } from "lucide-react";
 import React from "react";
 import { SortBy, SortDirection } from "../../hooks/usePokemonSortAndFilter";
 import TypeBadge from "../TypeBadge/TypeBadge";
@@ -17,6 +17,7 @@ interface FilterControlsProps {
   allLocations: string[];
   selectedLocation: string | null;
   setSelectedLocation: (location: string | null) => void;
+  onClose: () => void;
 }
 
 const FilterControls: React.FC<FilterControlsProps> = ({
@@ -33,6 +34,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
   allLocations,
   selectedLocation,
   setSelectedLocation,
+  onClose,
 }) => {
   const sortOptions: SortBy[] = ["cp", "level", "name", "id", "recent"];
 
@@ -124,6 +126,13 @@ const FilterControls: React.FC<FilterControlsProps> = ({
           </div>
         )}
       </div>
+      <button
+        onClick={onClose}
+        className="text-sm flex items-center gap-2 justify-center rounded-full border border-transparent bg-secondary"
+      >
+        <ChevronUp />
+        <span>Close</span>
+      </button>
     </div>
   );
 };

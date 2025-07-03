@@ -2,7 +2,6 @@ import { useState } from "react";
 import { PokemonState } from "../types";
 import { calculateCatchProbability } from "../utils/calculateCatchProbability";
 import { calculateTypeAdvantage } from "../utils/calculateTypeAdvantage";
-import { getLocation } from "../utils/getLocation";
 import { getRandomPokemon } from "../utils/getRandomPokemon";
 import { sleep } from "../utils/sleep";
 import useCurrentPokemon from "./useCurrentPokemon";
