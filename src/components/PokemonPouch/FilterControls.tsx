@@ -46,7 +46,6 @@ const FilterControls: React.FC<FilterControlsProps> = ({
         placeholder="Search Pokemon by name or type"
       />
       <div className="flex w-full gap-2 text-sm items-center overflow-x-auto">
-        <span className="font-semibold">Sort by:</span>
         {sortOptions.map((option) => (
           <button
             key={option}
@@ -76,7 +75,6 @@ const FilterControls: React.FC<FilterControlsProps> = ({
 
       <div className="flex flex-col gap-2">
         <div className="flex gap-2 items-center">
-          <span className="font-semibold text-sm">Type:</span>
           <button
             onClick={() => setSelectedTypes([])}
             className="min-w-max border rounded-full border-transparent"
@@ -102,7 +100,6 @@ const FilterControls: React.FC<FilterControlsProps> = ({
 
         {allLocations.length > 0 && (
           <div className="flex gap-2 items-center">
-            <span className="font-semibold text-sm">Location:</span>
             <button
               onClick={() => setSelectedLocation(null)}
               className="min-w-max border rounded-full border-transparent"
