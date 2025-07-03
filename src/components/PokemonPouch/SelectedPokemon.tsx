@@ -1,5 +1,6 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import useCanEvolve from "../../hooks/useCanEvolve";
 import useGameState from "../../hooks/useGameState";
 import useInventory from "../../hooks/useInventory";
@@ -17,6 +18,8 @@ import Transfer from "./SelectedPokemon/Transfer";
 
 const SelectedPokemon = ({
   pokemon,
+  pokemonList,
+  currentIndex,
   setCurrentIndex,
 }: {
   pokemon: Pokemon;
@@ -26,6 +29,44 @@ const SelectedPokemon = ({
 }) => {
   const [gameState, setGameState] = useGameState();
   const canPokemonEvolve = useCanEvolve(pokemon);
+  const [direction, setDirection] = useState(0);
+
+  const variants = {
+    enter: (direction: number) => {
+      return {
+        // zIndex: 0,
+        x: direction > 0 ? "50vw" : "-50vw",
+        opacity: 0,
+      };
+    },
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => {
+      return {
+        // zIndex: 0,
+        x: direction < 0 ? "50vw" : "-50vw",
+        opacity: 0,
+      };
+    },
+  };
+
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+  };
+
+  const paginate = (newDirection: number) => {
+    if (currentIndex === null) return;
+    const newIndex = currentIndex + newDirection;
+    if (newIndex < 0 || newIndex >= pokemonList.length) {
+      return;
+    }
+    setDirection(newDirection);
+    setCurrentIndex(newIndex);
+  };
 
   const setPokemon = (updatedPokemon: Pokemon) => {
     const newInventory = inventory.map((p) =>
@@ -199,50 +240,76 @@ const SelectedPokemon = ({
   };
 
   return (
-    <div className="z-20 bg-black/50 backdrop-blur-sm absolute left-0 right-0 top-0 bottom-0 overflow-y-auto">
-      <div className="relative w-full max-w-4xl p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Left Column */}
-          <Header
-            pokemon={pokemon}
-            isBuddyPokemon={isBuddyPokemon}
-            handleMakeBuddy={handleMakeBuddy}
-            handleRemoveBuddy={handleRemoveBuddy}
-            setPokemon={setPokemon}
-            onClose={() => setCurrentIndex(null)}
-          />
+    <div className="z-20 bg-black/50 backdrop-blur-sm absolute left-0 right-0 top-0 bottom-0 overflow-y-auto grid place-items-center">
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.div
+          key={currentIndex}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 150, damping: 20 },
+            opacity: { duration: 0.2 },
+          }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={(e, { offset, velocity }) => {
+            const swipe = swipePower(offset.x, velocity.x);
 
-          {/* Right Column */}
-          <div className="flex flex-col gap-4">
-            <Stats stats={pokemon.stats} />
-            <Actions
-              levelUp={levelUp}
-              isLevelUpDisabled={isLevelUpDisabled}
-              levelUpCost={levelUpCost}
-              points={points}
-              evolve={evolve}
-              canEvolve={canEvolve}
-              evolutionCost={evolutionCost}
-            />
-            <Info pokemon={pokemon} />
-            <SpriteSwitcher
-              set3dSprite={set3dSprite}
-              set2dSprite={set2dSprite}
-              currentSprite={pokemon.sprite.includes("gen5") ? "2d" : "3d"}
-            />
-            <Transfer
-              transferPokemon={transferPokemon}
-              transferStardust={transferStardust}
-            />
-          </div>
-        </div>
-        <button
-          className="sticky bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-accent p-2 text-accent-content border-2 border-accent-content shadow-lg transition-transform active:scale-95"
-          onClick={() => setCurrentIndex(null)}
+            if (swipe < -swipeConfidenceThreshold) {
+              paginate(1);
+            } else if (swipe > swipeConfidenceThreshold) {
+              paginate(-1);
+            }
+          }}
+          className="relative w- min-w-[100vw] max-w-4xl p-4"
         >
-          <X className="h-6 w-6" />
-        </button>
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Left Column */}
+            <Header
+              pokemon={pokemon}
+              isBuddyPokemon={isBuddyPokemon}
+              handleMakeBuddy={handleMakeBuddy}
+              handleRemoveBuddy={handleRemoveBuddy}
+              setPokemon={setPokemon}
+              onClose={() => setCurrentIndex(null)}
+            />
+
+            {/* Right Column */}
+            <div className="flex flex-col gap-4">
+              <Stats stats={pokemon.stats} />
+              <Actions
+                levelUp={levelUp}
+                isLevelUpDisabled={isLevelUpDisabled}
+                levelUpCost={levelUpCost}
+                points={points}
+                evolve={evolve}
+                canEvolve={canEvolve}
+                evolutionCost={evolutionCost}
+              />
+              <Info pokemon={pokemon} />
+              <SpriteSwitcher
+                set3dSprite={set3dSprite}
+                set2dSprite={set2dSprite}
+                currentSprite={pokemon.sprite.includes("gen5") ? "2d" : "3d"}
+              />
+              <Transfer
+                transferPokemon={transferPokemon}
+                transferStardust={transferStardust}
+              />
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      <button
+        className="sticky bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-accent p-2 text-accent-content border-2 border-accent-content shadow-lg transition-transform active:scale-95 z-20"
+        onClick={() => setCurrentIndex(null)}
+      >
+        <X className="h-6 w-6" />
+      </button>
     </div>
   );
 };
