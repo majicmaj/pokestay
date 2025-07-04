@@ -14,8 +14,8 @@ const POINTS_RARITY_MAP = {
 export const getRandomPokemon = async (): Promise<WildPokemonState> => {
   // Get random Pokémon ID based on rarity
 
-  const isLegendary = Math.random() * 100 < 1;
-  // const isLegendary = true
+  // const isLegendary = Math.random() * 100 < 1;
+  const isLegendary = true;
   const pokemonId = getPokemonId(isLegendary);
 
   try {
@@ -108,7 +108,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
       description: "A powerful move!",
     }));
 
-    const isShiny = Math.random() * 256 < (isLegendary ? 10 : 1);
+    const isShiny = Math.random() * 128 < (isLegendary ? 10 : 1);
 
     const sprite3dBase = `https://play.pokemonshowdown.com/sprites/xyani${
       isShiny ? "-shiny/" : "/"

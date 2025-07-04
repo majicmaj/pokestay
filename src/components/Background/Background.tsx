@@ -84,7 +84,7 @@ const Background = ({
       <AnimatePresence>
         <motion.img
           key={bgSrc}
-          className="absolute pixelated w-full h-full object-cover"
+          className="animate-bg-slow-zoom-in-out absolute pixelated w-full h-full object-cover"
           src={bgSrc}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -93,16 +93,13 @@ const Background = ({
         />
       </AnimatePresence>
       <div
-        className={`mix-blend-hue transition-colors top-[47%] h-full w-full absolute opacity-10 ${bgColor} `}
+        className={`mix-blend-hue transition-colors h-full w-full absolute opacity-10 ${bgColor} `}
       />
       <div
-        className={`mix-blend-color transition-colors top-[47%] h-full w-full absolute opacity-30 ${bgColor} `}
+        className={`mix-blend-saturation transition-colors h-full w-full absolute opacity-10 ${bgColor} `}
       />
       <div
-        className={`mix-blend-saturation transition-colors top-[47%] h-full w-full absolute opacity-20 ${bgColor} `}
-      />
-      <div
-        className={`mix-blend-color transition-colors bottom-[53%] h-full w-full absolute opacity-30 ${bgColor} `}
+        className={`mix-blend-color transition-colors h-full w-full absolute opacity-10 ${bgColor} `}
       />
 
       {/* Particle Effects */}

@@ -41,53 +41,68 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div
       className={cn(
-        "relative w-full flex flex-col items-center p-4 pb-2 rounded-xl text-white"
+        "relative aspect-square w-full grid place-items-center items-center text-white"
       )}
     >
       <img
         src={pokemon.sprite}
         alt={pokemon.name}
-        className="animate-bounce-slow pixelated w-48 h-48 object-contain drop-shadow-lg"
+        className="animate-bounce-slow pixelated h-full w-full aspect-square object-contain drop-shadow-lg"
       />
-      <div className="relative flex items-center flex-col gap-2">
-        <div className="font-semibold text-3xl flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full">
-          {pokemon.isShiny && <Sparkles className="w-8 h-8 text-yellow-300" />}
-          {isLegendary && (
-            <Icon name="legendary" className="w-8 h-8 text-cyan-300" />
-          )}
-          {isEditing ? (
-            <>
-              <input
-                type="text"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                onBlur={handleSave}
-                autoFocus
-                className="bg-transparent text-center text-3xl font-semibold w-full"
-              />
-              <button
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={handleReset}
-                className="text-sm text-red-300 hover:underline ml-2"
+
+      <div className="absolute bottom-0 w-full items-center flex flex-col gap-2">
+        <div className="relative flex items-center flex-col gap-2">
+          {/* Name */}
+          <div className="font-semibold text-3xl flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full">
+            {pokemon.isShiny && (
+              <Sparkles className="w-8 h-8 text-yellow-300" />
+            )}
+            {isLegendary && (
+              <Icon name="legendary" className="w-8 h-8 text-orange-300" />
+            )}
+            {isEditing ? (
+              <>
+                <input
+                  type="text"
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  onBlur={handleSave}
+                  autoFocus
+                  className="bg-transparent text-center text-3xl font-semibold w-full"
+                />
+                <button
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={handleReset}
+                  className="text-sm text-red-300 hover:underline ml-2"
+                >
+                  Reset
+                </button>
+              </>
+            ) : (
+              <span
+                onClick={() => setIsEditing(true)}
+                className="cursor-pointer"
               >
-                Reset
-              </button>
-            </>
-          ) : (
-            <span onClick={() => setIsEditing(true)} className="cursor-pointer">
-              {pokemon.display_name}
-            </span>
-          )}
+                {pokemon.display_name}
+              </span>
+            )}
+          </div>
+
+          {/* Stats */}
+          <p className="text-sm bg-black/20 px-2 rounded-full">
+            {pokemon.stats.hp} HP / Lv.{pokemon.stats.level} / CP {pokemon.cp}
+          </p>
         </div>
-        <p className="text-sm bg-black/20 px-2 rounded-full">
-          {pokemon.stats.hp} HP / Lv.{pokemon.stats.level} / CP {pokemon.cp}
-        </p>
+
+        {/* Types */}
+        <div className="flex gap-2 mt-2">
+          {pokemon.types.map((type) => (
+            <TypeBadge key={type} type={type} />
+          ))}
+        </div>
       </div>
-      <div className="flex gap-2 mt-2">
-        {pokemon.types.map((type) => (
-          <TypeBadge key={type} type={type} />
-        ))}
-      </div>
+
+      {/* Buddy Button */}
       <button
         onClick={isBuddyPokemon ? handleRemoveBuddy : handleMakeBuddy}
         className={`absolute top-4 right-4 justify-center rounded-full text-xl gap-2 flex items-center p-2 transition-colors active:scale-110 ${
@@ -102,6 +117,8 @@ const Header: React.FC<HeaderProps> = ({
           <UserRoundPlus size={24} />
         )}
       </button>
+
+      {/* Close Button */}
       <button
         onClick={onClose}
         className="absolute top-4 left-4 bg-black/20 justify-center rounded-full text-xl gap-2 flex items-center p-2 transition-colors active:scale-110"

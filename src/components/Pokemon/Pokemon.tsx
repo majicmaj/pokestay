@@ -47,8 +47,9 @@ const Pokemon = ({
           >
             <div
               className={cn(
-                "flex gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5",
-                isLegendary && "pokemon-legendary-text pokemon-legendary-shadow"
+                "flex relative gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5",
+                isLegendary &&
+                  "pokemon-legendary-text pokemon-legendary-shadow bg-orange-700/40"
               )}
             >
               {isShiny && <Sparkles />}
@@ -59,6 +60,18 @@ const Pokemon = ({
                 <span className="text-sm pr-1">CP</span>
                 {cp}
               </p>
+            </div>
+            <div className="flex gap-2 mt-2 text-sm font-light text-white bg-black/40 rounded-full px-3 py-1">
+              {isLegendary && (
+                <span className="text-orange-500 pixelated-font font-thin">
+                  Legendary!!
+                </span>
+              )}
+              {isShiny && (
+                <span className="text-yellow-500 pixelated-font font-thin">
+                  Shiny!
+                </span>
+              )}
             </div>
             <div className="flex mt-2 gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
               <div className="flex -space-x-2">

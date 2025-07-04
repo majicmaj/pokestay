@@ -1,4 +1,4 @@
-import { LogOut, ScrollText, X } from "lucide-react";
+import { Footprints, LogOut, ScrollText, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import BuddyPokemon from "./BuddyPokemon";
 import EncounterLog from "./EncounterLog";
@@ -40,20 +40,20 @@ const SlidingMenus = ({ handleFlee }: { handleFlee: () => void }) => {
   return (
     <div>
       {/* FABs */}
-      <div className="fixed top-4 left-4">
+      <div className="fixed top-2 left-2">
         <button
-          className="p-2 text-white drop-shadow-md rotate-180"
+          className="p-2 bg-black/20 rounded-full text-white drop-shadow-md"
           onClick={handleFlee}
         >
-          <LogOut className="h-6 w-6" />
+          <Footprints className="h-6 w-6" />
         </button>
       </div>
 
-      <div className="fixed bottom-4 left-4 z-10">
-        <Link to="/log" className="p-2 text-white drop-shadow-md">
+      <Link to="/log">
+        <div className="fixed bottom-4 left-4 z-10 p-2 bg-black/20 rounded-full text-white drop-shadow-md">
           <ScrollText className="h-6 w-6" />
-        </Link>
-      </div>
+        </div>
+      </Link>
 
       <BuddyPokemon />
 

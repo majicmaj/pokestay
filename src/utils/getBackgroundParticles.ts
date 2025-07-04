@@ -232,7 +232,7 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
     ghost: {
       particles: {
         number: { value: 25 },
-        color: { value: ["#9370DB", "#8A2BE2", "#4B0082"] },
+        color: { value: ["#9370DB", "#a99", "#544"] },
         shape: { type: "circle" },
         opacity: { value: { min: 0.3, max: 0.7 } },
         size: { value: { min: 2, max: 5 } },
@@ -249,8 +249,8 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
     dragon: {
       particles: {
         number: { value: 30 },
-        color: { value: ["#8A2BE2", "#9400D3", "#4B0082"] },
-        shape: { type: "circle" },
+        color: { value: ["#7A2BE2", "#2255D3", "#22D3D3"] },
+        shape: { type: "polygon" },
         opacity: { value: { min: 0.3, max: 0.9 } },
         size: { value: { min: 3, max: 6 } },
         move: {
@@ -266,7 +266,7 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
     dark: {
       particles: {
         number: { value: 20 },
-        color: { value: ["#2F4F4F", "#696969", "#708090"] },
+        color: { value: ["#7A2BE2", "#1A1B12", "#2A1B52"] },
         shape: { type: "circle" },
         opacity: { value: { min: 0.3, max: 0.7 } },
         size: { value: { min: 2, max: 5 } },
@@ -283,7 +283,7 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
     steel: {
       particles: {
         number: { value: 30 },
-        color: { value: ["#B0C4DE", "#778899", "#708090"] },
+        color: { value: ["#E0E4EE", "#778899", "#A0C0E0"] },
         shape: { type: "square" },
         opacity: { value: { min: 0.5, max: 1 } },
         size: { value: { min: 3, max: 6 } },
@@ -300,7 +300,7 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
     fairy: {
       particles: {
         number: { value: 40 },
-        color: { value: ["#FFB6C1", "#FFC0CB", "#FF69B4"] },
+        color: { value: ["#FFB6C1", "#FFF0CB", "#FF69B4"] },
         shape: { type: "circle" },
         opacity: { value: { min: 0.5, max: 0.9 } },
         size: { value: { min: 3, max: 6 } },

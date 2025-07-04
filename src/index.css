@@ -164,6 +164,22 @@
   }
 }
 
+@keyframes bg-slow-zoom-in-out {
+  0% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+
+.animate-bg-slow-zoom-in-out {
+  overflow: hidden;
+  animation: bg-slow-zoom-in-out 2s infinite ease-in-out;
+}
 
 .animate-bounce-slow {
   animation: bounce-slow 2s infinite ease-in-out;
@@ -189,10 +205,11 @@
 }
 
 .pokemon-legendary-text {
-  text-shadow: 0 0 1px white, 0 0 10px white, 0 0 15px #ff0000,
-    0 0 20px #ffff00, 0 0 25px #ffff00, 0 0 30px #ff0000, 0 0 35px #ff0000;
+  text-shadow: 0 0 1px #ffffff80, 0 0 10px #ffffff80, 0 0 15px #ff000080,
+    0 0 8px #ffff0080, 0 0 10px #ffff0080, 0 0 12px #ff660080, 0 0 15px #ff000080;
 }
 
 .pokemon-legendary-shadow {
-  box-shadow: 0 0 1px white, 0 0 2px white, 0 0 4px #ff0000,
-    0 0 20px #ffff00, 0 0 5px #ffff00, 0 0 8px #ff0000;}
+  box-shadow: 0 0 1px #ffffff40, 0 0 12px #ffff0040, 0 0 16px #ff000040,
+    0 0 1px #ffffff80, 0 0 3px #ffff0080, 0 0 6px #ff660080, 0 0 8px #ff000080;
+  }
