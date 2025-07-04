@@ -98,8 +98,8 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           const minScale = 0.125;
           const maxScale = 1.25;
 
-          const minImpactHeight = 15; // vh
-          const maxImpactHeight = 45; // vh
+          const minImpactHeight = 15; // vmax
+          const maxImpactHeight = 45; // vmax
           const impactHeight =
             minImpactHeight +
             ((scale - minScale) / (maxScale - minScale)) *
@@ -113,7 +113,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           );
           ballRef.current.style.setProperty(
             "--throw-arc-height",
-            `-${arcHeight}vh`
+            `-${arcHeight}vmax`
           );
 
           // Calculate dynamic duration
