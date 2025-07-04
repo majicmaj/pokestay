@@ -211,7 +211,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   return (
     <div
       ref={containerRef}
-      className={`absolute bottom-4 size-24 ${
+      className={`absolute bottom-4 inset-x-0 w-full flex justify-center size-24 ${
         disabled ? "cursor-not-allowed opacity-50" : "cursor-grab"
       }`}
     >
