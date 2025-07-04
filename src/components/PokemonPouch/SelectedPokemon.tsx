@@ -1,5 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Particles } from "react-tsparticles";
+import { Engine } from "tsparticles-engine";
+import { loadSlim } from "tsparticles-slim";
 import { useSound } from "../../context/SoundProvider";
 import useCanEvolve from "../../hooks/useCanEvolve";
 import useGameState from "../../hooks/useGameState";
@@ -7,6 +10,7 @@ import useInventory from "../../hooks/useInventory";
 import usePoints from "../../hooks/usePoints";
 import { Pokemon } from "../../types";
 import { evolvePokemon } from "../../utils/getEvolution";
+import getBackgroundParticles from "../../utils/getBackgroundParticles";
 import { isValidImageUrl } from "../../utils/isValidImageUrl";
 import { levelUpPokemon } from "../../utils/levelUpPokemon";
 import Actions from "./SelectedPokemon/Actions";
@@ -31,6 +35,13 @@ const SelectedPokemon = ({
   const [gameState, setGameState] = useGameState();
   const canPokemonEvolve = useCanEvolve(pokemon);
   const [direction, setDirection] = useState(0);
+
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
+  }, []);
+
+  const pokemonType = pokemon?.types?.[0];
+  const particleOptions = getBackgroundParticles(pokemonType);
 
   const variants = {
     enter: (direction: number) => {
@@ -262,6 +273,11 @@ const SelectedPokemon = ({
 
   return (
     <div className="z-20 bg-black/50 backdrop-blur-sm absolute left-0 right-0 top-0 bottom-0 overflow-y-auto grid place-items-center">
+      <Particles
+        id="tsparticles-selected"
+        options={particleOptions}
+        init={particlesInit}
+      />
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={pokemon.uuid}

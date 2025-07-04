@@ -6,6 +6,7 @@ import TypeBadge from "../../TypeBadge/TypeBadge";
 import { cn } from "../../../utils/cn";
 import Icon from "../../../assets/icons/Icon";
 import { getPokemonScale } from "../../../utils/getPokemonScale";
+import { getTypeColor } from "../../../utils/getTypeColor";
 
 interface HeaderProps {
   pokemon: Pokemon;
@@ -27,6 +28,17 @@ const Header: React.FC<HeaderProps> = ({
   const isLegendary = LEGENDARY_POKEMON_IDS.includes(pokemon.id);
   const [isEditing, setIsEditing] = useState(false);
   const [displayName, setDisplayName] = useState(pokemon.display_name);
+
+  const primaryType = pokemon?.types?.[0] || "normal";
+  const typeColor = getTypeColor(primaryType);
+
+  const legendaryStyles = isLegendary
+    ? {
+        textShadow: `0 0 1px #ffffff80, 0 0 10px ${typeColor}80, 0 0 15px ${typeColor}80, 0 0 8px ${typeColor}80, 0 0 10px ${typeColor}80, 0 0 12px ${typeColor}80, 0 0 15px ${typeColor}80`,
+        boxShadow: `0 0 1px #ffffff40, 0 0 12px ${typeColor}40, 0 0 16px ${typeColor}40, 0 0 1px #ffffff80, 0 0 3px ${typeColor}80, 0 0 6px ${typeColor}80, 0 0 8px ${typeColor}80`,
+        backgroundColor: `${typeColor}40`,
+      }
+    : {};
 
   const handleSave = () => {
     setPokemon({ ...pokemon, display_name: displayName });
@@ -64,10 +76,9 @@ const Header: React.FC<HeaderProps> = ({
         {/* Name */}
         <div
           className={cn(
-            "font-semibold text-2xl break-keep flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full truncate",
-            isLegendary &&
-              "pokemon-legendary-text pokemon-legendary-shadow bg-orange-700/40"
+            "font-semibold text-2xl break-keep flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full truncate"
           )}
+          style={legendaryStyles}
         >
           {pokemon.isShiny && <Sparkles className="w-8 h-8 text-yellow-300" />}
           {isLegendary && (

@@ -5,6 +5,7 @@ import TypeBadge from "../TypeBadge/TypeBadge";
 import { cn } from "../../utils/cn";
 import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
 import Icon from "../../assets/icons/Icon";
+import { getTypeColor } from "../../utils/getTypeColor";
 
 const getScale = (pokemon: Pokemon) => {
   const height = pokemon?.height || 10; // Default to 1m (10dm) if no height
@@ -42,6 +43,17 @@ const Pokemon = ({
 
   const isLegendary = LEGENDARY_POKEMON_IDS.includes(id);
 
+  const primaryType = currentPokemon?.types?.[0] || "normal";
+  const typeColor = getTypeColor(primaryType);
+
+  const legendaryStyles = isLegendary
+    ? {
+        textShadow: `0 0 1px #ffffff80, 0 0 10px ${typeColor}80, 0 0 15px ${typeColor}80, 0 0 8px ${typeColor}80, 0 0 10px ${typeColor}80, 0 0 12px ${typeColor}80, 0 0 15px ${typeColor}80`,
+        boxShadow: `0 0 1px #ffffff40, 0 0 12px ${typeColor}40, 0 0 16px ${typeColor}40, 0 0 1px #ffffff80, 0 0 3px ${typeColor}80, 0 0 6px ${typeColor}80, 0 0 8px ${typeColor}80`,
+        backgroundColor: `${typeColor}40`,
+      }
+    : {};
+
   return (
     <div
       className={`transform h-full justify-center pb-4 flex flex-col items-center`}
@@ -61,10 +73,9 @@ const Pokemon = ({
           >
             <div
               className={cn(
-                "flex relative gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5",
-                isLegendary &&
-                  "pokemon-legendary-text pokemon-legendary-shadow bg-orange-700/40"
+                "flex relative gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5"
               )}
+              style={legendaryStyles}
             >
               {isShiny && <Sparkles />}
               {isLegendary && <Icon name="legendary" />}

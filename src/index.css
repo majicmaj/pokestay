@@ -203,13 +203,3 @@
 .pixelated-font {
   font-family: "Tiny5", sans-serif;
 }
-
-.pokemon-legendary-text {
-  text-shadow: 0 0 1px #ffffff80, 0 0 10px #ffffff80, 0 0 15px #ff000080,
-    0 0 8px #ffff0080, 0 0 10px #ffff0080, 0 0 12px #ff660080, 0 0 15px #ff000080;
-}
-
-.pokemon-legendary-shadow {
-  box-shadow: 0 0 1px #ffffff40, 0 0 12px #ffff0040, 0 0 16px #ff000040,
-    0 0 1px #ffffff80, 0 0 3px #ffff0080, 0 0 6px #ff660080, 0 0 8px #ff000080;
-  }
