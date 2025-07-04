@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite --host",
-    "pwa-assets": "pwa-assets-generator"
+    "pwa-assets": "pwa-assets-generator",
+    "generate-null-habitat-list": "node scripts/generateNullHabitatList.mjs"
   },
   "dependencies": {
     "@fontsource/tiny5": "^5.1.0",
