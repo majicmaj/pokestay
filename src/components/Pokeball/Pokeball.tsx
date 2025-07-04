@@ -98,7 +98,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           const maxScale = 1.25;
 
           const minImpactHeight = 5; // vh
-          const maxImpactHeight = 60; // vh
+          const maxImpactHeight = 45; // vh
           const impactHeight =
             minImpactHeight +
             ((scale - minScale) / (maxScale - minScale)) *
@@ -114,6 +114,34 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
             "--throw-arc-height",
             `-${arcHeight}vh`
           );
+
+          // Calculate dynamic duration
+          const minDuration = 0.8; // seconds
+          const maxDuration = 2; // seconds
+          const duration =
+            minDuration +
+            ((scale - minScale) / (maxScale - minScale)) *
+              (maxDuration - minDuration);
+
+          // Calculate dynamic impact scale
+          const minImpactScale = 0.6; // Ball appears larger for smaller pokemon
+          const maxImpactScale = 0.1; // Ball appears smaller for larger pokemon
+          const impactScale =
+            minImpactScale -
+            ((scale - minScale) / (maxScale - minScale)) *
+              (minImpactScale - maxImpactScale);
+
+          ballRef.current.style.setProperty(
+            "--throw-impact-scale",
+            `${impactScale}`
+          );
+
+          const throwAnimation = getThrowAnimation(throwSpeed, throwDirection);
+          ballRef.current.style.animation = `${throwAnimation} ${duration}s ease-out`;
+        } else if (ballRef.current) {
+          // Fallback for when there's no pokemon
+          const throwAnimation = getThrowAnimation(throwSpeed, throwDirection);
+          ballRef.current.style.animation = `${throwAnimation} 1s ease-out`;
         }
 
         if (soundEnabled) {
@@ -124,11 +152,6 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           audio.play();
         }
         onClick(throwSpeed);
-
-        if (ballRef.current) {
-          const throwAnimation = getThrowAnimation(throwSpeed, throwDirection);
-          ballRef.current.style.animation = `${throwAnimation} 1s ease-in`;
-        }
       }
 
       setIsDragging(false);
