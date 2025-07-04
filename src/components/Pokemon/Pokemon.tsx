@@ -70,47 +70,51 @@ const Pokemon = ({
               : ""
           }`}
         >
-          <div
-            className={cn(`animate-bounce-slow flex flex-col items-center `)}
-          >
-            <div
-              className={cn(
-                "flex relative gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5"
-              )}
-              style={legendaryStyles}
-            >
-              {isShiny && <Sparkles />}
-              {isLegendary && <Icon name="legendary" />}
-              <h2>{currentPokemon.name}</h2>
-              <p className="opacity-50">/</p>
-              <p className="font-light">
-                <span className="text-sm pr-1">CP</span>
-                {cp}
-              </p>
-            </div>
-            {(isLegendary || isShiny) && (
-              <div className="flex gap-2 mt-2 text-sm font-light text-white bg-black/40 rounded-full px-3 py-1">
-                {isLegendary && (
-                  <span className="text-orange-500 pixelated-font font-thin">
-                    Legendary!!
-                  </span>
-                )}
-                {isShiny && (
-                  <span className="text-yellow-500 pixelated-font font-thin">
-                    Shiny!
-                  </span>
-                )}
-              </div>
-            )}
-            <div className="flex mt-2 gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
-              <div className="flex -space-x-2">
-                {currentPokemon?.types?.map((t: string) => (
-                  <TypeBadge type={t} key={t} />
-                ))}
-              </div>
-            </div>
-
+          <div className={cn(`animate-bounce-slow relative`)}>
             <div className="h-[100vmin] w-[100vmin] flex justify-center items-end aspect-sqaure overlfow-visible">
+              <div
+                className="absolute left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+                style={{
+                  bottom: 10 + getScale(currentPokemon) * 60 + "vmin",
+                }}
+              >
+                <div
+                  className={cn(
+                    "flex relative gap-3 items-center text-xl font-light p-3 text-center text-white bg-black/40 rounded-full px-5"
+                  )}
+                  style={legendaryStyles}
+                >
+                  {isShiny && <Sparkles />}
+                  {isLegendary && <Icon name="legendary" />}
+                  <h2 className="truncate">{currentPokemon.name}</h2>
+                  <p className="opacity-50">/</p>
+                  <p className="font-light">
+                    <span className="text-sm pr-1">CP</span>
+                    {cp}
+                  </p>
+                </div>
+                {(isLegendary || isShiny) && (
+                  <div className="flex gap-2 text-sm font-light text-white bg-black/40 rounded-full px-3 py-1">
+                    {isLegendary && (
+                      <span className="text-orange-500 pixelated-font font-thin">
+                        Legendary!!
+                      </span>
+                    )}
+                    {isShiny && (
+                      <span className="text-yellow-500 pixelated-font font-thin">
+                        Shiny!
+                      </span>
+                    )}
+                  </div>
+                )}
+                <div className="flex gap-3 items-center text-xl font-medium text-center text-white bg-black/40 rounded-full">
+                  <div className="flex -space-x-2">
+                    {currentPokemon?.types?.map((t: string) => (
+                      <TypeBadge type={t} key={t} />
+                    ))}
+                  </div>
+                </div>
+              </div>
               <div
                 className="mt-4 max-w-[unset] relative aspect-square overflow-visible"
                 style={{

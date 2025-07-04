@@ -98,7 +98,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           const minScale = 0.125;
           const maxScale = 1.25;
 
-          const minImpactHeight = 5; // vh
+          const minImpactHeight = 15; // vh
           const maxImpactHeight = 45; // vh
           const impactHeight =
             minImpactHeight +
