@@ -15,6 +15,7 @@ import { useEffect, useRef } from "react";
 import { useSound } from "./context/SoundProvider";
 import HabitatProvider from "./context/HabitatProvider";
 import { useHabitat } from "./hooks/useHabitat";
+import { ArrowRight } from "lucide-react";
 
 const App: React.FC = () => {
   return (
@@ -36,7 +37,7 @@ const Main: React.FC = () => {
   const [currentPokemon] = useCurrentPokemon();
   const { soundEnabled, volume } = useSound();
   const audioRef = useRef<HTMLAudioElement>();
-  const { habitat, remainingTime } = useHabitat();
+  const { habitat, remainingTime, skipHabitat } = useHabitat();
 
   const formatTime = (ms: number) => {
     const minutes = Math.floor(ms / 60000);
@@ -109,6 +110,15 @@ const Main: React.FC = () => {
         type="pokeball"
         disabled={isThrowDisabled}
       />
+
+      {import.meta.env.DEV && (
+        <button
+          onClick={skipHabitat}
+          className="absolute top-16 left-2 bg-red-500/50 text-white p-2 rounded-full pixelated-font text-sm"
+        >
+          <ArrowRight className="size-6" />
+        </button>
+      )}
 
       <SlidingMenus handleFlee={handleFlee} />
     </div>

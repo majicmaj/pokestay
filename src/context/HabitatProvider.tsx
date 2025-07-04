@@ -83,6 +83,10 @@ const HabitatProvider: React.FC<HabitatProviderProps> = ({ children }) => {
     }
   };
 
+  const skipHabitat = () => {
+    fetchNewHabitat();
+  };
+
   useEffect(() => {
     if (habitats.length > 0) {
       fetchNewHabitat();
@@ -110,6 +114,7 @@ const HabitatProvider: React.FC<HabitatProviderProps> = ({ children }) => {
     habitat,
     pokemonSpecies,
     remainingTime,
+    skipHabitat,
   };
 
   return (
