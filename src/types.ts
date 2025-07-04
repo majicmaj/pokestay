@@ -28,7 +28,7 @@ export interface Pokemon {
   id: number;
   name: string;
   height?: number; // in decimetres
-  rarity: "common" | "uncommon" | "rare" | "legendary";
+  rarity: "common" | "uncommon" | "rare" | "legendary" | "mythical";
   points: number;
   caught: boolean;
   caughtAt?: Date;

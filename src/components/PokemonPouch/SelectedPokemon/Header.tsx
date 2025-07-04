@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({
               <Sparkles className="w-8 h-8 text-yellow-300" />
             )}
             {isLegendary && (
-              <Icon name="legendary" className="w-8 h-8 text-orange-300" />
+              <Icon name="legendary" className="w-8 h-8 text-orange-400" />
             )}
             {isEditing ? (
               <>

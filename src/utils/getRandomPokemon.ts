@@ -8,6 +8,7 @@ const POINTS_RARITY_MAP = {
   common: 100,
   uncommon: 150,
   rare: 300,
+  mythical: 500,
   legendary: 1000,
 };
 
@@ -30,6 +31,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
     const speciesData = await speciesRes.json();
     const {
       capture_rate,
+      is_mythical,
       // is_baby,
       // is_legendary,
       // is_mythical,
@@ -37,17 +39,20 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
 
     // Generate random level based on rarity
     const levelRanges = {
-      common: { min: 1, max: 16 },
-      uncommon: { min: 17, max: 30 },
-      rare: { min: 30, max: 40 },
-      legendary: { min: 40, max: 50 },
+      common: { min: 1, max: 12 },
+      uncommon: { min: 13, max: 21 },
+      rare: { min: 21, max: 30 },
+      mythical: { min: 30, max: 31 },
+      legendary: { min: 30, max: 31 },
     };
 
-    let rarity: "common" | "uncommon" | "rare" | "legendary" = "common";
+    let rarity: "common" | "uncommon" | "rare" | "legendary" | "mythical" =
+      "common";
 
     const captureRate = capture_rate / 255;
 
     if (isLegendary) rarity = "legendary";
+    else if (is_mythical) rarity = "mythical";
     else if (captureRate < 0.1) rarity = "rare";
     else if (captureRate < 0.5) rarity = "uncommon";
 

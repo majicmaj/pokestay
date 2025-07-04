@@ -125,7 +125,15 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
       document.removeEventListener("touchmove", handleMouseMove);
       document.removeEventListener("touchend", handleMouseUp);
     };
-  }, [isDragging, startPos, recentPositions, onClick, disabled, volume]);
+  }, [
+    isDragging,
+    startPos,
+    recentPositions,
+    onClick,
+    disabled,
+    volume,
+    soundEnabled,
+  ]);
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     if (disabled) return;
@@ -150,7 +158,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   return (
     <div
       ref={containerRef}
-      className={`mb-8 size-24 ${
+      className={`absolute bottom-4 size-24 ${
         disabled ? "cursor-not-allowed opacity-50" : "cursor-grab"
       }`}
     >

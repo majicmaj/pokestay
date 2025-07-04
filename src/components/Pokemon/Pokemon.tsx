@@ -7,10 +7,24 @@ import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
 import Icon from "../../assets/icons/Icon";
 
 const getScale = (pokemon: Pokemon) => {
-  // height = 1 => scale = 20
-  // height < 20 => scale = 100
+  const height = pokemon?.height || 10; // Default to 1m (10dm) if no height
+  const minHeight = 1; // Joltik
+  const maxHeight = 200; // Eternatus
 
-  return 40 + Math.min(60, (pokemon?.height || 20) * 5);
+  const minScale = 0.2;
+  const maxScale = 1.25;
+
+  // Use a logarithmic scale to better handle the wide range of Pokémon heights
+  const logHeight = Math.log10(Math.max(minHeight, height));
+  const logMinHeight = Math.log10(minHeight);
+  const logMaxHeight = Math.log10(maxHeight);
+
+  const scale =
+    minScale +
+    ((logHeight - logMinHeight) / (logMaxHeight - logMinHeight)) *
+      (maxScale - minScale);
+
+  return Math.min(maxScale, Math.max(minScale, scale)); // Clamp the value
 };
 
 const Pokemon = ({
@@ -83,24 +97,29 @@ const Pokemon = ({
               </div>
             </div>
 
-            <div
-              className="mt-8 relative w-[300px] h-[300px] overflow-visible"
-              style={{
-                transform: `scale(${getScale(currentPokemon) / 100})`,
-                transition: "transform 0.3s ease-in-out",
-              }}
-            >
-              <img
-                src={currentPokemon.sprite}
-                alt={currentPokemon.name}
-                className={cn(
-                  `relative min-w-[300px] pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300`,
-                  isPokeballDisabled && "animate-pokemon-shrink",
-                  !isPokeballDisabled &&
-                    pokemonState === "idle" &&
-                    "animate-pokemon-grow"
-                )}
-              />
+            <div className="h-[100vmin] w-[100vmin] flex justify-center items-end aspect-sqaure overlfow-visible">
+              <div
+                className="mt-4 max-w-[unset] relative aspect-square overflow-visible"
+                style={{
+                  height: getScale(currentPokemon) * 100 + "vmin",
+                  width: getScale(currentPokemon) * 100 + "vmin",
+
+                  // transform: `scale(${getScale(currentPokemon)})`,
+                  transition: "transform 0.3s ease-in-out",
+                }}
+              >
+                <img
+                  src={currentPokemon.sprite}
+                  alt={currentPokemon.name}
+                  className={cn(
+                    `relative w-full pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300`,
+                    isPokeballDisabled && "animate-pokemon-shrink",
+                    !isPokeballDisabled &&
+                      pokemonState === "idle" &&
+                      "animate-pokemon-grow"
+                  )}
+                />
+              </div>
             </div>
           </div>
         </div>
