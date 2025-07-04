@@ -28,7 +28,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   const [recentPositions, setRecentPositions] = useState<
     { time: number; y: number; x: number }[]
   >([]);
-  const { soundEnabled } = useSound();
+  const { soundEnabled, volume } = useSound();
 
   const ballRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -90,9 +90,11 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
 
       if (throwSpeed > 0.5) {
         if (soundEnabled) {
-          new Audio(
+          const audio = new Audio(
             "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_throw%20%23000936_0.wav"
-          ).play();
+          );
+          audio.volume = volume;
+          audio.play();
         }
         onClick(throwSpeed);
 
@@ -123,7 +125,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
       document.removeEventListener("touchmove", handleMouseMove);
       document.removeEventListener("touchend", handleMouseUp);
     };
-  }, [isDragging, startPos, recentPositions, onClick, disabled]);
+  }, [isDragging, startPos, recentPositions, onClick, disabled, volume]);
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     if (disabled) return;

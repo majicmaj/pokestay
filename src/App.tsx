@@ -10,10 +10,8 @@ import useCurrentPokemon from "./hooks/useCurrentPokemon";
 import useEncounter from "./hooks/useEncounter";
 import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { ThemeProvider } from "./hooks/useTheme/ThemeProvider";
-import ThemeButton from "./components/ui/ThemeButton";
 import { useEffect, useRef } from "react";
 import { useSound } from "./context/SoundProvider";
-import SoundButton from "./components/ui/SoundButton";
 
 const App: React.FC = () => {
   return (
@@ -31,37 +29,44 @@ const App: React.FC = () => {
 
 const Main: React.FC = () => {
   const [currentPokemon] = useCurrentPokemon();
-  const { soundEnabled } = useSound();
+  const { soundEnabled, volume } = useSound();
   const audioRef = useRef<HTMLAudioElement>();
 
   useEffect(() => {
-    const audio = new Audio(
-      "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/walk%20%23000951_0.wav"
-    );
-    audio.loop = true;
-    audioRef.current = audio;
+    const audio =
+      audioRef.current ??
+      new Audio(
+        "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/walk%20%23000951_0.wav"
+      );
 
-    const playAudioOnInteraction = () => {
-      if (soundEnabled) {
-        audioRef.current?.play();
+    if (!audioRef.current) {
+      audio.loop = true;
+      audioRef.current = audio;
+    }
+
+    audio.volume = volume;
+
+    const playAudio = () => {
+      if (soundEnabled && !document.hidden) {
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
       }
-      document.removeEventListener("click", playAudioOnInteraction);
     };
-    document.addEventListener("click", playAudioOnInteraction);
+
+    const handleVisibilityChange = () => playAudio();
+    const handleInteraction = () => playAudio();
+
+    playAudio();
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("click", handleInteraction, { once: true });
 
     return () => {
-      audioRef.current?.pause();
-      document.removeEventListener("click", playAudioOnInteraction);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener("click", handleInteraction);
     };
-  }, []);
-
-  useEffect(() => {
-    if (soundEnabled) {
-      audioRef.current?.play().catch(() => {}); // catch if not interacted yet
-    } else {
-      audioRef.current?.pause();
-    }
-  }, [soundEnabled]);
+  }, [soundEnabled, volume]);
 
   const {
     isThrowDisabled,
@@ -76,8 +81,6 @@ const Main: React.FC = () => {
   return (
     <div className="max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-background text-content">
       <Background currentPokemon={currentPokemon} />
-      <ThemeButton />
-      <SoundButton />
       <Pokemon
         pokemonState={pokemonState}
         isPokeballDisabled={isThrowDisabled}

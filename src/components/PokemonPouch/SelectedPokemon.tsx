@@ -27,7 +27,7 @@ const SelectedPokemon = ({
   onClose: () => void;
   onNavigate: (uuid: string) => void;
 }) => {
-  const { soundEnabled } = useSound();
+  const { soundEnabled, volume } = useSound();
   const [gameState, setGameState] = useGameState();
   const canPokemonEvolve = useCanEvolve(pokemon);
   const [direction, setDirection] = useState(0);
@@ -77,9 +77,11 @@ const SelectedPokemon = ({
 
   useEffect(() => {
     if (soundEnabled && pokemon.cry) {
-      new Audio(pokemon.cry).play();
+      const audio = new Audio(pokemon.cry);
+      audio.volume = volume;
+      audio.play();
     }
-  }, [pokemon.uuid, soundEnabled, pokemon.cry]);
+  }, [pokemon.uuid, soundEnabled, pokemon.cry, volume]);
 
   const setPokemon = (updatedPokemon: Pokemon) => {
     const newInventory = inventory.map((p) =>
@@ -96,7 +98,9 @@ const SelectedPokemon = ({
 
   const handleMakeBuddy = () => {
     if (soundEnabled && pokemon.cry) {
-      new Audio(pokemon.cry).play();
+      const audio = new Audio(pokemon.cry);
+      audio.volume = volume;
+      audio.play();
     }
     setGameState({
       ...gameState,
