@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSound } from "../../context/SoundProvider";
 import useCanEvolve from "../../hooks/useCanEvolve";
 import useGameState from "../../hooks/useGameState";
 import useInventory from "../../hooks/useInventory";
@@ -26,6 +27,7 @@ const SelectedPokemon = ({
   onClose: () => void;
   onNavigate: (uuid: string) => void;
 }) => {
+  const { soundEnabled } = useSound();
   const [gameState, setGameState] = useGameState();
   const canPokemonEvolve = useCanEvolve(pokemon);
   const [direction, setDirection] = useState(0);
@@ -73,6 +75,12 @@ const SelectedPokemon = ({
     onNavigate(pokemonList[newIndex].uuid as string);
   };
 
+  useEffect(() => {
+    if (soundEnabled && pokemon.cry) {
+      new Audio(pokemon.cry).play();
+    }
+  }, [pokemon.uuid, soundEnabled, pokemon.cry]);
+
   const setPokemon = (updatedPokemon: Pokemon) => {
     const newInventory = inventory.map((p) =>
       p.uuid === updatedPokemon.uuid ? updatedPokemon : p
@@ -86,11 +94,15 @@ const SelectedPokemon = ({
     }
   };
 
-  const handleMakeBuddy = () =>
+  const handleMakeBuddy = () => {
+    if (soundEnabled && pokemon.cry) {
+      new Audio(pokemon.cry).play();
+    }
     setGameState({
       ...gameState,
       buddyPokemon: pokemon,
     });
+  };
 
   const handleRemoveBuddy = () =>
     setGameState({
