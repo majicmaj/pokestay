@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Background from "./components/Background/Background";
 import MessageBox from "./components/MessageBox/MessageBox";
@@ -12,15 +13,18 @@ import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { ThemeProvider } from "./hooks/useTheme/ThemeProvider";
 import { useEffect, useRef } from "react";
 import { useSound } from "./context/SoundProvider";
+import HabitatProvider, { useHabitat } from "./context/HabitatProvider";
 
 const App: React.FC = () => {
   return (
     <ThemeProvider>
       <SoundProvider>
         <LocationProvider>
-          <Routes>
-            <Route path="/*" element={<Main />} />
-          </Routes>
+          <HabitatProvider>
+            <Routes>
+              <Route path="/*" element={<Main />} />
+            </Routes>
+          </HabitatProvider>
         </LocationProvider>
       </SoundProvider>
     </ThemeProvider>
@@ -31,6 +35,13 @@ const Main: React.FC = () => {
   const [currentPokemon] = useCurrentPokemon();
   const { soundEnabled, volume } = useSound();
   const audioRef = useRef<HTMLAudioElement>();
+  const { habitat, remainingTime } = useHabitat();
+
+  const formatTime = (ms: number) => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = ((ms % 60000) / 1000).toFixed(0);
+    return `${minutes}:${seconds.padStart(2, "0")}`;
+  };
 
   useEffect(() => {
     const audio =
@@ -88,6 +99,10 @@ const Main: React.FC = () => {
         isPokeballDisabled={isThrowDisabled}
       />
       <MessageBox message={catchMessage} />
+      <div className="absolute top-4 text-center pixelated-font text-white rounded-full">
+        <p className="font-bold text-xl">{habitat?.name}</p>
+        <p className="text-sm">{formatTime(remainingTime)}</p>
+      </div>
       <Pokeball
         onClick={handleThrow}
         type="pokeball"

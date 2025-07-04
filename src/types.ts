@@ -89,6 +89,11 @@ export interface PokemonType {
   };
 }
 
+export interface NamedAPIResource {
+  name: string;
+  url: string;
+}
+
 export interface Move {
   move: {
     name: string;

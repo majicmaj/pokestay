@@ -1,7 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import { Move, PokemonMove, PokemonType, WildPokemonState } from "../types";
+import {
+  Move,
+  NamedAPIResource,
+  PokemonMove,
+  PokemonType,
+  WildPokemonState,
+} from "../types";
 import { calculateCP } from "./calculateCp";
-import { getPokemonId } from "./getPokemonId";
 import { isValidImageUrl } from "./isValidImageUrl";
 
 const POINTS_RARITY_MAP = {
@@ -12,30 +17,25 @@ const POINTS_RARITY_MAP = {
   legendary: 1000,
 };
 
-export const getRandomPokemon = async (): Promise<WildPokemonState> => {
-  // Get random Pokémon ID based on rarity
+export const getRandomPokemon = async (
+  pokemonSpecies: NamedAPIResource[]
+): Promise<WildPokemonState | null> => {
+  if (pokemonSpecies.length === 0) return null;
 
-  const isLegendary = Math.random() * 128 < 1;
-  // const isLegendary = true;
-  const pokemonId = getPokemonId(isLegendary);
+  const randomSpecies =
+    pokemonSpecies[Math.floor(Math.random() * pokemonSpecies.length)];
 
   try {
     const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
+      `https://pokeapi.co/api/v2/pokemon/${randomSpecies.name}`
     );
     const data = await response.json();
 
     const speciesRes = await fetch(
-      `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`
+      `https://pokeapi.co/api/v2/pokemon-species/${randomSpecies.name}`
     );
     const speciesData = await speciesRes.json();
-    const {
-      capture_rate,
-      is_mythical,
-      // is_baby,
-      // is_legendary,
-      // is_mythical,
-    } = speciesData || {};
+    const { capture_rate, is_mythical, is_legendary } = speciesData || {};
 
     // Generate random level based on rarity
     const levelRanges = {
@@ -51,7 +51,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
 
     const captureRate = capture_rate / 255;
 
-    if (isLegendary) rarity = "legendary";
+    if (is_legendary) rarity = "legendary";
     else if (is_mythical) rarity = "mythical";
     else if (captureRate < 0.1) rarity = "rare";
     else if (captureRate < 0.5) rarity = "uncommon";
@@ -113,7 +113,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
       description: "A powerful move!",
     }));
 
-    const isShiny = Math.random() * 128 < (isLegendary ? 10 : 1);
+    const isShiny = Math.random() * 128 < (is_legendary ? 10 : 1);
 
     const sprite3dBase = `https://play.pokemonshowdown.com/sprites/xyani${
       isShiny ? "-shiny/" : "/"
@@ -137,7 +137,7 @@ export const getRandomPokemon = async (): Promise<WildPokemonState> => {
 
     const pokemon: WildPokemonState = {
       uuid: uuidv4(),
-      id: pokemonId,
+      id: data.id,
       name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
       display_name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
       rarity,

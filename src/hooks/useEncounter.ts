@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { PokemonState } from "../types";
+import { PokemonState, NamedAPIResource } from "../types";
 import { calculateCatchProbability } from "../utils/calculateCatchProbability";
 import { calculateTypeAdvantage } from "../utils/calculateTypeAdvantage";
 import { getRandomPokemon } from "../utils/getRandomPokemon";
@@ -11,6 +11,7 @@ import useInventory from "./useInventory";
 import { useLocation } from "./useLocation";
 import usePoints from "./usePoints";
 import { useSound } from "../context/SoundProvider";
+import { useHabitat } from "../context/HabitatProvider";
 
 export default function useEncounter() {
   const [gameState] = useGameState();
@@ -21,6 +22,7 @@ export default function useEncounter() {
   const { addEntry: addLogEntry } = useEncounterLog();
   const [throwCount, setThrowCount] = useState(0);
   const { soundEnabled, volume } = useSound();
+  const { pokemonSpecies } = useHabitat();
   const timingIndicatorStartTimeRef = useRef<number>(0);
 
   const [isThrowing, setIsThrowing] = useState(false);
@@ -30,10 +32,12 @@ export default function useEncounter() {
 
   const isThrowDisabled = isThrowing || pokemonState !== "idle";
 
-  const spawnNewPokemon = async () => {
+  const spawnNewPokemon = async (pokemonSpecies: NamedAPIResource[]) => {
+    if (pokemonSpecies.length === 0) return;
     setIsShrinking(false);
     setPokemonState("idle");
-    const newPokemon = await getRandomPokemon();
+    const newPokemon = await getRandomPokemon(pokemonSpecies);
+    if (!newPokemon) return;
     if (newPokemon.cry && soundEnabled) {
       const audio = new Audio(newPokemon.cry);
       audio.volume = volume;
@@ -185,7 +189,7 @@ export default function useEncounter() {
 
     // If Pokémon fled or was caught, spawn a new one, otherwise clear message after 2 seconds
     if (caught || flees) {
-      await spawnNewPokemon();
+      await spawnNewPokemon(pokemonSpecies);
     } else {
       setTimeout(() => {
         setCatchMessage(null);
@@ -216,7 +220,7 @@ export default function useEncounter() {
 
     await sleep(Math.random() * 3000 + 1000);
 
-    await spawnNewPokemon();
+    await spawnNewPokemon(pokemonSpecies);
     setIsThrowing(false);
   };
 
