@@ -97,6 +97,7 @@ export const evolvePokemon = async (
             },
             cp,
             types: evolvedData.types.map((t: PokemonType) => t.type.name),
+            cry: evolvedData.cries.latest,
             moves: evolvedData.moves.slice(0, 4).map((move: Move) => ({
               id: move.move.url.split("/").slice(-2, -1)[0],
               name: move.move.name.replace("-", " "),

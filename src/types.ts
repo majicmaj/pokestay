@@ -59,6 +59,7 @@ export interface Pokemon {
     state?: string;
     country?: string;
   };
+  cry?: string;
 }
 
 export interface WildPokemonState extends Pokemon {

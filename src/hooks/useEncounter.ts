@@ -26,6 +26,9 @@ export default function useEncounter() {
 
   const spawnNewPokemon = async () => {
     const newPokemon = await getRandomPokemon();
+    if (newPokemon.cry) {
+      new Audio(newPokemon.cry).play();
+    }
     setCurrentPokemon(newPokemon);
     setPokemonState("idle");
     setThrowCount(0);
@@ -80,6 +83,9 @@ export default function useEncounter() {
     const flees = !caught && Math.random() < 0.25; // 25% chance to flee on failed catch
 
     if (caught) {
+      if (currentPokemon.cry) {
+        new Audio(currentPokemon.cry).play();
+      }
       setPokemonState("caught");
       const extraPoints = Math.round(advantage * currentPokemon.points);
 
