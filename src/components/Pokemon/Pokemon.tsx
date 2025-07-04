@@ -6,6 +6,7 @@ import { cn } from "../../utils/cn";
 import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
 import Icon from "../../assets/icons/Icon";
 import { getTypeColor } from "../../utils/getTypeColor";
+import CatchTimingIndicator from "../CatchTimingIndicator/CatchTimingIndicator";
 
 const getScale = (pokemon: Pokemon) => {
   const height = pokemon?.height || 10; // Default to 1m (10dm) if no height
@@ -136,6 +137,9 @@ const Pokemon = ({
                       "animate-pokemon-grow"
                   )}
                 />
+                {pokemonState === "idle" && !isPokeballDisabled && (
+                  <CatchTimingIndicator />
+                )}
               </div>
             </div>
           </div>

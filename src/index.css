@@ -209,3 +209,26 @@
 .pixelated-font {
   font-family: "Tiny5", sans-serif;
 }
+
+@keyframes catch-ring-animation {
+  0% {
+    width: 100%;
+    height: 100%;
+    border-color: #ef4444; /* red-500 */
+  }
+  50% {
+    width: 50%;
+    height: 50%;
+    border-color: #f97316; /* orange-500 */
+  }
+  100% {
+    width: 10%;
+    height: 10%;
+    border-color: #84cc16; /* lime-500 */
+  }
+}
+
+.animate-catch-ring {
+  animation: catch-ring-animation 3s linear infinite;
+  transform-origin: center;
+}

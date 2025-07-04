@@ -4,7 +4,8 @@ import { calculateTypeAdvantage } from "./calculateTypeAdvantage";
 export const calculateCatchProbability = (
   throwSpeed: number,
   buddyPokemon: Pokemon | null,
-  targetPokemon: WildPokemonState
+  targetPokemon: WildPokemonState,
+  timingMultiplier: number
 ): number => {
   // Base catch rate 100%
   const catchRate = 1;
@@ -34,7 +35,8 @@ export const calculateCatchProbability = (
     levelModifier *
     cpModifier *
     buddyModifier *
-    catchModifier;
+    catchModifier *
+    timingMultiplier;
 
   return Math.min(finalCatchRate, 1);
 };

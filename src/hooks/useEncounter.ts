@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { PokemonState } from "../types";
 import { calculateCatchProbability } from "../utils/calculateCatchProbability";
 import { calculateTypeAdvantage } from "../utils/calculateTypeAdvantage";
@@ -21,6 +21,7 @@ export default function useEncounter() {
   const { addEntry: addLogEntry } = useEncounterLog();
   const [throwCount, setThrowCount] = useState(0);
   const { soundEnabled, volume } = useSound();
+  const timingIndicatorStartTimeRef = useRef<number>(0);
 
   const [isThrowing, setIsThrowing] = useState(false);
   const [isShrinking, setIsShrinking] = useState(false);
@@ -39,6 +40,7 @@ export default function useEncounter() {
       audio.play();
     }
     setCurrentPokemon(newPokemon);
+    timingIndicatorStartTimeRef.current = performance.now();
     setThrowCount(0);
     setCatchMessage(`A wild ${newPokemon.name} has appeared!`);
     setTimeout(() => {
@@ -56,6 +58,17 @@ export default function useEncounter() {
     const timeToImpact = duration * 0.5;
     await sleep(timeToImpact * 1000);
     setIsShrinking(true);
+
+    const elapsedTime = performance.now() - timingIndicatorStartTimeRef.current;
+    const timingProgress = (elapsedTime % 3000) / 3000;
+    const timingMultiplier = 0.5 + timingProgress;
+
+    let timingMessage = "Nice!";
+    if (timingMultiplier > 1.25) {
+      timingMessage = "Excellent!";
+    } else if (timingMultiplier > 0.75) {
+      timingMessage = "Great!";
+    }
 
     const advantage = calculateTypeAdvantage(
       gameState?.buddyPokemon?.types || [],
@@ -80,12 +93,13 @@ export default function useEncounter() {
         ? "Nice!"
         : "Poor!";
 
-    setCatchMessage(`${speedMessage} ${advantageMessage} `);
+    setCatchMessage(`${timingMessage} ${speedMessage} ${advantageMessage} `);
 
     const catchProbability = calculateCatchProbability(
       throwSpeed,
       gameState.buddyPokemon,
-      currentPokemon
+      currentPokemon,
+      timingMultiplier
     );
 
     if (soundEnabled) {
