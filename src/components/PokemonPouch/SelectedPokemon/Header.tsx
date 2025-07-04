@@ -60,52 +60,45 @@ const Header: React.FC<HeaderProps> = ({
         />
       </div>
 
-      <div className="absolute bottom-0 w-full items-center flex flex-col gap-2">
-        <div className="relative flex items-center flex-col gap-2">
-          {/* Name */}
-          <div className="font-semibold text-3xl flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full">
-            {pokemon.isShiny && (
-              <Sparkles className="w-8 h-8 text-yellow-300" />
-            )}
-            {isLegendary && (
-              <Icon name="legendary" className="w-8 h-8 text-orange-400" />
-            )}
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  onBlur={handleSave}
-                  autoFocus
-                  className="bg-transparent text-center text-3xl font-semibold w-full"
-                />
-                <button
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={handleReset}
-                  className="text-sm text-red-300 hover:underline ml-2"
-                >
-                  Reset
-                </button>
-              </>
-            ) : (
-              <span
-                onClick={() => setIsEditing(true)}
-                className="cursor-pointer"
+      <div className="absolute top-4 w-full items-center flex flex-col gap-1">
+        {/* Name */}
+        <div className="font-semibold text-2xl flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full truncate line-clamp-1">
+          {pokemon.isShiny && <Sparkles className="w-8 h-8 text-yellow-300" />}
+          {isLegendary && (
+            <Icon name="legendary" className="w-8 h-8 text-orange-400" />
+          )}
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                onBlur={handleSave}
+                autoFocus
+                className="bg-transparent text-center text-3xl font-semibold w-full"
+              />
+              <button
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={handleReset}
+                className="text-sm text-red-300 hover:underline ml-2"
               >
-                {pokemon.display_name}
-              </span>
-            )}
-          </div>
-
-          {/* Stats */}
-          <p className="text-sm bg-black/20 px-2 rounded-full">
-            {pokemon.stats.hp} HP / Lv.{pokemon.stats.level} / CP {pokemon.cp}
-          </p>
+                Reset
+              </button>
+            </>
+          ) : (
+            <span onClick={() => setIsEditing(true)} className="cursor-pointer">
+              {pokemon.display_name}
+            </span>
+          )}
         </div>
 
+        {/* Stats */}
+        <p className="text-sm bg-black/20 px-2 rounded-full">
+          {pokemon.stats.hp} HP / Lv.{pokemon.stats.level} / CP {pokemon.cp}
+        </p>
+
         {/* Types */}
-        <div className="flex gap-2 mt-2">
+        <div className="flex gap-0 -mt-1.5">
           {pokemon.types.map((type) => (
             <TypeBadge key={type} type={type} />
           ))}
