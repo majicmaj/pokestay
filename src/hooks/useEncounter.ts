@@ -10,6 +10,7 @@ import useGameState from "./useGameState";
 import useInventory from "./useInventory";
 import { useLocation } from "./useLocation";
 import usePoints from "./usePoints";
+import { useSound } from "../context/SoundProvider";
 
 export default function useEncounter() {
   const [gameState] = useGameState();
@@ -19,6 +20,7 @@ export default function useEncounter() {
   const { location } = useLocation();
   const { addEntry: addLogEntry } = useEncounterLog();
   const [throwCount, setThrowCount] = useState(0);
+  const { soundEnabled } = useSound();
 
   const [isThrowDisabled, setIsThrowDisabled] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
@@ -26,7 +28,7 @@ export default function useEncounter() {
 
   const spawnNewPokemon = async () => {
     const newPokemon = await getRandomPokemon();
-    if (newPokemon.cry) {
+    if (newPokemon.cry && soundEnabled) {
       new Audio(newPokemon.cry).play();
     }
     setCurrentPokemon(newPokemon);
@@ -75,9 +77,11 @@ export default function useEncounter() {
       currentPokemon
     );
 
-    new Audio(
-      "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_take_in%20%23000911_0.wav"
-    ).play();
+    if (soundEnabled) {
+      new Audio(
+        "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_take_in%20%23000911_0.wav"
+      ).play();
+    }
 
     // Add suspense
     setPokemonState("idle");
@@ -87,9 +91,11 @@ export default function useEncounter() {
     const flees = !caught && Math.random() < 0.25; // 25% chance to flee on failed catch
 
     if (caught) {
-      new Audio(
-        "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_target%20%23000956_0.wav"
-      ).play();
+      if (soundEnabled) {
+        new Audio(
+          "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_target%20%23000956_0.wav"
+        ).play();
+      }
       setPokemonState("caught");
       const extraPoints = Math.round(advantage * currentPokemon.points);
 
@@ -135,9 +141,11 @@ export default function useEncounter() {
         setCurrentPokemon(null);
         await sleep(Math.random() * 2000 + 1000);
       } else {
-        new Audio(
-          "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_out%20%23000960_0.wav"
-        ).play();
+        if (soundEnabled) {
+          new Audio(
+            "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_out%20%23000960_0.wav"
+          ).play();
+        }
         setCatchMessage(`${currentPokemon.name} broke free!`);
       }
     }

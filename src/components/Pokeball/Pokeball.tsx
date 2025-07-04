@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSound } from "../../context/SoundProvider";
 
 interface PokeballProps {
   onClick: (throwSpeed: number) => void;
@@ -27,6 +28,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   const [recentPositions, setRecentPositions] = useState<
     { time: number; y: number; x: number }[]
   >([]);
+  const { soundEnabled } = useSound();
 
   const ballRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -87,9 +89,11 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
       throwSpeed *= CONSTANT_MODIFIER;
 
       if (throwSpeed > 0.5) {
-        new Audio(
-          "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_throw%20%23000936_0.wav"
-        ).play();
+        if (soundEnabled) {
+          new Audio(
+            "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_throw%20%23000936_0.wav"
+          ).play();
+        }
         onClick(throwSpeed);
 
         if (ballRef.current) {
