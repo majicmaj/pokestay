@@ -10,6 +10,7 @@ import useEncounter from "./hooks/useEncounter";
 import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { ThemeProvider } from "./hooks/useTheme/ThemeProvider";
 import ThemeButton from "./components/ui/ThemeButton";
+import { useEffect } from "react";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,26 @@ const App: React.FC = () => {
 
 const Main: React.FC = () => {
   const [currentPokemon] = useCurrentPokemon();
+
+  useEffect(() => {
+    const audio = new Audio(
+      "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/walk%20%23000951_0.wav"
+    );
+    audio.loop = true;
+    audio.play().catch(() => {
+      // Autoplay was prevented.
+      // A user interaction is needed to start audio.
+      const playAudioOnInteraction = () => {
+        audio.play();
+        document.removeEventListener("click", playAudioOnInteraction);
+      };
+      document.addEventListener("click", playAudioOnInteraction);
+    });
+
+    return () => {
+      audio.pause();
+    };
+  }, []);
 
   const {
     isThrowDisabled,
