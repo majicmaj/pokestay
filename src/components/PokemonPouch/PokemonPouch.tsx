@@ -54,6 +54,15 @@ const PokemonPouch: React.FC<{ dragControls: DragControls }> = ({
     )
   ).sort();
 
+  const countsPerLocation = React.useMemo(() => {
+    return allLocations.reduce((acc, location) => {
+      acc[location] = inventory.filter(
+        (p) => p.caughtLocation?.city === location
+      ).length;
+      return acc;
+    }, {} as Record<string, number>);
+  }, [inventory, allLocations]);
+
   const toggleTypeFilter = (type: string) => {
     if (selectedTypes.includes(type)) {
       setSelectedTypes(selectedTypes.filter((t) => t !== type));
@@ -108,6 +117,7 @@ const PokemonPouch: React.FC<{ dragControls: DragControls }> = ({
           setSortDirection={setSortDirection}
           allTypes={allTypes}
           countsPerType={countsPerType}
+          countsPerLocation={countsPerLocation}
           selectedTypes={selectedTypes}
           toggleTypeFilter={toggleTypeFilter}
           setSelectedTypes={setSelectedTypes}

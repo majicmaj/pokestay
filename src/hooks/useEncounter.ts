@@ -22,11 +22,16 @@ export default function useEncounter() {
   const [throwCount, setThrowCount] = useState(0);
   const { soundEnabled, volume } = useSound();
 
-  const [isThrowDisabled, setIsThrowDisabled] = useState(false);
+  const [isThrowing, setIsThrowing] = useState(false);
+  const [isShrinking, setIsShrinking] = useState(false);
   const [catchMessage, setCatchMessage] = useState<string | null>(null);
   const [pokemonState, setPokemonState] = useState<PokemonState>("idle");
 
+  const isThrowDisabled = isThrowing || pokemonState !== "idle";
+
   const spawnNewPokemon = async () => {
+    setIsShrinking(false);
+    setPokemonState("idle");
     const newPokemon = await getRandomPokemon();
     if (newPokemon.cry && soundEnabled) {
       const audio = new Audio(newPokemon.cry);
@@ -34,7 +39,6 @@ export default function useEncounter() {
       audio.play();
     }
     setCurrentPokemon(newPokemon);
-    setPokemonState("idle");
     setThrowCount(0);
     setCatchMessage(`A wild ${newPokemon.name} has appeared!`);
     setTimeout(() => {
@@ -42,11 +46,16 @@ export default function useEncounter() {
     }, 2000);
   };
 
-  const handleThrow = async (throwSpeed: number) => {
+  const handleThrow = async (throwSpeed: number, duration: number) => {
     if (isThrowDisabled || !currentPokemon) return;
     if (throwSpeed > 7) return setCatchMessage("Too far!");
-    setIsThrowDisabled(true);
+
+    setIsThrowing(true);
     setThrowCount(throwCount + 1);
+
+    const timeToImpact = duration * 0.5;
+    await sleep(timeToImpact * 1000);
+    setIsShrinking(true);
 
     const advantage = calculateTypeAdvantage(
       gameState?.buddyPokemon?.types || [],
@@ -164,10 +173,11 @@ export default function useEncounter() {
     } else {
       setTimeout(() => {
         setCatchMessage(null);
+        setIsShrinking(false);
       }, 2000);
     }
 
-    setIsThrowDisabled(false);
+    setIsThrowing(false);
   };
 
   const handleFlee = async () => {
@@ -191,11 +201,12 @@ export default function useEncounter() {
     await sleep(Math.random() * 3000 + 1000);
 
     await spawnNewPokemon();
-    setIsThrowDisabled(false);
+    setIsThrowing(false);
   };
 
   return {
-    isThrowDisabled,
+    isThrowDisabled: isThrowDisabled,
+    isShrinking,
     catchMessage,
     pokemonState,
     handleThrow,

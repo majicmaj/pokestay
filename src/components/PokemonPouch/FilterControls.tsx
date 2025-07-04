@@ -15,7 +15,7 @@ interface FilterControlsProps {
   setSortDirection: (direction: SortDirection) => void;
   allTypes: string[];
   countsPerType: Record<string, number>;
-
+  countsPerLocation: Record<string, number>;
   selectedTypes: string[];
   toggleTypeFilter: (type: string) => void;
   setSelectedTypes: (types: string[]) => void;
@@ -33,6 +33,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
   setSortDirection,
   allTypes,
   countsPerType,
+  countsPerLocation,
   selectedTypes,
   toggleTypeFilter,
   setSelectedTypes,
@@ -111,12 +112,15 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                       <button
                         key={location}
                         onClick={() => setSelectedLocation(location)}
-                        className={`min-w-max px-2 py-1 rounded-full text-xs ${
+                        className={`min-w-max p-1 pr-2 rounded-full text-xs ${
                           selectedLocation === location
                             ? "bg-accent text-accent-content"
                             : "bg-secondary"
                         }`}
                       >
+                        <span className="text-xs bg-secondary mr-1 text-accent-content p-0.5 aspect-square rounded-full">
+                          {countsPerLocation[location] || 0}
+                        </span>
                         {location}
                       </button>
                     ))}
@@ -139,11 +143,11 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                         `relative min-w-max border rounded-full`,
                         selectedTypes.includes(type)
                           ? "border-accent"
-                          : "border-transparent opacity-70"
+                          : "border-transparent opacity-100"
                       )}
                     >
                       <TypeBadge type={type} />
-                      <span className="absolute text-xs top-8 left-1/2 transform -translate-x-1/2 bg-accent text-accent-content px-1 rounded-full">
+                      <span className="absolute text-xs top-7 left-1/2 transform -translate-x-1/2 bg-accent text-accent-content px-1 rounded-full">
                         {countsPerType[type] || 0}
                       </span>
                     </button>

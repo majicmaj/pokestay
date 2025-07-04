@@ -33,7 +33,9 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       <div className="z-10 bg-secondary px-2 rounded-full text-center">
         <div>
           <span className="text-sm font-medium opacity-60 pr-1">CP</span>
-          <span className="text-xl font-bold">{pokemon.cp || 0}</span>
+          <span className="text-xl font-bold text-content">
+            {pokemon.cp || 0}
+          </span>
         </div>
       </div>
       <div className="text-xs opacity-60">#{pokemon.id}</div>

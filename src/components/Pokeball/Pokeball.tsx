@@ -4,7 +4,7 @@ import useCurrentPokemon from "../../hooks/useCurrentPokemon";
 import { getPokemonScale } from "../../utils/getPokemonScale";
 
 interface PokeballProps {
-  onClick: (throwSpeed: number) => void;
+  onClick: (throwSpeed: number, duration: number) => void;
   type: "pokeball" | "greatball" | "ultraball" | "masterball";
   disabled: boolean;
 }
@@ -92,6 +92,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
       throwSpeed *= CONSTANT_MODIFIER;
 
       if (throwSpeed > 0.5) {
+        let duration = 1; // default duration
         if (currentPokemon && ballRef.current) {
           const scale = getPokemonScale(currentPokemon);
           const minScale = 0.125;
@@ -118,10 +119,11 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           // Calculate dynamic duration
           const minDuration = 0.8; // seconds
           const maxDuration = 2; // seconds
-          const duration =
+          const dynamicDuration =
             minDuration +
             ((scale - minScale) / (maxScale - minScale)) *
               (maxDuration - minDuration);
+          duration = dynamicDuration;
 
           // Calculate dynamic impact scale
           const minImpactScale = 0.6; // Ball appears larger for smaller pokemon
@@ -151,7 +153,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           audio.volume = volume;
           audio.play();
         }
-        onClick(throwSpeed);
+        onClick(throwSpeed, duration);
       }
 
       setIsDragging(false);

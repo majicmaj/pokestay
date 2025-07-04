@@ -70,6 +70,7 @@ const Main: React.FC = () => {
 
   const {
     isThrowDisabled,
+    isShrinking,
     catchMessage,
     pokemonState,
     handleThrow,
@@ -83,6 +84,7 @@ const Main: React.FC = () => {
       <Background currentPokemon={currentPokemon} />
       <Pokemon
         pokemonState={pokemonState}
+        isShrinking={isShrinking}
         isPokeballDisabled={isThrowDisabled}
       />
       <MessageBox message={catchMessage} />

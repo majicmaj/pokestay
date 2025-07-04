@@ -31,9 +31,11 @@ const getScale = (pokemon: Pokemon) => {
 const Pokemon = ({
   pokemonState,
   isPokeballDisabled,
+  isShrinking,
 }: {
   pokemonState: PokemonState;
   isPokeballDisabled?: boolean;
+  isShrinking?: boolean;
 }) => {
   const [currentPokemon] = useCurrentPokemon();
 
@@ -124,7 +126,7 @@ const Pokemon = ({
                   alt={currentPokemon.name}
                   className={cn(
                     `relative w-full pixelated aspect-square object-contain filter drop-shadow-lg transition-all duration-300`,
-                    isPokeballDisabled && "animate-pokemon-shrink",
+                    isShrinking && "animate-pokemon-shrink",
                     !isPokeballDisabled &&
                       pokemonState === "idle" &&
                       "animate-pokemon-grow"
