@@ -22,7 +22,7 @@ const Pokemon = ({
 }) => {
   const [currentPokemon] = useCurrentPokemon();
 
-  if (!currentPokemon) return null;
+  if (!currentPokemon) return <div className="h-full w-full" />;
 
   const { cp, isShiny, id } = currentPokemon || {};
 

@@ -14,8 +14,8 @@ const POINTS_RARITY_MAP = {
 export const getRandomPokemon = async (): Promise<WildPokemonState> => {
   // Get random Pokémon ID based on rarity
 
-  // const isLegendary = Math.random() * 100 < 1;
-  const isLegendary = true;
+  const isLegendary = Math.random() * 128 < 1;
+  // const isLegendary = true;
   const pokemonId = getPokemonId(isLegendary);
 
   try {
