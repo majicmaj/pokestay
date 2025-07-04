@@ -75,7 +75,7 @@ const Pokemon = ({
               <div
                 className="absolute left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
                 style={{
-                  bottom: 10 + getScale(currentPokemon) * 60 + "vmin",
+                  bottom: 30 + getScale(currentPokemon) * 50 + "vmin",
                 }}
               >
                 <div
