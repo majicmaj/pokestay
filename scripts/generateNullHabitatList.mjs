@@ -13,50 +13,55 @@ function getGenById(id) {
   return "IX";
 }
 
-async function generateNullHabitatListsByGen() {
+async function generateEtherPokemonLists() {
   console.log("Fetching all Pokémon species...");
   const speciesListRes = await fetch(
     "https://pokeapi.co/api/v2/pokemon-species?limit=10000"
   );
   if (!speciesListRes.ok) {
-    console.error("Failed to fetch Pokémon species list.");
-    return;
+    throw new Error("Failed to fetch Pokémon species list.");
   }
   const speciesList = await speciesListRes.json();
-  const pokemonByGeneration = {
-    I: [],
-    II: [],
-    III: [],
-    IV: [],
-    V: [],
-    VI: [],
-    VII: [],
-    VIII: [],
-    IX: [],
-  };
+  const etherPokemon = {};
 
   console.log(
-    `Found ${speciesList.results.length} species. Checking each for null habitat...`
+    `Found ${speciesList.results.length} species. Categorizing by type and generation...`
   );
 
-  // Using Promise.all to fetch details concurrently for speed
   const promises = speciesList.results.map(async (species) => {
     try {
       const speciesDetailsRes = await fetch(species.url);
       if (speciesDetailsRes.ok) {
         const speciesDetails = await speciesDetailsRes.json();
         if (speciesDetails.habitat === null) {
-          const id = speciesDetails.id;
-          const generation = getGenById(id);
-          pokemonByGeneration[generation].push({
-            name: speciesDetails.name,
-            url: species.url,
-          });
-          process.stdout.write(`.`); // Show progress
+          const pokemonRes = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${speciesDetails.id}`
+          );
+          if (pokemonRes.ok) {
+            const pokemonData = await pokemonRes.json();
+            const id = pokemonData.id;
+            const generation = getGenById(id);
+            const types = pokemonData.types.map((t) => t.type.name);
+
+            if (!etherPokemon[generation]) {
+              etherPokemon[generation] = {};
+            }
+
+            types.forEach((type) => {
+              if (!etherPokemon[generation][type]) {
+                etherPokemon[generation][type] = [];
+              }
+              etherPokemon[generation][type].push({
+                name: pokemonData.name,
+                url: species.url,
+              });
+            });
+            process.stdout.write(`.`);
+          }
         }
       }
     } catch (error) {
-      // It's okay if some fail, we'll just skip them
+      // Ignore errors and continue
     }
   });
 
@@ -65,33 +70,22 @@ async function generateNullHabitatListsByGen() {
 
   const outputPath = path.resolve(
     process.cwd(),
-    "src/constants/nullHabitatPokemonByGen.ts"
+    "src/constants/etherPokemon.ts"
   );
   let fileContent = `// This file is auto-generated. Do not edit manually.
 // Run \`npm run generate-null-habitat-list\` to update.
 import { NamedAPIResource } from '../types';
 
+export const ETHER_POKEMON: Record<string, Record<string, NamedAPIResource[]>> = ${JSON.stringify(
+    etherPokemon,
+    null,
+    2
+  )};
 `;
 
-  for (const gen in pokemonByGeneration) {
-    // Sort each list alphabetically
-    pokemonByGeneration[gen].sort((a, b) => a.name.localeCompare(b.name));
-    const constName = `NULL_HABITAT_POKEMON_GEN_${gen}`;
-    fileContent += `export const ${constName}: NamedAPIResource[] = ${JSON.stringify(
-      pokemonByGeneration[gen],
-      null,
-      2
-    )};\n\n`;
-    console.log(
-      `Found ${pokemonByGeneration[gen].length} null-habitat Pokémon in Gen ${gen}.`
-    );
-  }
-
   fs.writeFileSync(outputPath, fileContent, "utf8");
-  console.log(
-    `\n✅ Successfully generated lists of Pokémon with null habitat by generation.`
-  );
+  console.log(`\n✅ Successfully generated Ether Pokémon lists.`);
   console.log(`File saved to: ${outputPath}`);
 }
 
-generateNullHabitatListsByGen();
+generateEtherPokemonLists();

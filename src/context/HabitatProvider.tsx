@@ -2,7 +2,7 @@ import React, { useState, useEffect, ReactNode } from "react";
 import { NamedAPIResource } from "../types";
 import { capitalize } from "../utils/capitalize";
 import { HabitatContext } from "./HabitatContext";
-import * as nullHabitats from "../constants/nullHabitatPokemonByGen";
+import { ETHER_POKEMON } from "../constants/etherPokemon";
 
 const HABITAT_CHANGE_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
@@ -19,13 +19,11 @@ const HabitatProvider: React.FC<HabitatProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchHabitats = async () => {
       try {
-        // Fetch the list of regular habitats
         const response = await fetch(
           "https://pokeapi.co/api/v2/pokemon-habitat/"
         );
         const data = await response.json();
 
-        // Check each habitat to ensure it's not empty
         const habitatPromises = data.results.map(
           async (habitat: NamedAPIResource) => {
             const res = await fetch(habitat.url);
@@ -39,25 +37,19 @@ const HabitatProvider: React.FC<HabitatProviderProps> = ({ children }) => {
           (h) => h !== null
         ) as NamedAPIResource[];
 
-        // Filter unknown habitats that are empty
-        const unknownHabitats = Object.keys(nullHabitats)
-          .filter(
-            (key) =>
-              (
-                nullHabitats[
-                  key as keyof typeof nullHabitats
-                ] as NamedAPIResource[]
-              ).length > 0
-          )
-          .map((key) => {
-            const gen = key.split("_").pop();
-            return {
-              name: `Unknown ${gen}`,
-              url: `custom-unknown-${gen}`,
-            };
-          });
+        const etherHabitats: NamedAPIResource[] = [];
+        for (const gen in ETHER_POKEMON) {
+          for (const type in ETHER_POKEMON[gen]) {
+            if (ETHER_POKEMON[gen][type].length > 0) {
+              etherHabitats.push({
+                name: `${capitalize(type)} Ether ${gen}`,
+                url: `custom-ether-${gen}-${type}`,
+              });
+            }
+          }
+        }
 
-        setHabitats([...validHabitats, ...unknownHabitats]);
+        setHabitats([...validHabitats, ...etherHabitats]);
       } catch (error) {
         console.error("Failed to fetch habitats:", error);
       }
@@ -69,12 +61,10 @@ const HabitatProvider: React.FC<HabitatProviderProps> = ({ children }) => {
     if (habitats.length === 0) return;
     const randomHabitat = habitats[Math.floor(Math.random() * habitats.length)];
 
-    if (randomHabitat.url.startsWith("custom-unknown")) {
-      const gen = randomHabitat.url.split("-").pop();
-      const key =
-        `NULL_HABITAT_POKEMON_GEN_${gen}` as keyof typeof nullHabitats;
+    if (randomHabitat.url.startsWith("custom-ether")) {
+      const [, , gen, type] = randomHabitat.url.split("-");
       setHabitat(randomHabitat);
-      setPokemonSpecies(nullHabitats[key]);
+      setPokemonSpecies(ETHER_POKEMON[gen][type]);
       setRemainingTime(HABITAT_CHANGE_INTERVAL);
       return;
     }
