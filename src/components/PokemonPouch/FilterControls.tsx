@@ -4,6 +4,7 @@ import { SortBy, SortDirection } from "../../hooks/usePokemonSortAndFilter";
 import TypeBadge from "../TypeBadge/TypeBadge";
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
+import { cn } from "../../utils/cn";
 
 interface FilterControlsProps {
   searchTerm: string;
@@ -13,6 +14,8 @@ interface FilterControlsProps {
   sortDirection: SortDirection;
   setSortDirection: (direction: SortDirection) => void;
   allTypes: string[];
+  countsPerType: Record<string, number>;
+
   selectedTypes: string[];
   toggleTypeFilter: (type: string) => void;
   setSelectedTypes: (types: string[]) => void;
@@ -29,6 +32,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
   sortDirection,
   setSortDirection,
   allTypes,
+  countsPerType,
   selectedTypes,
   toggleTypeFilter,
   setSelectedTypes,
@@ -94,30 +98,6 @@ const FilterControls: React.FC<FilterControlsProps> = ({
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="flex gap-2 items-center">
-                <button
-                  onClick={() => setSelectedTypes([])}
-                  className="min-w-max border rounded-full border-transparent"
-                >
-                  <X size={16} />
-                </button>
-                <div className="flex w-full gap-1 overflow-x-auto">
-                  {allTypes.map((type) => (
-                    <button
-                      key={type}
-                      onClick={() => toggleTypeFilter(type)}
-                      className={`min-w-max border rounded-full ${
-                        selectedTypes.includes(type)
-                          ? "border-accent"
-                          : "border-transparent opacity-70"
-                      }`}
-                    >
-                      <TypeBadge type={type} />
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {allLocations.length > 0 && (
                 <div className="flex gap-2 items-center">
                   <button
@@ -143,6 +123,33 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                   </div>
                 </div>
               )}
+              <div className="flex gap-2 items-center">
+                <button
+                  onClick={() => setSelectedTypes([])}
+                  className="min-w-max border rounded-full border-transparent"
+                >
+                  <X size={16} />
+                </button>
+                <div className="flex w-full gap-1 overflow-x-auto pb-2">
+                  {allTypes.map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => toggleTypeFilter(type)}
+                      className={cn(
+                        `relative min-w-max border rounded-full`,
+                        selectedTypes.includes(type)
+                          ? "border-accent"
+                          : "border-transparent opacity-70"
+                      )}
+                    >
+                      <TypeBadge type={type} />
+                      <span className="absolute text-xs top-8 left-1/2 transform -translate-x-1/2 bg-accent text-accent-content px-1 rounded-full">
+                        {countsPerType[type] || 0}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </motion.div>
         )}

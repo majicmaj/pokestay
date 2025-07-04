@@ -104,6 +104,7 @@ export type EncounterLogEntry = {
   timestamp: Date;
   location?: LocationData;
   pokemonUuid?: string;
+  cp?: number;
 };
 
 export type LocationData = {

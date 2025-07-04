@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Pokemon } from "../../../types";
-import { Gem, Sparkles, UserRoundCheck, UserRoundPlus } from "lucide-react";
+import { Sparkles, UserRoundCheck, UserRoundPlus } from "lucide-react";
 import { LEGENDARY_POKEMON_IDS } from "../../../constants/legendaryPokemonIds";
 import TypeBadge from "../../TypeBadge/TypeBadge";
+import Icon from "../../../assets/icons/Icon";
 
 interface NameProps {
   pokemon: Pokemon;
@@ -43,7 +44,7 @@ const Name: React.FC<NameProps> = ({
         <div className="relative flex items-center flex-col">
           <div className="font-semibold text-3xl mt-[-16px] flex items-center bg-secondary px-2 rounded-full">
             {pokemon.isShiny && <Sparkles className="w-8" />}
-            {isLegendary && <Gem />}
+            {isLegendary && <Icon name="legendary" />}
             {isEditing ? (
               <input
                 type="text"

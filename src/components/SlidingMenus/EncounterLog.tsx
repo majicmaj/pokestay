@@ -93,6 +93,7 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
                     <p className="font-bold">{entry.pokemonName}</p>
                     <p className="text-sm">Throws: {entry.throws}</p>
                     <p className="text-sm">Status: {entry.status}</p>
+                    <p className="text-sm">CP: {entry.cp}</p>
                     {entry.status === "caught" && (
                       <p className="text-sm">Stardust: +{entry.stardust}</p>
                     )}

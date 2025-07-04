@@ -1,9 +1,10 @@
-import { Gem, Sparkles, UserRoundCheck, UserRoundPlus, X } from "lucide-react";
+import { Sparkles, UserRoundCheck, UserRoundPlus, X } from "lucide-react";
 import React, { useState } from "react";
 import { Pokemon } from "../../../types";
 import { LEGENDARY_POKEMON_IDS } from "../../../constants/legendaryPokemonIds";
 import TypeBadge from "../../TypeBadge/TypeBadge";
 import { cn } from "../../../utils/cn";
+import Icon from "../../../assets/icons/Icon";
 
 interface HeaderProps {
   pokemon: Pokemon;
@@ -51,7 +52,9 @@ const Header: React.FC<HeaderProps> = ({
       <div className="relative flex items-center flex-col gap-2">
         <div className="font-semibold text-3xl flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full">
           {pokemon.isShiny && <Sparkles className="w-8 h-8 text-yellow-300" />}
-          {isLegendary && <Gem className="w-8 h-8 text-cyan-300" />}
+          {isLegendary && (
+            <Icon name="legendary" className="w-8 h-8 text-cyan-300" />
+          )}
           {isEditing ? (
             <>
               <input

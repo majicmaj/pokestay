@@ -34,19 +34,22 @@ const SelectedPokemon = ({
     enter: (direction: number) => {
       return {
         // zIndex: 0,
-        x: direction > 0 ? "50vw" : "-50vw",
+        y: 0,
+        x: direction > 0 ? "100vw" : "-100vw",
         opacity: 0,
       };
     },
     center: {
       zIndex: 1,
+      y: 0,
       x: 0,
       opacity: 1,
     },
     exit: (direction: number) => {
       return {
         // zIndex: 0,
-        x: direction < 0 ? "50vw" : "-50vw",
+        y: 0,
+        x: direction < 0 ? "100vw" : "-100vw",
         opacity: 0,
       };
     },
@@ -267,7 +270,7 @@ const SelectedPokemon = ({
               paginate(-1);
             }
           }}
-          className="relative w- min-w-[100vw] max-w-4xl p-2 sm:p-0"
+          className="absolute w- min-w-[100vw] max-w-4xl p-2 sm:p-0"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-0">
             {/* Left Column */}

@@ -57,6 +57,18 @@ export const LEGENDARY_POKEMON_IDS = [
   896, // Glastrier
   897, // Spectrier
   898, // Calyrex
+  905, // Enamorus
+  1001, // Wo-Chien
+  1002, // Chien-Pao
+  1003, // Ting-Lu
+  1004, // Chi-Yu
+  1007, // Koraidon
+  1008, // Miraidon
+  1014, // Okidogi
+  1015, // Munkidori
+  1016, // Fezandipiti
+  1017, // Ogerpon
+  1024, // Terapagos
 ];
 
 // Array of all mythical Pokémon IDs (pulled out of the original list)
@@ -79,4 +91,8 @@ export const MYTHICAL_POKEMON_IDS = [
   801, // Magearna
   802, // Marshadow
   807, // Zeraora
+  808, // Meltan
+  809, // Melmetal
+  893, // Zarude
+  1025, // Pecharunt
 ];

@@ -1,9 +1,10 @@
-import { Gem, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import useCurrentPokemon from "../../hooks/useCurrentPokemon";
 import { type Pokemon, PokemonState } from "../../types";
 import TypeBadge from "../TypeBadge/TypeBadge";
 import { cn } from "../../utils/cn";
 import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
+import Icon from "../../assets/icons/Icon";
 
 const getScale = (pokemon: Pokemon) => {
   // height = 1 => scale = 20
@@ -51,7 +52,7 @@ const Pokemon = ({
               )}
             >
               {isShiny && <Sparkles />}
-              {isLegendary && <Gem />}
+              {isLegendary && <Icon name="legendary" />}
               <h2>{currentPokemon.name}</h2>
               <p className="opacity-50">/</p>
               <p className="font-light">

@@ -102,6 +102,7 @@ export default function useEncounter() {
         timestamp: new Date(),
         location: location || undefined,
         pokemonUuid: caughtPokemon.uuid,
+        cp: caughtPokemon.cp,
       });
       setCatchMessage(
         `${currentPokemon.name} caught! +${extraPoints} stardust`
