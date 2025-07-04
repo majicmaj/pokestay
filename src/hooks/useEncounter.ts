@@ -97,15 +97,19 @@ export default function useEncounter() {
         ? "Nice"
         : "Poor";
 
-    setCatchMessage(
-      `${throwQuality} throw, ${timingQuality.toLowerCase()} timing! ${advantageMessage} `
-    );
-
     const catchProbability = calculateCatchProbability(
       throwSpeed,
       gameState.buddyPokemon,
       currentPokemon,
       timingMultiplier
+    );
+
+    const probabilityMessage = import.meta.env.DEV
+      ? `(${(catchProbability * 100).toFixed(0)}%)`
+      : "";
+
+    setCatchMessage(
+      `${throwQuality} throw, ${timingQuality.toLowerCase()} timing! ${advantageMessage} ${probabilityMessage}`
     );
 
     if (soundEnabled) {
