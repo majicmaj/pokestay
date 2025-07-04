@@ -1,4 +1,4 @@
-import { Footprints, LogOut, ScrollText, X } from "lucide-react";
+import { Footprints, ScrollText, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import BuddyPokemon from "./BuddyPokemon";
 import EncounterLog from "./EncounterLog";
