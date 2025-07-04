@@ -63,11 +63,11 @@ export default function useEncounter() {
     const timingProgress = (elapsedTime % 3000) / 3000;
     const timingMultiplier = 0.5 + timingProgress;
 
-    let timingMessage = "Nice!";
+    let timingQuality = "Nice";
     if (timingMultiplier > 1.25) {
-      timingMessage = "Excellent!";
+      timingQuality = "Excellent";
     } else if (timingMultiplier > 0.75) {
-      timingMessage = "Great!";
+      timingQuality = "Great";
     }
 
     const advantage = calculateTypeAdvantage(
@@ -84,16 +84,18 @@ export default function useEncounter() {
         ? "Not very effective!"
         : "";
 
-    const speedMessage =
+    const throwQuality =
       throwSpeed > 5
-        ? "Excellent!"
+        ? "Excellent"
         : throwSpeed > 3
-        ? "Great!"
+        ? "Great"
         : throwSpeed > 1
-        ? "Nice!"
-        : "Poor!";
+        ? "Nice"
+        : "Poor";
 
-    setCatchMessage(`${timingMessage} ${speedMessage} ${advantageMessage} `);
+    setCatchMessage(
+      `${throwQuality} throw, ${timingQuality.toLowerCase()} timing! ${advantageMessage} `
+    );
 
     const catchProbability = calculateCatchProbability(
       throwSpeed,

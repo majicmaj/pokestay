@@ -16,7 +16,7 @@ export const getLegendaryPokemonId = () => {
   return pokemonId;
 };
 
-// export const getPokemonId = (isLegendary: boolean) => 595;
+export const getPokemonId = (isLegendary: boolean) => 595;
 // export const getPokemonId = (isLegendary: boolean) => 890;
-export const getPokemonId = (isLegendary: boolean) =>
-  isLegendary ? getLegendaryPokemonId() : getNonLegendaryPokemonId();
+// export const getPokemonId = (isLegendary: boolean) =>
+//   isLegendary ? getLegendaryPokemonId() : getNonLegendaryPokemonId();
