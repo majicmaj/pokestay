@@ -5,6 +5,7 @@ import { LEGENDARY_POKEMON_IDS } from "../../../constants/legendaryPokemonIds";
 import TypeBadge from "../../TypeBadge/TypeBadge";
 import { cn } from "../../../utils/cn";
 import Icon from "../../../assets/icons/Icon";
+import { getPokemonScale } from "../../../utils/getPokemonScale";
 
 interface HeaderProps {
   pokemon: Pokemon;
@@ -41,14 +42,23 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div
       className={cn(
-        "relative aspect-square w-full grid place-items-center items-center text-white"
+        "relative aspect-square w-full grid place-items-center items-end text-white"
       )}
     >
-      <img
-        src={pokemon.sprite}
-        alt={pokemon.name}
-        className="animate-bounce-slow pixelated h-full w-full aspect-square object-contain drop-shadow-lg"
-      />
+      <div
+        className="mt-4 max-w-[unset] relative aspect-square overflow-visible"
+        style={{
+          height: getPokemonScale(pokemon) * 100 + "vmin",
+          width: getPokemonScale(pokemon) * 100 + "vmin",
+          transition: "transform 0.3s ease-in-out",
+        }}
+      >
+        <img
+          src={pokemon.sprite}
+          alt={pokemon.name}
+          className="animate-bounce-slow pixelated h-full w-full aspect-square object-contain drop-shadow-lg"
+        />
+      </div>
 
       <div className="absolute bottom-0 w-full items-center flex flex-col gap-2">
         <div className="relative flex items-center flex-col gap-2">
