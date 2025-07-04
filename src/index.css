@@ -72,7 +72,8 @@
     transform: translate(0, 0) scale(1);
   }
   50% {
-    transform: translate(0, -50vh) scale(0.5) rotate(0deg);
+    transform: translate(0, var(--throw-impact-height, -50vh)) scale(0.5)
+      rotate(0deg);
   }
   100% {
     transform: translate(0, 0) scale(1);
@@ -84,10 +85,11 @@
     transform: translate(0, 0) scale(1);
   }
   25% {
-    transform: translate(0, -60vh) scale(1.1);
+    transform: translate(0, var(--throw-arc-height, -60vh)) scale(1.1);
   }
   50% {
-    transform: translate(0, -50vh) scale(0.5) rotate(360deg);
+    transform: translate(0, var(--throw-impact-height, -50vh)) scale(0.5)
+      rotate(360deg);
   }
   100% {
     transform: translate(0, 0) scale(1);
@@ -99,10 +101,11 @@
     transform: translate(0, 0) scale(1);
   }
   25% {
-    transform: translate(-15vw, -60vh) scale(0.9);
+    transform: translate(-15vw, var(--throw-arc-height, -60vh)) scale(0.9);
   }
   50% {
-    transform: translate(0, -50vh) scale(0.5) rotate(-360deg);
+    transform: translate(0, var(--throw-impact-height, -50vh)) scale(0.5)
+      rotate(-360deg);
   }
   100% {
     transform: translate(0, 0) scale(1);
@@ -114,10 +117,11 @@
     transform: translate(0, 0) scale(1);
   }
   25% {
-    transform: translate(15vw, -60vh) scale(0.9);
+    transform: translate(15vw, var(--throw-arc-height, -60vh)) scale(0.9);
   }
   50% {
-    transform: translate(0, -50vh) scale(0.5) rotate(360deg);
+    transform: translate(0, var(--throw-impact-height, -50vh)) scale(0.5)
+      rotate(360deg);
   }
   100% {
     transform: translate(0, 0) scale(1);
@@ -129,10 +133,11 @@
     transform: translate(0, 0) scale(1);
   }
   25% {
-    transform: translate(-25vw, -60vh) scale(0.9);
+    transform: translate(-25vw, var(--throw-arc-height, -60vh)) scale(0.9);
   }
   50% {
-    transform: translate(0, -50vh) scale(0.5) rotate(-720deg);
+    transform: translate(0, var(--throw-impact-height, -50vh)) scale(0.5)
+      rotate(-720deg);
   }
   100% {
     transform: translate(0, 0) scale(1);
@@ -144,10 +149,11 @@
     transform: translate(0, 0) scale(1);
   }
   25% {
-    transform: translate(25vw, -60vh) scale(0.9);
+    transform: translate(25vw, var(--throw-arc-height, -60vh)) scale(0.9);
   }
   50% {
-    transform: translate(0, -50vh) scale(0.5) rotate(720deg);
+    transform: translate(0, var(--throw-impact-height, -50vh)) scale(0.5)
+      rotate(720deg);
   }
   100% {
     transform: translate(0, 0) scale(1);

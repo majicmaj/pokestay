@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSound } from "../../context/SoundProvider";
+import useCurrentPokemon from "../../hooks/useCurrentPokemon";
+import { getPokemonScale } from "../../utils/getPokemonScale";
 
 interface PokeballProps {
   onClick: (throwSpeed: number) => void;
@@ -29,6 +31,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
     { time: number; y: number; x: number }[]
   >([]);
   const { soundEnabled, volume } = useSound();
+  const [currentPokemon] = useCurrentPokemon();
 
   const ballRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -89,6 +92,30 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
       throwSpeed *= CONSTANT_MODIFIER;
 
       if (throwSpeed > 0.5) {
+        if (currentPokemon && ballRef.current) {
+          const scale = getPokemonScale(currentPokemon);
+          const minScale = 0.125;
+          const maxScale = 1.25;
+
+          const minImpactHeight = 5; // vh
+          const maxImpactHeight = 60; // vh
+          const impactHeight =
+            minImpactHeight +
+            ((scale - minScale) / (maxScale - minScale)) *
+              (maxImpactHeight - minImpactHeight);
+
+          const arcHeight = impactHeight * 1.2;
+
+          ballRef.current.style.setProperty(
+            "--throw-impact-height",
+            `-${impactHeight}vh`
+          );
+          ballRef.current.style.setProperty(
+            "--throw-arc-height",
+            `-${arcHeight}vh`
+          );
+        }
+
         if (soundEnabled) {
           const audio = new Audio(
             "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_throw%20%23000936_0.wav"
@@ -133,6 +160,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
     disabled,
     volume,
     soundEnabled,
+    currentPokemon,
   ]);
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
