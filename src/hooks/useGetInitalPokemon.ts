@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useHabitat } from "../context/HabitatProvider";
+import { useHabitat } from "../hooks/useHabitat";
 import { getRandomPokemon } from "../utils/getRandomPokemon";
 import useCurrentPokemon from "./useCurrentPokemon";
 

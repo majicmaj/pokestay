@@ -11,7 +11,7 @@ import useInventory from "./useInventory";
 import { useLocation } from "./useLocation";
 import usePoints from "./usePoints";
 import { useSound } from "../context/SoundProvider";
-import { useHabitat } from "../context/HabitatProvider";
+import { useHabitat } from "../hooks/useHabitat";
 
 export default function useEncounter() {
   const [gameState] = useGameState();

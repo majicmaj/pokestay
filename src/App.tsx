@@ -13,7 +13,8 @@ import useGetInitalPokemon from "./hooks/useGetInitalPokemon";
 import { ThemeProvider } from "./hooks/useTheme/ThemeProvider";
 import { useEffect, useRef } from "react";
 import { useSound } from "./context/SoundProvider";
-import HabitatProvider, { useHabitat } from "./context/HabitatProvider";
+import HabitatProvider from "./context/HabitatProvider";
+import { useHabitat } from "./hooks/useHabitat";
 
 const App: React.FC = () => {
   return (

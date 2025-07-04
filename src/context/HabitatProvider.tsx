@@ -1,30 +1,9 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-  ReactNode,
-} from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import { NamedAPIResource } from "../types";
 import { capitalize } from "../utils/capitalize";
+import { HabitatContext } from "./HabitatContext";
 
 const HABITAT_CHANGE_INTERVAL = 5 * 60 * 1000; // 5 minutes
-
-interface HabitatContextType {
-  habitat: NamedAPIResource | null;
-  pokemonSpecies: NamedAPIResource[];
-  remainingTime: number;
-}
-
-const HabitatContext = createContext<HabitatContextType | undefined>(undefined);
-
-export const useHabitat = () => {
-  const context = useContext(HabitatContext);
-  if (!context) {
-    throw new Error("useHabitat must be used within a HabitatProvider");
-  }
-  return context;
-};
 
 interface HabitatProviderProps {
   children: ReactNode;
