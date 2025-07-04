@@ -109,7 +109,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
 
           ballRef.current.style.setProperty(
             "--throw-impact-height",
-            `-${impactHeight}vh`
+            `-${impactHeight}vmax`
           );
           ballRef.current.style.setProperty(
             "--throw-arc-height",

@@ -304,7 +304,7 @@ const SelectedPokemon = ({
           }}
           className="absolute w- min-w-[100vw] h-screen overflow-y-auto max-w-4xl p-2 sm:p-0"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-0">
+          <div className="grid pt-6 grid-cols-1 sm:grid-cols-2 gap-0">
             {/* Left Column */}
             <Header
               pokemon={pokemon}

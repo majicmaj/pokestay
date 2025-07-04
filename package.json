@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "vite --host"
+    "start": "vite --host",
+    "pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
     "@fontsource/tiny5": "^5.1.0",
@@ -31,6 +32,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/uuid": "^10.0.0",
+    "@vite-pwa/assets-generator": "^1.0.0",
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.15.0",
@@ -42,6 +44,7 @@
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.15.0",
     "vite": "^5.4.11",
+    "vite-plugin-pwa": "^1.0.1",
     "vite-plugin-svgr": "^4.3.0"
   }
 }
