@@ -62,7 +62,13 @@ const Header: React.FC<HeaderProps> = ({
 
       <div className="absolute top-4 w-full items-center flex flex-col gap-1">
         {/* Name */}
-        <div className="font-semibold text-2xl flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full truncate line-clamp-1">
+        <div
+          className={cn(
+            "font-semibold text-2xl break-keep flex items-center gap-2 bg-black/20 px-4 py-1 rounded-full truncate",
+            isLegendary &&
+              "pokemon-legendary-text pokemon-legendary-shadow bg-orange-700/40"
+          )}
+        >
           {pokemon.isShiny && <Sparkles className="w-8 h-8 text-yellow-300" />}
           {isLegendary && (
             <Icon name="legendary" className="w-8 h-8 text-orange-400" />

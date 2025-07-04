@@ -5,7 +5,27 @@ import TypeBadge from "../TypeBadge/TypeBadge";
 import { cn } from "../../utils/cn";
 import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
 import Icon from "../../assets/icons/Icon";
-import { getPokemonScale } from "../../utils/getPokemonScale";
+
+const getScale = (pokemon: Pokemon) => {
+  const height = pokemon?.height || 10; // Default to 1m (10dm) if no height
+  const minHeight = 1; // Joltik
+  const maxHeight = 200; // Eternatus
+
+  const minScale = 0.2;
+  const maxScale = 1.25;
+
+  // Use a logarithmic scale to better handle the wide range of Pokémon heights
+  const logHeight = Math.log10(Math.max(minHeight, height));
+  const logMinHeight = Math.log10(minHeight);
+  const logMaxHeight = Math.log10(maxHeight);
+
+  const scale =
+    minScale +
+    ((logHeight - logMinHeight) / (logMaxHeight - logMinHeight)) *
+      (maxScale - minScale);
+
+  return Math.min(maxScale, Math.max(minScale, scale)); // Clamp the value
+};
 
 const Pokemon = ({
   pokemonState,
@@ -81,8 +101,8 @@ const Pokemon = ({
               <div
                 className="mt-4 max-w-[unset] relative aspect-square overflow-visible"
                 style={{
-                  height: getPokemonScale(currentPokemon) * 100 + "vmin",
-                  width: getPokemonScale(currentPokemon) * 100 + "vmin",
+                  height: getScale(currentPokemon) * 100 + "vmin",
+                  width: getScale(currentPokemon) * 100 + "vmin",
 
                   // transform: `scale(${getScale(currentPokemon)})`,
                   transition: "transform 0.3s ease-in-out",
