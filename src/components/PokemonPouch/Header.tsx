@@ -16,17 +16,22 @@ const Header: React.FC<HeaderSectionProps> = ({
   return (
     <motion.div
       onPointerDown={(e) => dragControls.start(e)}
-      className="w-full flex flex-col items-center pt-2 cursor-grab touch-none"
+      className="w-full flex flex-col items-center pt-3 pb-2 cursor-grab touch-none sticky top-0 bg-secondary z-20"
     >
-      <div className="w-12 h-1.5 bg-gray-400 rounded-full mb-2" />
-      <div className="w-full flex items-center justify-between px-4 gap-4 place-items-center">
-        <div className="flex items-center gap-1">
-          <Pokeball className="w-6 h-6" />
-          {inventoryCount}
-        </div>
-        <div className="flex items-center gap-1">
-          <Stardust className="w-6 h-6" />
-          {points}
+      <div className="w-12 h-1.5 bg-gray-400 dark:bg-gray-600 rounded-full mb-2" />
+      <div className="w-full flex items-center justify-between px-4">
+        <h2 className="text-3xl font-bold pixelated-font tracking-wide">
+          Pokémon
+        </h2>
+        <div className="flex items-center gap-4 text-lg">
+          <div className="flex items-center gap-2 bg-primary px-3 py-1 rounded-full">
+            <Pokeball className="w-5 h-5" />
+            <span className="font-semibold">{inventoryCount}</span>
+          </div>
+          <div className="flex items-center gap-2 bg-primary px-3 py-1 rounded-full">
+            <Stardust className="w-5 h-5" />
+            <span className="font-semibold">{points}</span>
+          </div>
         </div>
       </div>
     </motion.div>

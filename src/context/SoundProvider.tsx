@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useCallback } from "react";
 import useLocalStorageState from "../hooks/useLocalStorageState";
 
 interface SoundContextType {
@@ -37,21 +37,21 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({
   );
   const [volume, setVolume] = useLocalStorageState("volume", 0.5);
 
-  const toggleMasterSound = () => {
+  const toggleMasterSound = useCallback(() => {
     setMasterSoundEnabled((prev: boolean) => !prev);
-  };
+  }, [setMasterSoundEnabled]);
 
-  const toggleMusic = () => {
+  const toggleMusic = useCallback(() => {
     setMusicEnabled((prev: boolean) => !prev);
-  };
+  }, [setMusicEnabled]);
 
-  const toggleEffects = () => {
+  const toggleEffects = useCallback(() => {
     setEffectsEnabled((prev: boolean) => !prev);
-  };
+  }, [setEffectsEnabled]);
 
-  const toggleCries = () => {
+  const toggleCries = useCallback(() => {
     setCriesEnabled((prev: boolean) => !prev);
-  };
+  }, [setCriesEnabled]);
 
   return (
     <SoundContext.Provider

@@ -5,6 +5,14 @@ import useEncounterLog from "../../hooks/useEncounterLog";
 import { useEncounterLogSortAndFilter } from "../../hooks/useEncounterLogSortAndFilter";
 import useInventory from "../../hooks/useInventory";
 import EncounterLogFilterControls from "./EncounterLogFilterControls";
+import {
+  ChevronsUpDown,
+  ExternalLink,
+  HelpCircle,
+  MapPin,
+  Star,
+} from "lucide-react";
+import PokeballIcon from "../../assets/icons/Pokeball";
 
 const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
   dragControls,
@@ -32,20 +40,23 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
   ).sort();
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col bg-secondary text-content">
       <motion.div
         onPointerDown={(e) => dragControls.start(e)}
-        className="w-full flex flex-col items-center pt-2 cursor-grab touch-none"
+        className="w-full flex flex-col items-center pt-3 pb-2 cursor-grab touch-none"
       >
-        <div className="w-12 h-1.5 bg-gray-400 rounded-full mb-2" />
-        <h2 className="text-2xl font-bold text-center">Encounters</h2>
+        <div className="w-12 h-1.5 bg-gray-400 dark:bg-gray-600 rounded-full mb-2" />
+        <h2 className="text-3xl font-bold pixelated-font text-center tracking-wide">
+          Encounters
+        </h2>
       </motion.div>
-      <div className="p-4">
+      <div className="p-4 border-b border-divider">
         <button
           onClick={() => setFiltersExpanded(!filtersExpanded)}
-          className="bg-accent text-accent-content px-2 p-1 rounded-full w-full mt-2"
+          className="bg-accent text-accent-content px-4 py-2 rounded-lg w-full mt-2 flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-accent/80"
         >
-          {filtersExpanded ? "Hide Filters" : "Search Logs"}
+          <ChevronsUpDown className="w-5 h-5" />
+          {filtersExpanded ? "Hide Filters" : "Search & Filter"}
         </button>
       </div>
       <AnimatePresence>
@@ -55,6 +66,7 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
+            className="bg-primary/50"
           >
             <EncounterLogFilterControls
               searchTerm={searchTerm}
@@ -72,51 +84,85 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
       </AnimatePresence>
       <div className="p-4 overflow-y-auto flex-grow">
         {filteredAndSortedLog.length === 0 ? (
-          <p className="text-center text-gray-500">No matching encounters.</p>
+          <div className="flex flex-col items-center justify-center h-full text-center text-gray-500">
+            <HelpCircle className="w-16 h-16 mb-4" />
+            <p className="text-xl font-semibold">No Encounters Found</p>
+            <p>Try adjusting your filters or go catch some Pokémon!</p>
+          </div>
         ) : (
           <div className="space-y-4">
             {filteredAndSortedLog.map((entry, index) => {
               const pokemonInInventory = inventory.find(
                 (p) => p.uuid === entry.pokemonUuid
               );
+              const statusColor =
+                entry.status === "caught"
+                  ? "text-green-500"
+                  : "text-yellow-500";
+              const statusText =
+                entry.status.charAt(0).toUpperCase() + entry.status.slice(1);
+
               return (
                 <div
                   key={index}
-                  className="flex items-center gap-4 p-2 rounded-lg bg-primary"
+                  className="flex items-start gap-4 p-3 rounded-lg bg-primary shadow-sm"
                 >
                   <img
                     src={entry.pokemonSprite}
                     alt={entry.pokemonName}
-                    className="w-16 h-16 object-contain"
+                    className="w-20 h-20 object-contain bg-black/10 rounded-lg p-1"
                   />
                   <div className="flex-grow">
-                    <p className="font-bold">{entry.pokemonName}</p>
-                    <p className="text-sm">Throws: {entry.throws}</p>
-                    <p className="text-sm">Status: {entry.status}</p>
-                    <p className="text-sm">CP: {entry.cp}</p>
-                    {entry.status === "caught" && (
-                      <p className="text-sm">Stardust: +{entry.stardust}</p>
-                    )}
-                    {entry.location?.city && (
-                      <p className="text-sm">Location: {entry.location.city}</p>
-                    )}
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-bold text-lg">{entry.pokemonName}</p>
+                        <p className={`text-sm font-semibold ${statusColor}`}>
+                          {statusText}
+                        </p>
+                      </div>
+                      <p className="text-xs text-gray-400 whitespace-nowrap">
+                        {new Date(entry.timestamp).toLocaleString([], {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
+                      </p>
+                    </div>
+
+                    <div className="text-sm space-y-1 mt-2 text-content/80">
+                      <div className="flex items-center gap-2">
+                        <PokeballIcon className="w-3.5 h-3.5" /> Throws:{" "}
+                        {entry.throws}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-xs">CP</span> {entry.cp}
+                      </div>
+                      {entry.status === "caught" && (
+                        <div className="flex items-center gap-2 text-yellow-500">
+                          <Star className="w-3.5 h-3.5" /> +{entry.stardust}
+                        </div>
+                      )}
+                      {entry.location?.city && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-3.5 h-3.5" />{" "}
+                          {entry.location.city}
+                        </div>
+                      )}
+                    </div>
+
                     {entry.pokemonUuid &&
                       (pokemonInInventory ? (
                         <Link
                           to={`/pouch/${entry.pokemonUuid}`}
-                          className="text-blue-500 hover:underline"
+                          className="text-blue-500 hover:underline text-sm mt-2 inline-flex items-center gap-1"
                         >
-                          View in Pouch
+                          View in Pouch <ExternalLink className="w-3 h-3" />
                         </Link>
                       ) : (
-                        <p className="text-sm text-gray-500 italic">
+                        <p className="text-sm text-gray-500 italic mt-2">
                           Transferred
                         </p>
                       ))}
                   </div>
-                  <p className="text-xs text-gray-400">
-                    {new Date(entry.timestamp).toLocaleString()}
-                  </p>
                 </div>
               );
             })}
