@@ -110,8 +110,8 @@ const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Stats */}
-        <p className="text-sm bg-black/20 px-2 rounded-full">
-          {pokemon.stats.hp} HP / Lv.{pokemon.stats.level} / CP {pokemon.cp}
+        <p className="bg-black/20 px-2 rounded-full">
+          CP {pokemon.cp} / Lv.{pokemon.stats.level}
         </p>
 
         {/* Types */}

@@ -13,7 +13,7 @@ export const ActionButton: React.FC<{
   isConfirming?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
-  confirmLabel?: string;
+  confirmLabel?: React.ReactNode | string;
 }> = ({
   onClick,
   disabled,
@@ -32,13 +32,13 @@ export const ActionButton: React.FC<{
       <div className="flex gap-2 w-full">
         <button
           onClick={onConfirm}
-          className="w-full flex items-center justify-center gap-2 bg-red-500 text-white font-bold py-2 px-4 rounded-lg transition-transform active:scale-95"
+          className="w-full flex items-center justify-center gap-2 bg-red-500 text-white font-bold p-3  rounded-lg transition-transform active:scale-95"
         >
           {confirmLabel}
         </button>
         <button
           onClick={onCancel}
-          className="w-full flex items-center justify-center gap-2 bg-gray-500 text-white font-bold py-2 px-4 rounded-lg transition-transform active:scale-95"
+          className="w-full flex items-center justify-center gap-2 bg-gray-500 text-white font-bold p-3 rounded-lg transition-transform active:scale-95"
         >
           Cancel
         </button>

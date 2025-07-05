@@ -21,7 +21,7 @@ const Actions: React.FC<ActionsProps> = ({
 }) => {
   return (
     <div className="w-full bg-primary rounded-lg p-4 shadow-md flex flex-col gap-3">
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 gap-2">
         <ActionButton
           onClick={levelUp}
           disabled={isLevelUpDisabled}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ActionButton } from "../../ui/ActionButton";
 import { Trash2 } from "lucide-react";
 import { formatNumber } from "../../../utils/formatNumber";
+import Stardust from "../../../assets/icons/Stardust";
 
 const Transfer: React.FC<{
   transferPokemon: () => void;
@@ -19,7 +20,11 @@ const Transfer: React.FC<{
         isConfirming={confirmTransfer}
         onConfirm={transferPokemon}
         onCancel={() => setConfirmTransfer(false)}
-        confirmLabel={`+${formatNumber(transferStardust)} Stardust`}
+        confirmLabel={
+          <div className="flex items-center gap-1">
+            <Stardust className="w-5 h-5" />+{formatNumber(transferStardust)}
+          </div>
+        }
       />
     </div>
   );

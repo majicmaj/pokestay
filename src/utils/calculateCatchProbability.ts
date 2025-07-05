@@ -15,39 +15,32 @@ export const calculateCatchProbability = (
 
   // Calculate buddy bonus if applicable
   const buddyModifier = buddyPokemon
-    ? calculateTypeAdvantage(buddyPokemon.types, targetPokemon.types)
+    ? 3 * calculateTypeAdvantage(buddyPokemon.types, targetPokemon.types)
     : 1;
 
-  // Calculate CP modifier (1x for equal CP, 2x for double CP, 0.5x for half CP)
+  // Calculate CP modifier (1x for equal CP, 2x for double CP, 3x for triple CP (max))
   const cpModifier = Math.min(
-    Math.max(1, (buddyPokemon?.cp || 1) / (targetPokemon?.cp || 1)),
+    (buddyPokemon?.cp || 1) / (targetPokemon?.cp || 1),
     3
   );
 
   const catchModifier = targetPokemon.catchModifier;
 
-  const levelModifier = ((50 - targetPokemon.stats.level) / 50) * 0.5 + 0.5;
+  // Calculate level modifier (1x for level 1, 0.5x for level 50)
+  const levelModifier = 0.5 + (targetPokemon.stats.level / 50) * 0.5;
+
+  // Ensure no zeroes
+  const mods = [
+    catchRate,
+    speedModifier,
+    levelModifier,
+    cpModifier,
+    buddyModifier,
+    timingMultiplier,
+  ].filter((mod) => mod > 0);
 
   const finalCatchRate =
-    targetPokemon.catchModifier +
-    catchRate *
-      speedModifier *
-      levelModifier *
-      cpModifier *
-      buddyModifier *
-      catchModifier *
-      timingMultiplier;
+    catchModifier + mods.reduce((acc, mod) => acc * mod, 1);
 
-  // console.log({
-  //   catchRate,
-  //   speedModifier,
-  //   levelModifier,
-  //   cpModifier,
-  //   buddyModifier,
-  //   catchModifier,
-  //   timingMultiplier,
-  //   finalCatchRate,
-  // });
-
-  return Math.max(targetPokemon.catchModifier, Math.min(finalCatchRate, 0.99));
+  return Math.max(catchModifier, Math.min(finalCatchRate, 0.99));
 };
