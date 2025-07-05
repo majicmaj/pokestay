@@ -115,7 +115,6 @@ const HabitatProvider: React.FC<HabitatProviderProps> = ({ children }) => {
 
       if (newRemainingTime <= 0) {
         setRemainingTime(0);
-        fetchNewHabitat();
       } else {
         setRemainingTime(newRemainingTime);
       }
@@ -125,7 +124,7 @@ const HabitatProvider: React.FC<HabitatProviderProps> = ({ children }) => {
     setRemainingTime(HABITAT_CHANGE_INTERVAL - initialElapsedTime);
 
     return () => clearInterval(intervalId);
-  }, [habitatStartTime, fetchNewHabitat]);
+  }, [habitatStartTime]);
 
   const skipHabitat = () => {
     fetchNewHabitat();

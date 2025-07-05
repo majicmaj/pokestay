@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
 // Utility to get the value from local storage
 const getLocalStorageValue = <T>(key: string, defaultValue: T): T => {
@@ -39,13 +40,16 @@ export const useLocalStorageState = <T>(key: string, defaultValue: T) => {
     },
   });
 
-  const setValue = (newValue: T | ((val: T) => T)) => {
-    const valueToStore =
-      newValue instanceof Function ? newValue(data as T) : newValue;
-    mutation.mutate(valueToStore);
-  };
+  const setValue = useCallback(
+    (newValue: T | ((val: T) => T)) => {
+      const valueToStore =
+        newValue instanceof Function ? newValue(data as T) : newValue;
+      mutation.mutate(valueToStore);
+    },
+    [data, mutation]
+  );
 
-  return [data as T, setValue] as [T, (newValue: T | ((val: T) => T)) => void];
+  return [data as T, setValue] as const;
 };
 
 export default useLocalStorageState;
