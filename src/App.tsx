@@ -37,6 +37,7 @@ const Main: React.FC = () => {
   const [currentPokemon] = useCurrentPokemon();
   const { soundEnabled, volume } = useSound();
   const audioRef = useRef<HTMLAudioElement>();
+  const userInteracted = useRef(false);
   const { habitat, remainingTime, skipHabitat } = useHabitat();
 
   const formatTime = (ms: number) => {
@@ -60,7 +61,7 @@ const Main: React.FC = () => {
     audio.volume = volume;
 
     const playAudio = () => {
-      if (soundEnabled && !document.hidden) {
+      if (soundEnabled && !document.hidden && userInteracted.current) {
         audio.play().catch(() => {});
       } else {
         audio.pause();
@@ -68,12 +69,15 @@ const Main: React.FC = () => {
     };
 
     const handleVisibilityChange = () => playAudio();
-    const handleInteraction = () => playAudio();
+    const handleInteraction = () => {
+      userInteracted.current = true;
+      playAudio();
+    };
 
     playAudio();
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    document.addEventListener("click", handleInteraction, { once: true });
+    document.addEventListener("click", handleInteraction);
 
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);

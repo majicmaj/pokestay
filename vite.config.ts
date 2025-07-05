@@ -18,46 +18,31 @@ export default defineConfig({
         theme_color: "#ffffff",
         icons: [
           {
-            src: "pwa-64x64.png",
+            src: "pokeball.png",
             sizes: "64x64",
             type: "image/png",
           },
           {
-            src: "pwa-192x192.png",
+            src: "pokeball.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "pwa-512x512.png",
+            src: "pokeball.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "maskable-icon-512x512.png",
+            src: "pokeball.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
           },
         ],
-        screenshots: [
-          {
-            src: "assets/screenshots/desktop.png",
-            sizes: "3024x1718",
-            type: "image/png",
-            label: "Desktop view",
-            form_factor: "wide",
-          },
-          {
-            src: "assets/screenshots/mobile.png",
-            sizes: "828x1792",
-            type: "image/png",
-            label: "Mobile view",
-          },
-        ],
       },
       workbox: {
         globPatterns: ["**/*"],
-        navigateFallback: "/offline.html",
+        navigateFallback: "index.html",
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.origin === "https://pokeapi.co",
