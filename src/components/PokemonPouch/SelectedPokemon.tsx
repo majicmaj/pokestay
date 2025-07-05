@@ -11,7 +11,7 @@ import usePoints from "../../hooks/usePoints";
 import { Pokemon } from "../../types";
 import { evolvePokemon } from "../../utils/getEvolution";
 import getBackgroundParticles from "../../utils/getBackgroundParticles";
-import { isValidImageUrl } from "../../utils/isValidImageUrl";
+import { getSprite } from "../../utils/getSprite";
 import { levelUpPokemon } from "../../utils/levelUpPokemon";
 import Actions from "./SelectedPokemon/Actions";
 import Header from "./SelectedPokemon/Header";
@@ -205,25 +205,10 @@ const SelectedPokemon = ({
     onClose();
   };
 
-  const set3dSprite = async () => {
-    const sprite3dBase = `https://play.pokemonshowdown.com/sprites/xyani${
-      pokemon.isShiny ? "-shiny/" : "/"
-    }${pokemon.name.toLowerCase().replace("-", "")}.gif`;
+  const updateSprite = async (newSprite: string | null) => {
+    if (!newSprite) return;
 
-    const hasDashInName = pokemon.name.includes("-");
-    const is3dValid = await isValidImageUrl(sprite3dBase);
-
-    const sprite =
-      hasDashInName && !is3dValid
-        ? `https://play.pokemonshowdown.com/sprites/xyani${
-            pokemon.isShiny ? "-shiny/" : "/"
-          }${pokemon.name.toLowerCase().split("-")[0]}.gif`
-        : sprite3dBase;
-
-    const updatedPokemon = {
-      ...pokemon,
-      sprite: sprite,
-    };
+    const updatedPokemon = { ...pokemon, sprite: newSprite };
 
     const newInventory = inventory.map((p: Pokemon) =>
       p.uuid === pokemon.uuid ? updatedPokemon : p
@@ -238,37 +223,22 @@ const SelectedPokemon = ({
     }
   };
 
+  const set3dSprite = async () => {
+    const newSprite = await getSprite({
+      name: pokemon.name,
+      isShiny: pokemon.isShiny ?? false,
+      type: "3d",
+    });
+    updateSprite(newSprite);
+  };
+
   const set2dSprite = async () => {
-    const sprite2dBase = `https://play.pokemonshowdown.com/sprites/gen5/${pokemon.name
-      .toLowerCase()
-      .replace("-", "")}.png`;
-
-    const hasDashInName = pokemon.name.includes("-");
-    const is2dValid = await isValidImageUrl(sprite2dBase);
-
-    const sprite2d =
-      hasDashInName && !is2dValid
-        ? `https://play.pokemonshowdown.com/sprites/gen5/${
-            pokemon.name.toLowerCase().split("-")[0]
-          }.png`
-        : sprite2dBase;
-
-    const updatedPokemon = {
-      ...pokemon,
-      sprite: sprite2d,
-    };
-
-    const newInventory = inventory.map((p: Pokemon) =>
-      p.uuid === pokemon.uuid ? updatedPokemon : p
-    );
-
-    setInventory(newInventory);
-    if (isBuddyPokemon) {
-      setGameState({
-        ...gameState,
-        buddyPokemon: updatedPokemon,
-      });
-    }
+    const newSprite = await getSprite({
+      name: pokemon.name,
+      isShiny: pokemon.isShiny ?? false,
+      type: "2d",
+    });
+    updateSprite(newSprite ?? pokemon.sprite2d ?? null);
   };
 
   return (

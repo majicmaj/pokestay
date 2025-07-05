@@ -7,7 +7,7 @@ import {
   WildPokemonState,
 } from "../types";
 import { calculateCP } from "./calculateCp";
-import { isValidImageUrl } from "./isValidImageUrl";
+import { getSprite } from "./getSprite";
 
 const POINTS_RARITY_MAP = {
   common: 100,
@@ -16,6 +16,21 @@ const POINTS_RARITY_MAP = {
   mythical: 500,
   legendary: 1000,
 };
+
+const LEVEL_RANGES = {
+  common: { min: 1, max: 12 },
+  uncommon: { min: 13, max: 21 },
+  rare: { min: 21, max: 30 },
+  mythical: { min: 30, max: 31 },
+  legendary: { min: 30, max: 31 },
+};
+
+const MOVE_EFFECT_TYPES = [
+  "damage",
+  "defense_down",
+  "speed_down",
+  "catch_rate_up",
+];
 
 export const getRandomPokemon = async (
   pokemonSpecies: NamedAPIResource[]
@@ -36,14 +51,6 @@ export const getRandomPokemon = async (
     const { capture_rate, is_mythical, is_legendary } = speciesData || {};
 
     // Generate random level based on rarity
-    const levelRanges = {
-      common: { min: 1, max: 12 },
-      uncommon: { min: 13, max: 21 },
-      rare: { min: 21, max: 30 },
-      mythical: { min: 30, max: 31 },
-      legendary: { min: 30, max: 31 },
-    };
-
     let rarity: "common" | "uncommon" | "rare" | "legendary" | "mythical" =
       "common";
 
@@ -54,7 +61,7 @@ export const getRandomPokemon = async (
     else if (captureRate < 0.1) rarity = "rare";
     else if (captureRate < 0.5) rarity = "uncommon";
 
-    const range = levelRanges[rarity];
+    const range = LEVEL_RANGES[rarity];
     // const range = { min: 49, max: 50 }
 
     const ivs = {
@@ -102,8 +109,8 @@ export const getRandomPokemon = async (
         Math.random() > 0.3 ? Math.floor(Math.random() * 30) + 70 : null,
       pp: Math.floor(Math.random() * 15) + 5,
       effect: {
-        type: ["damage", "defense_down", "speed_down", "catch_rate_up"][
-          Math.floor(Math.random() * 4)
+        type: MOVE_EFFECT_TYPES[
+          Math.floor(Math.random() * MOVE_EFFECT_TYPES.length)
         ],
         value: Math.floor(Math.random() * 30) + 10,
         chance: Math.floor(Math.random() * 30) + 70,
@@ -113,25 +120,17 @@ export const getRandomPokemon = async (
 
     const isShiny = Math.random() * 128 < (is_legendary ? 10 : 1);
 
-    const sprite3dBase = `https://play.pokemonshowdown.com/sprites/xyani${
-      isShiny ? "-shiny/" : "/"
-    }${data.name.replace("-", "")}.gif`;
-
-    const hasDashInName = data.name.includes("-");
-    const is3dValid = await isValidImageUrl(sprite3dBase);
-
-    const sprite3d =
-      hasDashInName && !is3dValid
-        ? `https://play.pokemonshowdown.com/sprites/xyani${
-            isShiny ? "-shiny/" : "/"
-          }${data.name.split("-")[0]}.gif`
-        : sprite3dBase;
-
     const sprite2d =
       data.sprites.front_default ||
       data.sprites.other["official-artwork"].front_default;
 
-    const sprite = (await isValidImageUrl(sprite3d)) ? sprite3d : sprite2d;
+    const sprite3d = await getSprite({
+      name: data.name,
+      isShiny,
+      type: "3d",
+    });
+
+    const sprite = sprite3d ?? sprite2d;
 
     const pokemon: WildPokemonState = {
       uuid: uuidv4(),
