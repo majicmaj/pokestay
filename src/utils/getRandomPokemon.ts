@@ -31,9 +31,7 @@ export const getRandomPokemon = async (
     );
     const data = await response.json();
 
-    const speciesRes = await fetch(
-      `https://pokeapi.co/api/v2/pokemon-species/${randomSpecies.name}`
-    );
+    const speciesRes = await fetch(data.species.url);
     const speciesData = await speciesRes.json();
     const { capture_rate, is_mythical, is_legendary } = speciesData || {};
 
