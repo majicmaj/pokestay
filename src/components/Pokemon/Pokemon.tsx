@@ -72,7 +72,7 @@ const Pokemon = ({
           }`}
         >
           <div className={cn(`animate-bounce-slow relative`)}>
-            <div className="h-[100vmin] w-[100vmin] flex justify-center items-end aspect-sqaure overlfow-visible">
+            <div className="h-[100vmin] max-h-[calc(100vmin-16rem)] w-[100vmin] flex justify-center items-end aspect-sqaure overlfow-visible">
               <div
                 className="absolute left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
                 style={{
