@@ -104,9 +104,7 @@ export default function useEncounter() {
       timingMultiplier
     );
 
-    const probabilityMessage = import.meta.env.DEV
-      ? `(${(catchProbability * 100).toFixed(0)}%)`
-      : "";
+    const probabilityMessage = `(${(catchProbability * 100).toFixed(0)}%)`;
 
     setCatchMessage(
       `${throwQuality} throw, ${timingQuality.toLowerCase()} timing! ${advantageMessage} ${probabilityMessage}`

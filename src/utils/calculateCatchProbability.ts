@@ -11,8 +11,7 @@ export const calculateCatchProbability = (
   const catchRate = 1;
 
   // Speed modifier (1x for slow throws, 3x for fast throws)
-  const speedModifier =
-    throwSpeed > 7 ? 1 : throwSpeed > 5 ? 3 : throwSpeed > 3 ? 2 : 1;
+  const speedModifier = throwSpeed / 3;
 
   // Calculate buddy bonus if applicable
   const buddyModifier = buddyPokemon
@@ -27,16 +26,28 @@ export const calculateCatchProbability = (
 
   const catchModifier = targetPokemon.catchModifier;
 
-  const levelModifier = ((50 - targetPokemon.stats.level) / 50) * 0.8 + 0.2;
+  const levelModifier = ((50 - targetPokemon.stats.level) / 50) * 0.5 + 0.5;
 
   const finalCatchRate =
+    targetPokemon.catchModifier +
     catchRate *
-    speedModifier *
-    levelModifier *
-    cpModifier *
-    buddyModifier *
-    catchModifier *
-    timingMultiplier;
+      speedModifier *
+      levelModifier *
+      cpModifier *
+      buddyModifier *
+      catchModifier *
+      timingMultiplier;
 
-  return Math.min(finalCatchRate, 1);
+  // console.log({
+  //   catchRate,
+  //   speedModifier,
+  //   levelModifier,
+  //   cpModifier,
+  //   buddyModifier,
+  //   catchModifier,
+  //   timingMultiplier,
+  //   finalCatchRate,
+  // });
+
+  return Math.max(targetPokemon.catchModifier, Math.min(finalCatchRate, 0.99));
 };
