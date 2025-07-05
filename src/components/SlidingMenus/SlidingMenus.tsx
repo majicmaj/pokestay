@@ -91,12 +91,12 @@ const SlidingMenus = ({ handleFlee }: { handleFlee: () => void }) => {
               dragElastic={{ top: 0, bottom: 0.5 }}
               onDragEnd={handleDragEnd}
               className={cn(
-                "mt-2 h-full w-full overflow-hidden rounded-t-xl text-accent-content dark:bg-dark-primary dark:text-dark-text",
+                "mt-2 h-full w-full overflow-hidden rounded-t-xl",
                 activeMenu === "pouch"
                   ? "bg-background"
                   : activeMenu === "log"
-                  ? "bg-secondary"
-                  : "bg-secondary"
+                  ? "bg-card"
+                  : "bg-card"
               )}
             >
               <Link

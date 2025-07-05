@@ -16,6 +16,7 @@ import { useSound } from "./context/SoundProvider";
 import HabitatProvider from "./context/HabitatProvider";
 import { useHabitat } from "./hooks/useHabitat";
 import { ArrowRight } from "lucide-react";
+import { useTheme } from "./hooks/useTheme/useTheme";
 
 const App: React.FC = () => {
   return (
@@ -39,6 +40,7 @@ const Main: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>();
   const userInteracted = useRef(false);
   const { habitat, remainingTime, skipHabitat } = useHabitat();
+  const { theme } = useTheme();
 
   const formatTime = (ms: number) => {
     const minutes = Math.floor(ms / 60000);
@@ -102,34 +104,36 @@ const Main: React.FC = () => {
   useGetInitalPokemon();
 
   return (
-    <div className="max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-background text-content">
-      <Background currentPokemon={currentPokemon} />
-      <Pokemon
-        pokemonState={pokemonState}
-        isShrinking={isShrinking}
-        isPokeballDisabled={isThrowDisabled}
-      />
-      <MessageBox message={catchMessage} />
-      <div className="absolute top-4 text-center pixelated-font text-white rounded-full">
-        <p className="font-bold text-xl">{habitat?.name}</p>
-        <p className="text-sm">{formatTime(remainingTime)}</p>
+    <div className={theme}>
+      <div className="max-h-screen h-screen overflow-hidden grid grid-rows-[1fr,auto] place-items-center select-none bg-background text-foreground">
+        <Background currentPokemon={currentPokemon} />
+        <Pokemon
+          pokemonState={pokemonState}
+          isShrinking={isShrinking}
+          isPokeballDisabled={isThrowDisabled}
+        />
+        <MessageBox message={catchMessage} />
+        <div className="absolute top-4 text-center pixelated-font text-white rounded-full">
+          <p className="font-bold text-xl">{habitat?.name}</p>
+          <p className="text-sm">{formatTime(remainingTime)}</p>
+        </div>
+        <Pokeball
+          onClick={handleThrow}
+          type="pokeball"
+          disabled={isThrowDisabled}
+        />
+
+        {import.meta.env.DEV && (
+          <button
+            onClick={skipHabitat}
+            className="absolute top-16 left-2 bg-red-500/50 text-white p-2 rounded-full pixelated-font text-sm"
+          >
+            <ArrowRight className="size-6" />
+          </button>
+        )}
+
+        <SlidingMenus handleFlee={handleFlee} />
       </div>
-      <Pokeball
-        onClick={handleThrow}
-        type="pokeball"
-        disabled={isThrowDisabled}
-      />
-
-      {import.meta.env.DEV && (
-        <button
-          onClick={skipHabitat}
-          className="absolute top-16 left-2 bg-red-500/50 text-white p-2 rounded-full pixelated-font text-sm"
-        >
-          <ArrowRight className="size-6" />
-        </button>
-      )}
-
-      <SlidingMenus handleFlee={handleFlee} />
     </div>
   );
 };

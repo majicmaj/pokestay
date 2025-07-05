@@ -39,7 +39,7 @@ const FilterSection: React.FC<{
   children: React.ReactNode;
 }> = ({ title, icon, children }) => (
   <div className="py-2">
-    <div className="flex items-center gap-2 text-sm font-bold text-content/80 mb-2 px-2">
+    <div className="flex items-center gap-2 text-sm font-bold text-foreground/80 mb-2 px-2">
       {icon}
       <span>{title}</span>
     </div>
@@ -72,7 +72,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
       <div className="p-4">
         <button
           onClick={() => setOpen(!open)}
-          className="bg-accent text-accent-content px-4 py-2 rounded-lg w-full flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-accent/80"
+          className="bg-primary text-accent-content px-4 py-2 rounded-lg w-full flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-accent/80"
         >
           <ChevronsUpDown className="w-5 h-5" />
           {open ? "Hide Filters" : "Search & Filter"}
@@ -88,12 +88,14 @@ const FilterControls: React.FC<FilterControlsProps> = ({
             transition={{ duration: 0.2 }}
           >
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-content/50" />
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/50" />
+              </div>
               <input
                 value={searchTerm}
                 autoFocus
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 bg-secondary w-full rounded-full border border-divider focus:border-accent focus:ring-accent"
+                className="pl-10 pr-4 py-2 bg-card w-full rounded-full border border-border focus:border-accent focus:ring-accent"
                 placeholder="Search by name..."
               />
             </div>
@@ -106,11 +108,12 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 {sortOptions.map((option) => (
                   <button
                     key={option}
-                    className={`px-3 py-1 rounded-full whitespace-nowrap ${
+                    className={cn(
+                      "px-4 py-2 rounded-full text-sm font-semibold capitalize",
                       sortBy === option
-                        ? "bg-accent text-accent-content font-bold"
-                        : "bg-secondary hover:bg-secondary/80"
-                    }`}
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-card hover:bg-card/80"
+                    )}
                     onClick={() => setSortBy(option)}
                   >
                     {option.charAt(0).toUpperCase() + option.slice(1)}
@@ -120,7 +123,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                   onClick={() =>
                     setSortDirection(sortDirection === "asc" ? "desc" : "asc")
                   }
-                  className="p-2 rounded-full bg-secondary hover:bg-secondary/80"
+                  className="p-2 rounded-full bg-card hover:bg-card/80"
                 >
                   {sortDirection === "asc" ? (
                     <ArrowUp size={16} />
@@ -142,7 +145,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setSelectedLocation(null)}
-                    className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80"
+                    className="p-1.5 rounded-full bg-card hover:bg-card/80"
                   >
                     <X size={16} />
                   </button>
@@ -151,11 +154,12 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                       <button
                         key={location}
                         onClick={() => setSelectedLocation(location)}
-                        className={`min-w-max p-1 pr-3 flex items-center gap-2 rounded-full text-sm ${
+                        className={cn(
+                          "px-4 py-2 rounded-full text-sm font-semibold capitalize",
                           selectedLocation === location
-                            ? "bg-accent text-accent-content font-bold"
-                            : "bg-secondary hover:bg-secondary/80"
-                        }`}
+                            ? "bg-accent text-accent-foreground"
+                            : "bg-card hover:bg-card/80"
+                        )}
                       >
                         <span className="text-xs bg-black/20 text-white font-bold w-6 h-6 flex items-center justify-center aspect-square rounded-full">
                           {countsPerLocation[location] || 0}
@@ -172,7 +176,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
               <div className="flex gap-2 items-center">
                 <button
                   onClick={() => setSelectedTypes([])}
-                  className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80"
+                  className="p-1.5 rounded-full bg-card hover:bg-card/80"
                 >
                   <X size={16} />
                 </button>
@@ -182,10 +186,10 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                       key={type}
                       onClick={() => toggleTypeFilter(type)}
                       className={cn(
-                        `relative pt-8 min-w-max rounded-full p-0.5 transition-all duration-200`,
+                        "px-4 py-2 rounded-full text-sm font-semibold capitalize",
                         selectedTypes.includes(type)
-                          ? "bg-accent scale-105"
-                          : "bg-transparent opacity-75 hover:opacity-100"
+                          ? "bg-accent text-accent-foreground"
+                          : "bg-card hover:bg-card/80"
                       )}
                     >
                       <TypeBadge type={type} />

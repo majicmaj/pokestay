@@ -102,7 +102,7 @@ const PokemonPouch: React.FC<{ dragControls: DragControls }> = ({
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="h-screen overflow-auto flex flex-col items-center bg-secondary">
+      <div className="h-screen overflow-auto flex flex-col items-center bg-background">
         <HeaderSection
           inventoryCount={inventory.length}
           points={points}

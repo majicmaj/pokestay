@@ -13,38 +13,17 @@ import {
 } from "lucide-react";
 import { useSound } from "../../context/SoundProvider";
 import { useTheme } from "../../hooks/useTheme/useTheme";
-
-const Switch: React.FC<{
-  enabled: boolean;
-  onClick: () => void;
-  disabled?: boolean;
-}> = ({ enabled, onClick, disabled }) => (
-  <div
-    onClick={() => !disabled && onClick()}
-    className={`w-12 h-7 flex items-center rounded-full p-1 transition-colors duration-300 ${
-      enabled ? "bg-green-500" : "bg-gray-600"
-    } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-  >
-    <motion.div
-      className="w-5 h-5 bg-white rounded-full shadow-md"
-      layout
-      transition={{ type: "spring", stiffness: 700, damping: 30 }}
-      animate={{ x: enabled ? "1.25rem" : "0rem" }}
-    />
-  </div>
-);
+import { Switch } from "../ui/Switch";
 
 const SettingsSection: React.FC<{
   title: string;
   children: React.ReactNode;
 }> = ({ title, children }) => (
   <div>
-    <h3 className="px-3 pb-2 text-lg font-bold text-content/80 pixelated-font tracking-wider">
+    <h3 className="px-3 pb-2 text-lg font-bold text-foreground/80 pixelated-font tracking-wider">
       {title}
     </h3>
-    <div className="space-y-2 bg-black/10 dark:bg-white/5 rounded-xl p-2">
-      {children}
-    </div>
+    <div className="space-y-2 bg-card/50 rounded-xl p-2">{children}</div>
   </div>
 );
 
@@ -56,12 +35,12 @@ const SettingsItem: React.FC<{
 }> = ({ icon, label, children, disabled }) => (
   <div
     className={`flex justify-between items-center p-3 rounded-lg transition-colors duration-200 ${
-      disabled ? "opacity-50" : "hover:bg-black/10 dark:hover:bg-white/10"
+      disabled ? "opacity-50" : "hover:bg-card/50"
     }`}
   >
     <div className="flex items-center gap-4">
       <div className="text-accent">{icon}</div>
-      <span className="font-semibold text-content">{label}</span>
+      <span className="font-semibold text-foreground">{label}</span>
     </div>
     <div>{children}</div>
   </div>
@@ -85,12 +64,12 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="h-full flex flex-col bg-secondary text-content">
+    <div className="h-full flex flex-col bg-card text-foreground">
       <motion.div
         onPointerDown={(e) => dragControls.start(e)}
         className="w-full flex flex-col items-center pt-3 pb-2 cursor-grab touch-none"
       >
-        <div className="w-12 h-1.5 bg-gray-400 dark:bg-gray-600 rounded-full mb-2" />
+        <div className="w-12 h-1.5 bg-foreground/20 rounded-full mb-2" />
         <h2 className="text-3xl font-bold pixelated-font text-center tracking-wide">
           Settings
         </h2>
@@ -101,7 +80,11 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             icon={theme === "light" ? <Sun /> : <Moon />}
             label="Theme"
           >
-            <Switch enabled={theme === "dark"} onClick={toggleTheme} />
+            <Switch
+              checked={theme === "dark"}
+              onCheckedChange={toggleTheme}
+              className="ml-auto"
+            />
           </SettingsItem>
         </SettingsSection>
 
@@ -110,7 +93,11 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             icon={masterSoundEnabled ? <Volume2 /> : <VolumeX />}
             label="Master Sound"
           >
-            <Switch enabled={masterSoundEnabled} onClick={toggleMasterSound} />
+            <Switch
+              checked={masterSoundEnabled}
+              onCheckedChange={toggleMasterSound}
+              className="ml-auto"
+            />
           </SettingsItem>
           <SettingsItem
             icon={<Music />}
@@ -118,9 +105,10 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             disabled={!masterSoundEnabled}
           >
             <Switch
-              enabled={musicEnabled}
-              onClick={toggleMusic}
+              checked={musicEnabled}
+              onCheckedChange={toggleMusic}
               disabled={!masterSoundEnabled}
+              className="ml-auto"
             />
           </SettingsItem>
           <SettingsItem
@@ -129,9 +117,10 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             disabled={!masterSoundEnabled}
           >
             <Switch
-              enabled={effectsEnabled}
-              onClick={toggleEffects}
+              checked={effectsEnabled}
+              onCheckedChange={toggleEffects}
               disabled={!masterSoundEnabled}
+              className="ml-auto"
             />
           </SettingsItem>
           <SettingsItem
@@ -140,9 +129,10 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             disabled={!masterSoundEnabled}
           >
             <Switch
-              enabled={criesEnabled}
-              onClick={toggleCries}
+              checked={criesEnabled}
+              onCheckedChange={toggleCries}
               disabled={!masterSoundEnabled}
+              className="ml-auto"
             />
           </SettingsItem>
           <div
@@ -152,7 +142,7 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
           >
             <label
               htmlFor="volume"
-              className="font-semibold text-content pb-2 block"
+              className="font-semibold text-foreground pb-2 block"
             >
               Volume
             </label>

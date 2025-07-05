@@ -5,8 +5,7 @@ import { X } from "lucide-react";
 import useInventory from "../../hooks/useInventory";
 import usePoints from "../../hooks/usePoints";
 import { Pokemon } from "../../types";
-import { AnimatePresence } from "framer-motion";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface PokemonGridProps {
   pokemonList: Pokemon[];
@@ -97,7 +96,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="flex gap-2 justify-center items-center col-span-full text-center text-sm text-content"
+            className="flex gap-2 justify-center items-center col-span-full text-center text-sm text-foreground"
           >
             <X
               className="inline cursor-pointer mr-2"

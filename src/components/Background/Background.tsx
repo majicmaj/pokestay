@@ -75,11 +75,11 @@ const Background = ({
   const particleOptions = getBackgroundParticles(pokemonType);
 
   return (
-    <div className="opacity-90 dark:opacity-70 absolute h-screen w-screen overflow-hidden">
+    <div className="opacity-90 absolute h-screen w-screen overflow-hidden">
       {/* Background gradients */}
       <div className={`${bgColor} h-1/2 top-0 w-full absolute`} />
       <div
-        className={`bg-gradient-to-b top-0 absolute from-sky-200/90 to-blue-300/90 dark:from-sky-800/90 dark:to-blue-900/90 h-1/2 w-full`}
+        className={`bg-gradient-to-b top-0 absolute from-primary/90 to-secondary/90 h-1/2 w-full`}
       />
       <AnimatePresence>
         <motion.img

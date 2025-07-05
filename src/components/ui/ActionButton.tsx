@@ -51,7 +51,7 @@ export const ActionButton: React.FC<{
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "w-full flex items-center justify-between bg-secondary/80 p-3 rounded-lg transition-transform active:scale-95",
+        "w-full flex items-center justify-between bg-card/80 p-3 rounded-lg transition-transform active:scale-95",
         disabled && "opacity-50 cursor-not-allowed",
         className
       )}

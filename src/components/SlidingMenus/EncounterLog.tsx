@@ -40,12 +40,12 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
   ).sort();
 
   return (
-    <div className="h-full flex flex-col bg-secondary text-content">
+    <div className="h-full flex flex-col bg-card text-foreground">
       <motion.div
         onPointerDown={(e) => dragControls.start(e)}
         className="w-full flex flex-col items-center pt-3 pb-2 cursor-grab touch-none"
       >
-        <div className="w-12 h-1.5 bg-gray-400 dark:bg-gray-600 rounded-full mb-2" />
+        <div className="w-12 h-1.5 bg-foreground/20 rounded-full mb-2" />
         <h2 className="text-3xl font-bold pixelated-font text-center tracking-wide">
           Encounters
         </h2>
@@ -128,7 +128,7 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
                       </p>
                     </div>
 
-                    <div className="text-sm space-y-1 mt-2 text-content/80">
+                    <div className="text-sm space-y-1 mt-2 text-foreground/80">
                       <div className="flex items-center gap-2">
                         <PokeballIcon className="w-3.5 h-3.5" /> Throws:{" "}
                         {entry.throws}

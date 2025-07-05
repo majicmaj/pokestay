@@ -5,28 +5,64 @@
 @layer base {
   :root {
     --background: 147 197 253; /* blue-300 */
-    --content: 31 41 55; /* gray-800 */
-    --primary: 255 255 255; /* white */
+    --foreground: 31 41 55; /* gray-800 */
+
+    --card: 255 255 255; /* white */
+    --card-foreground: 31 41 55; /* gray-800 */
+
+    --popover: 255 255 255; /* white */
+    --popover-foreground: 31 41 55; /* gray-800 */
+
+    --primary: 243 244 246; /* gray-100 */
+    --primary-foreground: 31 41 55; /* gray-800 */
+
     --secondary: 243 244 246; /* gray-100 */
+    --secondary-foreground: 31 41 55; /* gray-800 */
+
+    --muted: 243 244 246; /* gray-100 */
+    --muted-foreground: 107 114 128; /* gray-500 */
+
     --accent: 217 249 157; /* lime-200 */
-    --accent-content: 13 148 136; /* teal-700 */
-    --danger: 239 68 68; /* red-500 */
-    --link: 20 184 166; /* teal-500 */
-    --divider: 212 212 216; /* zinc-300 */
+    --accent-foreground: 13 148 136; /* teal-700 */
+
+    --destructive: 239 68 68; /* red-500 */
+    --destructive-foreground: 255 255 255; /* white */
+
     --border: 212 212 216; /* zinc-300 */
+    --input: 212 212 216; /* zinc-300 */
+    --ring: 20 184 166; /* teal-500 */
+
+    --radius: 0.5rem;
   }
 
   .dark {
     --background: 26 26 26; /* #1a1a1a */
-    --content: 255 255 255; /* white */
-    --primary: 42 42 42; /* #2a2a2a */
+    --foreground: 255 255 255; /* white */
+
+    --card: 42 42 42; /* #2a2a2a */
+    --card-foreground: 255 255 255; /* white */
+
+    --popover: 42 42 42; /* #2a2a2a */
+    --popover-foreground: 255 255 255; /* white */
+
+    --primary: 58 58 58; /* #3a3a3a */
+    --primary-foreground: 255 255 255; /* white */
+
     --secondary: 58 58 58; /* #3a3a3a */
+    --secondary-foreground: 255 255 255; /* white */
+
+    --muted: 58 58 58; /* #3a3a3a */
+    --muted-foreground: 156 163 175; /* gray-400 */
+
     --accent: 94 165 0; /* lime-500 */
-    --accent-content: 236 252 203; /* lime-100 */
-    --danger: 248 113 113; /* red-400 */
-    --link: 94 234 212; /* teal-300 */
-    --divider: 82 82 91; /* zinc-600 */
+    --accent-foreground: 236 252 203; /* lime-100 */
+
+    --destructive: 248 113 113; /* red-400 */
+    --destructive-foreground: 255 255 255; /* white */
+
     --border: 82 82 91; /* zinc-600 */
+    --input: 82 82 91; /* zinc-600 */
+    --ring: 94 234 212; /* teal-300 */
   }
 }
 

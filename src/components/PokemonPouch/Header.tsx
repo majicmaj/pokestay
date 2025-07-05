@@ -16,9 +16,9 @@ const Header: React.FC<HeaderSectionProps> = ({
   return (
     <motion.div
       onPointerDown={(e) => dragControls.start(e)}
-      className="w-full flex flex-col items-center pt-3 pb-2 cursor-grab touch-none sticky top-0 bg-secondary z-20"
+      className="w-full flex flex-col items-center pt-3 pb-2 cursor-grab touch-none sticky top-0 bg-card z-20"
     >
-      <div className="w-12 h-1.5 bg-gray-400 dark:bg-gray-600 rounded-full mb-2" />
+      <div className="w-12 h-1.5 bg-foreground/20 rounded-full mb-2" />
       <div className="w-full flex items-center justify-between px-4">
         <h2 className="text-3xl font-bold pixelated-font tracking-wide">
           Pokémon

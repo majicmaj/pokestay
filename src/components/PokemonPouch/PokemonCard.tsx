@@ -30,10 +30,10 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       onClick={onClick}
       onContextMenu={onContextMenu}
     >
-      <div className="z-10 bg-secondary px-2 rounded-full text-center">
+      <div className="z-10 bg-card px-2 rounded-full text-center">
         <div>
           <span className="text-sm font-medium opacity-60 pr-1">CP</span>
-          <span className="text-xl font-bold text-content">
+          <span className="text-xl font-bold text-foreground">
             {pokemon.cp || 0}
           </span>
         </div>
@@ -46,12 +46,18 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
           className="pixelated w-full h-full aspect-square object-contain p-4"
         />
       </div>
-      <div className="font-semibold mt-[-16px] flex items-center bg-secondary px-2 rounded-full gap-1">
-        {pokemon.isShiny && <Sparkles className="w-4 text-yellow-400" />}
-        {isLegendary && (
-          <Icon name="legendary" className="w-4 text-orange-400" />
-        )}
-        {pokemon.display_name}
+      <div className="relative text-center">
+        <div className="inline-block">
+          <h2 className="font-semibold mt-[-16px] flex items-center bg-card px-2 rounded-full gap-1">
+            {pokemon.name}
+            {pokemon.isShiny && (
+              <Sparkles className="w-4 h-4 text-yellow-400" />
+            )}
+            {isLegendary && (
+              <Icon name="legendary" className="w-4 text-orange-400" />
+            )}
+          </h2>
+        </div>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import {
   LogSortBy,
   SortDirection,
 } from "../../hooks/useEncounterLogSortAndFilter";
+import { cn } from "../../utils/cn";
 
 interface EncounterLogFilterControlsProps {
   searchTerm: string;
@@ -36,7 +37,7 @@ const EncounterLogFilterControls: React.FC<EncounterLogFilterControlsProps> = ({
         value={searchTerm}
         autoFocus
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="px-3 py-2 bg-secondary w-full rounded-full border border-border"
+        className="px-3 py-2 bg-card w-full rounded-full border border-border"
         placeholder="Search Pokemon by name"
       />
       <div className="flex w-full gap-2 text-sm items-center overflow-x-auto">
@@ -44,9 +45,7 @@ const EncounterLogFilterControls: React.FC<EncounterLogFilterControlsProps> = ({
           <button
             key={option}
             className={`px-2 py-1 rounded-full ${
-              sortBy === option
-                ? "bg-accent text-accent-content"
-                : "bg-secondary"
+              sortBy === option ? "bg-accent text-accent-foreground" : "bg-card"
             }`}
             onClick={() => setSortBy(option)}
           >
@@ -57,7 +56,7 @@ const EncounterLogFilterControls: React.FC<EncounterLogFilterControlsProps> = ({
           onClick={() =>
             setSortDirection(sortDirection === "asc" ? "desc" : "asc")
           }
-          className="p-1 rounded-full bg-secondary"
+          className="p-1 rounded-full bg-card"
         >
           {sortDirection === "asc" ? (
             <ArrowUp size={16} />
@@ -83,7 +82,7 @@ const EncounterLogFilterControls: React.FC<EncounterLogFilterControlsProps> = ({
                 className={`min-w-max px-2 py-1 rounded-full text-xs ${
                   selectedLocation === location
                     ? "bg-blue-300 text-blue-800"
-                    : "bg-secondary"
+                    : "bg-card"
                 }`}
               >
                 {location}

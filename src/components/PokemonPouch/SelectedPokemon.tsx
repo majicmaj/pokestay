@@ -12,7 +12,7 @@ import Header from "./SelectedPokemon/Header";
 import Info from "./SelectedPokemon/Info";
 import SpriteSwitcher from "./SelectedPokemon/SpriteSwitcher";
 import Stats from "./SelectedPokemon/Stats";
-import Transfer from "./SelectedPokemon/Transfer";
+import { Transfer } from "./SelectedPokemon/Transfer";
 import { usePokemonActions } from "../../hooks/usePokemonActions";
 
 const SelectedPokemon = ({
