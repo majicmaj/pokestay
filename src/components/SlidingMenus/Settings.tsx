@@ -51,6 +51,17 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             className="w-full"
           />
         </div>
+        <div className="flex justify-between items-center bg-primary p-3 rounded-lg">
+          <span className="font-semibold">Support</span>
+          <a
+            href="https://github.com/majicmaj/pokestay/issues/new"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-lg bg-accent text-accent-content"
+          >
+            Report an Issue
+          </a>
+        </div>
       </div>
     </div>
   );
