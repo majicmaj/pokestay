@@ -137,9 +137,7 @@ const Pokemon = ({
                       "animate-pokemon-grow"
                   )}
                 />
-                {pokemonState === "idle" && !isPokeballDisabled && (
-                  <CatchTimingIndicator />
-                )}
+                {pokemonState === "idle" && <CatchTimingIndicator />}
               </div>
             </div>
           </div>

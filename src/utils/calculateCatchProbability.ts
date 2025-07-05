@@ -37,10 +37,10 @@ export const calculateCatchProbability = (
     cpModifier,
     buddyModifier,
     timingMultiplier,
+    catchModifier,
   ].filter((mod) => mod > 0);
 
-  const finalCatchRate =
-    catchModifier + mods.reduce((acc, mod) => acc * mod, 1);
+  const finalCatchRate = mods.reduce((acc, mod) => acc * mod, 1);
 
-  return Math.max(catchModifier, Math.min(finalCatchRate, 0.99));
+  return Math.max(0.01, Math.min(finalCatchRate, 0.99));
 };

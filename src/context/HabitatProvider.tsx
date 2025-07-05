@@ -5,7 +5,7 @@ import { HabitatContext } from "./HabitatContext";
 import { ETHER_POKEMON } from "../constants/etherPokemon";
 import useLocalStorageState from "../hooks/useLocalStorageState";
 
-const HABITAT_CHANGE_INTERVAL = 5 * 60 * 1000; // 5 minutes
+const HABITAT_CHANGE_INTERVAL = 3 * 60 * 1000; // 5 minutes
 
 interface HabitatProviderProps {
   children: ReactNode;

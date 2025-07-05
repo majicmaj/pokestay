@@ -67,11 +67,13 @@ export default function useEncounter() {
     const timingProgress = (elapsedTime % 3000) / 3000;
     const timingMultiplier = 0.5 + timingProgress;
 
-    let timingQuality = "Nice";
+    let timingQuality = "Poor";
     if (timingMultiplier > 1.25) {
       timingQuality = "Excellent";
-    } else if (timingMultiplier > 0.75) {
+    } else if (timingMultiplier > 1) {
       timingQuality = "Great";
+    } else if (timingMultiplier > 0.75) {
+      timingQuality = "Nice";
     }
 
     const advantage = calculateTypeAdvantage(
