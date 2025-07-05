@@ -21,7 +21,8 @@ export default function useEncounter() {
   const { location } = useLocation();
   const { addEntry: addLogEntry } = useEncounterLog();
   const [throwCount, setThrowCount] = useState(0);
-  const { soundEnabled, volume } = useSound();
+  const { masterSoundEnabled, criesEnabled, effectsEnabled, volume } =
+    useSound();
   const { pokemonSpecies } = useHabitat();
   const timingIndicatorStartTimeRef = useRef<number>(0);
 
@@ -38,7 +39,7 @@ export default function useEncounter() {
     setPokemonState("idle");
     const newPokemon = await getRandomPokemon(pokemonSpecies);
     if (!newPokemon) return;
-    if (newPokemon.cry && soundEnabled) {
+    if (newPokemon.cry && masterSoundEnabled && criesEnabled) {
       const audio = new Audio(newPokemon.cry);
       audio.volume = volume;
       audio.play();
@@ -112,7 +113,7 @@ export default function useEncounter() {
       `${throwQuality} throw, ${timingQuality.toLowerCase()} timing! ${advantageMessage} ${probabilityMessage}`
     );
 
-    if (soundEnabled) {
+    if (masterSoundEnabled && effectsEnabled) {
       const audio = new Audio(
         "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_take_in%20%23000911_0.wav"
       );
@@ -128,7 +129,7 @@ export default function useEncounter() {
     const flees = !caught && Math.random() < 0.25; // 25% chance to flee on failed catch
 
     if (caught) {
-      if (soundEnabled) {
+      if (masterSoundEnabled && effectsEnabled) {
         const audio = new Audio(
           "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_target%20%23000956_0.wav"
         );
@@ -180,7 +181,7 @@ export default function useEncounter() {
         setCurrentPokemon(null);
         await sleep(Math.random() * 2000 + 1000);
       } else {
-        if (soundEnabled) {
+        if (masterSoundEnabled && effectsEnabled) {
           const audio = new Audio(
             "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_out%20%23000960_0.wav"
           );

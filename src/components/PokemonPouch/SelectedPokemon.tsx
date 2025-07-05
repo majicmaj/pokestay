@@ -26,7 +26,7 @@ const SelectedPokemon = ({
   onClose: () => void;
   onNavigate: (uuid: string) => void;
 }) => {
-  const { soundEnabled, volume } = useSound();
+  const { masterSoundEnabled, criesEnabled, volume } = useSound();
   const [direction, setDirection] = useState(0);
   const [points] = usePoints();
 
@@ -96,12 +96,12 @@ const SelectedPokemon = ({
   };
 
   useEffect(() => {
-    if (soundEnabled && pokemon.cry) {
+    if (masterSoundEnabled && criesEnabled && pokemon.cry) {
       const audio = new Audio(pokemon.cry);
       audio.volume = volume;
       audio.play();
     }
-  }, [pokemon.uuid, soundEnabled, pokemon.cry, volume]);
+  }, [pokemon.uuid, masterSoundEnabled, criesEnabled, pokemon.cry, volume]);
 
   return (
     <div className="z-20 bg-black/50 backdrop-blur-sm absolute left-0 right-0 top-0 bottom-0 overflow-y-auto grid place-items-center">
@@ -142,7 +142,7 @@ const SelectedPokemon = ({
               pokemon={pokemon}
               isBuddyPokemon={isBuddyPokemon}
               handleMakeBuddy={() => {
-                if (soundEnabled && pokemon.cry) {
+                if (masterSoundEnabled && criesEnabled && pokemon.cry) {
                   const audio = new Audio(pokemon.cry);
                   audio.volume = volume;
                   audio.play();

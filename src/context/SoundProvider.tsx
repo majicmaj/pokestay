@@ -2,8 +2,14 @@ import React, { createContext, useContext } from "react";
 import useLocalStorageState from "../hooks/useLocalStorageState";
 
 interface SoundContextType {
-  soundEnabled: boolean;
-  toggleSound: () => void;
+  masterSoundEnabled: boolean;
+  toggleMasterSound: () => void;
+  musicEnabled: boolean;
+  toggleMusic: () => void;
+  effectsEnabled: boolean;
+  toggleEffects: () => void;
+  criesEnabled: boolean;
+  toggleCries: () => void;
   volume: number;
   setVolume: (volume: number) => void;
 }
@@ -13,19 +19,54 @@ const SoundContext = createContext<SoundContextType | undefined>(undefined);
 export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [soundEnabled, setSoundEnabled] = useLocalStorageState(
+  const [masterSoundEnabled, setMasterSoundEnabled] = useLocalStorageState(
     "soundEnabled",
+    true
+  );
+  const [musicEnabled, setMusicEnabled] = useLocalStorageState(
+    "musicEnabled",
+    true
+  );
+  const [effectsEnabled, setEffectsEnabled] = useLocalStorageState(
+    "effectsEnabled",
+    true
+  );
+  const [criesEnabled, setCriesEnabled] = useLocalStorageState(
+    "criesEnabled",
     true
   );
   const [volume, setVolume] = useLocalStorageState("volume", 0.5);
 
-  const toggleSound = () => {
-    setSoundEnabled((prev: boolean) => !prev);
+  const toggleMasterSound = () => {
+    setMasterSoundEnabled((prev: boolean) => !prev);
+  };
+
+  const toggleMusic = () => {
+    setMusicEnabled((prev: boolean) => !prev);
+  };
+
+  const toggleEffects = () => {
+    setEffectsEnabled((prev: boolean) => !prev);
+  };
+
+  const toggleCries = () => {
+    setCriesEnabled((prev: boolean) => !prev);
   };
 
   return (
     <SoundContext.Provider
-      value={{ soundEnabled, toggleSound, volume, setVolume }}
+      value={{
+        masterSoundEnabled,
+        toggleMasterSound,
+        musicEnabled,
+        toggleMusic,
+        effectsEnabled,
+        toggleEffects,
+        criesEnabled,
+        toggleCries,
+        volume,
+        setVolume,
+      }}
     >
       {children}
     </SoundContext.Provider>

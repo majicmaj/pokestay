@@ -2,10 +2,43 @@ import { motion, DragControls } from "framer-motion";
 import { useSound } from "../../context/SoundProvider";
 import { useTheme } from "../../hooks/useTheme/useTheme";
 
+const SettingsToggle: React.FC<{
+  label: string;
+  enabled: boolean;
+  onClick: () => void;
+  disabled?: boolean;
+}> = ({ label, enabled, onClick, disabled }) => (
+  <div
+    className={`flex justify-between items-center bg-primary p-3 rounded-lg ${
+      disabled ? "opacity-50" : ""
+    }`}
+  >
+    <span className="font-semibold">{label}</span>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className="px-4 py-2 rounded-lg bg-accent text-accent-content disabled:bg-gray-500 disabled:cursor-not-allowed"
+    >
+      {enabled ? "On" : "Off"}
+    </button>
+  </div>
+);
+
 const Settings: React.FC<{ dragControls: DragControls }> = ({
   dragControls,
 }) => {
-  const { soundEnabled, toggleSound, volume, setVolume } = useSound();
+  const {
+    masterSoundEnabled,
+    toggleMasterSound,
+    musicEnabled,
+    toggleMusic,
+    effectsEnabled,
+    toggleEffects,
+    criesEnabled,
+    toggleCries,
+    volume,
+    setVolume,
+  } = useSound();
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -27,15 +60,29 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             {theme === "light" ? "Dark" : "Light"}
           </button>
         </div>
-        <div className="flex justify-between items-center bg-primary p-3 rounded-lg">
-          <span className="font-semibold">Sound</span>
-          <button
-            onClick={toggleSound}
-            className="px-4 py-2 rounded-lg bg-accent text-accent-content"
-          >
-            {soundEnabled ? "On" : "Off"}
-          </button>
-        </div>
+        <SettingsToggle
+          label="Master Sound"
+          enabled={masterSoundEnabled}
+          onClick={toggleMasterSound}
+        />
+        <SettingsToggle
+          label="Music"
+          enabled={musicEnabled}
+          onClick={toggleMusic}
+          disabled={!masterSoundEnabled}
+        />
+        <SettingsToggle
+          label="Effects"
+          enabled={effectsEnabled}
+          onClick={toggleEffects}
+          disabled={!masterSoundEnabled}
+        />
+        <SettingsToggle
+          label="Cries"
+          enabled={criesEnabled}
+          onClick={toggleCries}
+          disabled={!masterSoundEnabled}
+        />
         <div className="flex flex-col gap-2 bg-primary p-3 rounded-lg">
           <label htmlFor="volume" className="font-semibold">
             Volume
@@ -49,6 +96,7 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             value={volume}
             onChange={(e) => setVolume(parseFloat(e.target.value))}
             className="w-full"
+            disabled={!masterSoundEnabled}
           />
         </div>
         <div className="flex justify-between items-center bg-primary p-3 rounded-lg">
