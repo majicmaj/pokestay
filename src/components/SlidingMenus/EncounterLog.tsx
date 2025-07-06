@@ -110,7 +110,7 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
                   <img
                     src={entry.pokemonSprite}
                     alt={entry.pokemonName}
-                    className="w-20 h-20 object-contain bg-black/10 rounded-lg p-1"
+                    className="size-28 object-contain bg-black/10 rounded-lg p-1"
                   />
                   <div className="flex-grow">
                     <div className="flex justify-between items-start">
@@ -128,7 +128,7 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
                       </p>
                     </div>
 
-                    <div className="text-sm space-y-1 mt-2 text-content/80">
+                    <div className="text-sm flex gap-2 flex-wrap mt-2 text-content/80">
                       <div className="flex items-center gap-2">
                         <PokeballIcon className="w-3.5 h-3.5" /> Throws:{" "}
                         {entry.throws}

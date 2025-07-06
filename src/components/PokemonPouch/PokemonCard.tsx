@@ -3,6 +3,7 @@ import { Pokemon } from "../../types";
 import { cn } from "../../utils/cn";
 import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
 import Icon from "../../assets/icons/Icon";
+import TypeBadge from "../TypeBadge/TypeBadge";
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -23,7 +24,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
   return (
     <div
       className={cn(
-        `flex flex-col items-center rounded-lg p-2 cursor-pointer bg-primary`,
+        `relative flex flex-col items-center rounded-lg p-2 cursor-pointer bg-primary`,
         isBuddy ? "bg-accent/80" : "",
         className
       )}
@@ -46,10 +47,13 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
           className="pixelated w-full h-full aspect-square object-contain p-4"
         />
       </div>
-      <div className="font-semibold mt-[-16px] flex items-center bg-secondary px-2 rounded-full gap-1">
+      <div className="text-content font-semibold mt-[-16px] flex items-center bg-secondary px-2 rounded-full gap-1">
         {pokemon.isShiny && <Sparkles className="w-4 text-yellow-400" />}
         {isLegendary && (
-          <Icon name="legendary" className="w-4 text-orange-400" />
+          <Icon
+            name="legendary"
+            className="text-orange-300 bg-orange-500/20 rounded-full aspect-square w-max"
+          />
         )}
         {pokemon.display_name}
       </div>

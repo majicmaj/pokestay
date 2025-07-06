@@ -176,7 +176,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 >
                   <X size={16} />
                 </button>
-                <div className="flex w-full gap-2 overflow-x-auto pt-2">
+                <div className="flex w-full p-1 gap-2 overflow-x-auto pt-2">
                   {allTypes.map((type) => (
                     <button
                       key={type}
