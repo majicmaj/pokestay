@@ -5,7 +5,7 @@ interface ActionsProps {
   isLevelUpDisabled: boolean;
   levelUpCost: number;
   points: number;
-  evolve: () => void;
+  onOpenEvolutionModal: () => void;
   canEvolve: boolean | null;
   evolutionCost: number;
 }
@@ -15,7 +15,7 @@ const Actions: React.FC<ActionsProps> = ({
   isLevelUpDisabled,
   levelUpCost,
   points,
-  evolve,
+  onOpenEvolutionModal,
   canEvolve,
   evolutionCost,
 }) => {
@@ -31,7 +31,7 @@ const Actions: React.FC<ActionsProps> = ({
           className="bg-gradient-to-r from-lime-500 to-teal-500 text-white"
         />
         <ActionButton
-          onClick={evolve}
+          onClick={onOpenEvolutionModal}
           disabled={!canEvolve}
           label="Evolve"
           cost={evolutionCost}

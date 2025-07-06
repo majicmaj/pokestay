@@ -14,6 +14,7 @@ import SpriteSwitcher from "./SelectedPokemon/SpriteSwitcher";
 import Stats from "./SelectedPokemon/Stats";
 import Transfer from "./SelectedPokemon/Transfer";
 import { usePokemonActions } from "../../hooks/usePokemonActions";
+import EvolutionModal from "./SelectedPokemon/EvolutionModal";
 
 const SelectedPokemon = ({
   pokemon,
@@ -29,6 +30,7 @@ const SelectedPokemon = ({
   const { masterSoundEnabled, criesEnabled, volume } = useSound();
   const [direction, setDirection] = useState(0);
   const [points] = usePoints();
+  const [isEvolutionModalOpen, setIsEvolutionModalOpen] = useState(false);
 
   const {
     isBuddyPokemon,
@@ -45,6 +47,7 @@ const SelectedPokemon = ({
     transferStardust,
     set2dSprite,
     set3dSprite,
+    possibleEvolutions,
   } = usePokemonActions(pokemon);
 
   const particlesInit = useCallback(async (engine: Engine) => {
@@ -162,7 +165,7 @@ const SelectedPokemon = ({
                 isLevelUpDisabled={isLevelUpDisabled}
                 levelUpCost={levelUpCost}
                 points={points}
-                evolve={() => evolve(onClose)}
+                onOpenEvolutionModal={() => setIsEvolutionModalOpen(true)}
                 canEvolve={canEvolve}
                 evolutionCost={evolutionCost}
               />
@@ -180,6 +183,18 @@ const SelectedPokemon = ({
           </div>
         </motion.div>
       </AnimatePresence>
+      <EvolutionModal
+        open={isEvolutionModalOpen}
+        onOpenChange={setIsEvolutionModalOpen}
+        pokemon={pokemon}
+        possibleEvolutions={possibleEvolutions}
+        onEvolve={(evolvedSpeciesName: string) => {
+          evolve(evolvedSpeciesName, onClose);
+          setIsEvolutionModalOpen(false);
+        }}
+        evolutionCost={evolutionCost}
+        points={points}
+      />
     </div>
   );
 };

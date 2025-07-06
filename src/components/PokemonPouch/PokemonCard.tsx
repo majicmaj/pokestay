@@ -3,7 +3,6 @@ import { Pokemon } from "../../types";
 import { cn } from "../../utils/cn";
 import { LEGENDARY_POKEMON_IDS } from "../../constants/legendaryPokemonIds";
 import Icon from "../../assets/icons/Icon";
-import TypeBadge from "../TypeBadge/TypeBadge";
 
 interface PokemonCardProps {
   pokemon: Pokemon;

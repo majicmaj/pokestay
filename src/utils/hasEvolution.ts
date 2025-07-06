@@ -1,4 +1,9 @@
-import { Pokemon } from "../types";
+import { Pokemon, NamedAPIResource } from "../types";
+
+interface EvolutionStage {
+  species: NamedAPIResource;
+  evolves_to: EvolutionStage[];
+}
 
 export const hasEvolution = async (pokemon: Pokemon): Promise<boolean> => {
   try {
@@ -6,6 +11,7 @@ export const hasEvolution = async (pokemon: Pokemon): Promise<boolean> => {
     const speciesResponse = await fetch(
       `https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`
     );
+    if (!speciesResponse.ok) return false;
     const speciesData = await speciesResponse.json();
 
     // Get the evolution chain URL
@@ -13,21 +19,25 @@ export const hasEvolution = async (pokemon: Pokemon): Promise<boolean> => {
 
     // Fetch the evolution chain data
     const evolutionChainResponse = await fetch(evolutionChainUrl);
+    if (!evolutionChainResponse.ok) return false;
     const evolutionChainData = await evolutionChainResponse.json();
 
-    // Traverse the chain to check if the Pokémon has an evolution
-    let currentStage = evolutionChainData.chain;
-    while (currentStage) {
-      if (currentStage.species.name === pokemon.name.toLowerCase()) {
-        // If evolves_to array is not empty, it has an evolution
-        return currentStage.evolves_to.length > 0;
+    const findCurrentStage = (stage: EvolutionStage): EvolutionStage | null => {
+      if (stage.species.name === pokemon.name.toLowerCase()) {
+        return stage;
       }
-      currentStage = currentStage.evolves_to[0];
-    }
+      for (const nextStage of stage.evolves_to) {
+        const found = findCurrentStage(nextStage);
+        if (found) return found;
+      }
+      return null;
+    };
 
-    return false; // If not found in the chain, assume no evolution
+    const pokemonStage = findCurrentStage(evolutionChainData.chain);
+
+    return pokemonStage ? pokemonStage.evolves_to.length > 0 : false;
   } catch (error) {
     console.error("Failed to check evolution:", error);
-    throw error;
+    return false;
   }
 };

@@ -1,17 +1,36 @@
-import useCanEvolve from "./useCanEvolve";
+import { useEffect, useState } from "react";
 import useGameState from "./useGameState";
 import useInventory from "./useInventory";
 import usePoints from "./usePoints";
-import { Pokemon } from "../types";
+import { Pokemon, NamedAPIResource } from "../types";
 import { getSprite } from "../utils/getSprite";
 import { levelUpPokemon } from "../utils/levelUpPokemon";
-import { evolvePokemon } from "../utils/getEvolution";
+import {
+  createEvolvedPokemon,
+  getPossibleEvolutions,
+} from "../utils/getEvolution";
+import { hasEvolution } from "../utils/hasEvolution";
 
 export const usePokemonActions = (pokemon: Pokemon) => {
   const [gameState, setGameState] = useGameState();
   const [inventory, setInventory] = useInventory();
   const [points, setPoints] = usePoints();
-  const canPokemonEvolve = useCanEvolve(pokemon);
+  const [possibleEvolutions, setPossibleEvolutions] = useState<
+    NamedAPIResource[]
+  >([]);
+  const [canPokemonEvolve, setCanPokemonEvolve] = useState<boolean | null>(
+    null
+  );
+
+  useEffect(() => {
+    hasEvolution(pokemon).then(setCanPokemonEvolve);
+  }, [pokemon]);
+
+  useEffect(() => {
+    if (canPokemonEvolve) {
+      getPossibleEvolutions(pokemon).then(setPossibleEvolutions);
+    }
+  }, [canPokemonEvolve, pokemon]);
 
   const { buddyPokemon } = gameState || {};
   const isBuddyPokemon =
@@ -59,16 +78,26 @@ export const usePokemonActions = (pokemon: Pokemon) => {
   const evolutionCost = 2500;
   const canEvolve = canPokemonEvolve && points >= evolutionCost;
 
-  const evolve = async (onClose: () => void) => {
+  const evolve = async (evolvedSpeciesName: string, onClose: () => void) => {
     if (!canEvolve) return;
-    const evolvedPokemon = await evolvePokemon(pokemon);
+    const evolvedPokemon = await createEvolvedPokemon(
+      pokemon,
+      evolvedSpeciesName
+    );
     if (!evolvedPokemon) return;
-    setPokemon(evolvedPokemon);
+
+    const newInventory = inventory.map((p) =>
+      p.uuid === pokemon.uuid ? evolvedPokemon : p
+    );
+    setInventory(newInventory);
+
     setPoints(points - evolutionCost);
-    setGameState({
-      ...gameState,
-      buddyPokemon: evolvedPokemon,
-    });
+    if (isBuddyPokemon) {
+      setGameState({
+        ...gameState,
+        buddyPokemon: evolvedPokemon,
+      });
+    }
     onClose();
   };
 
@@ -126,5 +155,6 @@ export const usePokemonActions = (pokemon: Pokemon) => {
     transferStardust,
     set2dSprite,
     set3dSprite,
+    possibleEvolutions,
   };
 };
