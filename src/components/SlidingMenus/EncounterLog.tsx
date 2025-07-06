@@ -13,6 +13,7 @@ import {
   Star,
 } from "lucide-react";
 import PokeballIcon from "../../assets/icons/Pokeball";
+import Stardust from "../../assets/icons/Stardust";
 
 const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
   dragControls,
@@ -130,20 +131,20 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
 
                     <div className="text-sm flex gap-2 flex-wrap mt-2 text-content/80">
                       <div className="flex items-center gap-2">
-                        <PokeballIcon className="w-3.5 h-3.5" /> Throws:{" "}
-                        {entry.throws}
+                        <span className="font-bold text-xs">CP</span> {entry.cp}
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-xs">CP</span> {entry.cp}
+                        <PokeballIcon className="w-3.5 h-3.5 scale-150" />
+                        {entry.throws}
                       </div>
                       {entry.status === "caught" && (
                         <div className="flex items-center gap-2 text-yellow-500">
-                          <Star className="w-3.5 h-3.5" /> +{entry.stardust}
+                          <Stardust />+{entry.stardust}
                         </div>
                       )}
                       {entry.location?.city && (
                         <div className="flex items-center gap-2">
-                          <MapPin className="w-3.5 h-3.5" />{" "}
+                          <MapPin className="w-3.5 h-3.5" />
                           {entry.location.city}
                         </div>
                       )}
