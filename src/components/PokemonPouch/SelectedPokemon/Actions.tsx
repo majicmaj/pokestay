@@ -1,7 +1,7 @@
 import { ActionButton } from "../../ui/ActionButton";
 
 interface ActionsProps {
-  levelUp: () => void;
+  onOpenLevelUpModal: () => void;
   isLevelUpDisabled: boolean;
   levelUpCost: number;
   points: number;
@@ -11,7 +11,7 @@ interface ActionsProps {
 }
 
 const Actions: React.FC<ActionsProps> = ({
-  levelUp,
+  onOpenLevelUpModal,
   isLevelUpDisabled,
   levelUpCost,
   points,
@@ -23,7 +23,7 @@ const Actions: React.FC<ActionsProps> = ({
     <div className="w-full bg-primary rounded-lg p-4 shadow-md flex flex-col gap-3">
       <div className="grid grid-cols-1 gap-2">
         <ActionButton
-          onClick={levelUp}
+          onClick={onOpenLevelUpModal}
           disabled={isLevelUpDisabled}
           label="Level Up"
           cost={levelUpCost}

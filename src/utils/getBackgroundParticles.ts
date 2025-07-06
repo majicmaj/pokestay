@@ -385,6 +385,44 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
       },
       detectRetina: true,
     },
+    levelup: {
+      particles: {
+        number: {
+          value: 150,
+          density: {
+            enable: true,
+          },
+        },
+        color: {
+          value: ["#4ade80", "#fde047", "#ffffff"],
+        },
+        shape: {
+          type: "star",
+        },
+        opacity: {
+          value: { min: 0.5, max: 1 },
+          animation: {
+            enable: true,
+            speed: 1.5,
+            sync: false,
+          },
+        },
+        size: {
+          value: { min: 2, max: 4 },
+        },
+        move: {
+          enable: true,
+          speed: 6,
+          direction: "top",
+          straight: false,
+          outModes: {
+            default: "destroy",
+            top: "none",
+          },
+        },
+      },
+      detectRetina: true,
+    },
     default: {
       particles: {
         number: { value: 40 },

@@ -16,6 +16,8 @@ import Transfer from "./SelectedPokemon/Transfer";
 import { usePokemonActions } from "../../hooks/usePokemonActions";
 import EvolutionModal from "./SelectedPokemon/EvolutionModal";
 import EvolutionAnimation from "./SelectedPokemon/EvolutionAnimation";
+import LevelUpModal from "./SelectedPokemon/LevelUpModal";
+import LevelUpAnimation from "./SelectedPokemon/LevelUpAnimation";
 
 const SelectedPokemon = ({
   pokemon,
@@ -32,6 +34,8 @@ const SelectedPokemon = ({
   const [direction, setDirection] = useState(0);
   const [points] = usePoints();
   const [isEvolutionModalOpen, setIsEvolutionModalOpen] = useState(false);
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
+  const [isLevelingUp, setIsLevelingUp] = useState(false);
   const [evolutionData, setEvolutionData] = useState<{
     pre: Pokemon;
     post: Pokemon;
@@ -111,6 +115,15 @@ const SelectedPokemon = ({
     }
   }, [pokemon.uuid, masterSoundEnabled, criesEnabled, pokemon.cry, volume]);
 
+  const handleStartLevelUp = () => {
+    setIsLevelingUp(true);
+    levelUp();
+  };
+
+  const handleFinishLevelUp = () => {
+    setIsLevelingUp(false);
+  };
+
   const handleStartEvolution = (evolutionPreview: Pokemon) => {
     setIsEvolutionModalOpen(false);
     setEvolutionData({ pre: pokemon, post: evolutionPreview });
@@ -177,7 +190,7 @@ const SelectedPokemon = ({
             <div className="z-10 flex flex-col gap-3 sm:max-h-screen sm:p-4 sm:overflow-y-auto">
               <Stats stats={pokemon.stats} />
               <Actions
-                levelUp={levelUp}
+                onOpenLevelUpModal={() => setIsLevelUpModalOpen(true)}
                 isLevelUpDisabled={isLevelUpDisabled}
                 levelUpCost={levelUpCost}
                 points={points}
@@ -199,6 +212,9 @@ const SelectedPokemon = ({
           </div>
         </motion.div>
       </AnimatePresence>
+      {isLevelingUp && (
+        <LevelUpAnimation pokemon={pokemon} onComplete={handleFinishLevelUp} />
+      )}
       {evolutionData && (
         <EvolutionAnimation
           preEvolutionPokemon={evolutionData.pre}
@@ -206,6 +222,14 @@ const SelectedPokemon = ({
           onComplete={handleFinishEvolution}
         />
       )}
+      <LevelUpModal
+        open={isLevelUpModalOpen}
+        onOpenChange={setIsLevelUpModalOpen}
+        pokemon={pokemon}
+        onConfirm={handleStartLevelUp}
+        cost={levelUpCost}
+        points={points}
+      />
       <EvolutionModal
         open={isEvolutionModalOpen}
         onOpenChange={setIsEvolutionModalOpen}
