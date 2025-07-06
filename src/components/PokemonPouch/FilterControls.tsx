@@ -146,7 +146,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                   >
                     <X size={16} />
                   </button>
-                  <div className="flex w-full gap-2 overflow-x-auto pb-2">
+                  <div className="flex w-full gap-2 items-center overflow-x-auto">
                     {allLocations.map((location) => (
                       <button
                         key={location}
