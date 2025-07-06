@@ -33,7 +33,7 @@ const Info: React.FC<InfoProps> = ({ pokemon }) => {
           pokemon?.caughtLocation?.country || ""
         }`}
       />
-      <InfoRow label="Rarity" value={capitalize(pokemon.rarity)} />
+      <InfoRow label="Rarity" value={capitalize(String(pokemon?.rarity))} />
       <InfoRow label="Pokédex ID" value={`#${pokemon.id}`} />
     </div>
   );

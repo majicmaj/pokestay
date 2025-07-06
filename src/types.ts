@@ -28,6 +28,7 @@ export interface Pokemon {
   id: number;
   name: string;
   height?: number; // in decimetres
+  weight?: number; // in hectograms
   rarity: "common" | "uncommon" | "rare" | "legendary" | "mythical";
   points: number;
   caught: boolean;

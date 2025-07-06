@@ -46,7 +46,7 @@ const EvolutionModal: React.FC<EvolutionModalProps> = ({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-overlayShow" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[90vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-lg bg-primary p-6 text-content shadow-lg data-[state=open]:animate-contentShow">
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[95vw] overflow-y-auto max-w-4xl h-[90vh] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-primary p-6 text-content shadow-lg data-[state=open]:animate-contentShow">
           <Dialog.Title className="pixelated-font mb-4 text-center text-3xl font-bold">
             Evolve {pokemon.display_name}
           </Dialog.Title>
@@ -60,7 +60,7 @@ const EvolutionModal: React.FC<EvolutionModalProps> = ({
               <p>Loading evolutions...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid overflow-y-auto grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {evolutionPreviews.map((evo) => (
                 <EvolutionCard
                   key={evo.id}
@@ -90,9 +90,9 @@ const EvolutionCard: React.FC<{
       <img
         src={evolution.sprite}
         alt={evolution.name}
-        className="h-24 w-24 pixelated"
+        className="size-24 object-contain pixelated"
       />
-      <div className="mt-2 text-center text-sm">
+      <div className="mt-2 text-center text-sm flex gap-2">
         <p>CP: {evolution.cp}</p>
         <p>HP: {evolution.stats.hp}</p>
         <p>Atk: {evolution.stats.attack}</p>

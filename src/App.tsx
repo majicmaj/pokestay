@@ -16,6 +16,7 @@ import { useSound } from "./context/SoundProvider";
 import HabitatProvider from "./context/HabitatProvider";
 import { useHabitat } from "./hooks/useHabitat";
 import { ArrowRight } from "lucide-react";
+import CheatInput from "./components/CheatInput";
 
 const App: React.FC = () => {
   return (
@@ -121,12 +122,15 @@ const Main: React.FC = () => {
       />
 
       {import.meta.env.DEV && (
-        <button
-          onClick={skipHabitat}
-          className="absolute top-16 left-2 bg-red-500/50 text-white p-2 rounded-full pixelated-font text-sm"
-        >
-          <ArrowRight className="size-6" />
-        </button>
+        <>
+          <button
+            onClick={skipHabitat}
+            className="absolute top-16 left-2 bg-red-500/50 text-white p-2 rounded-full pixelated-font text-sm"
+          >
+            <ArrowRight className="size-6" />
+          </button>
+          <CheatInput />
+        </>
       )}
 
       <SlidingMenus handleFlee={handleFlee} />
