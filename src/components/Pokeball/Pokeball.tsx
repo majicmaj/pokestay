@@ -30,7 +30,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
   const [recentPositions, setRecentPositions] = useState<
     { time: number; y: number; x: number }[]
   >([]);
-  const { soundEnabled, volume } = useSound();
+  const { effectsEnabled, volume } = useSound();
   const [currentPokemon] = useCurrentPokemon();
 
   const ballRef = useRef<HTMLDivElement>(null);
@@ -146,7 +146,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
           ballRef.current.style.animation = `${throwAnimation} 1s ease-out`;
         }
 
-        if (soundEnabled) {
+        if (effectsEnabled) {
           const audio = new Audio(
             "https://raw.githubusercontent.com/Superviral/Pokemon-GO-App-Assets-and-Images/master/Shared%20Assets/Converted%20AudioClip%20(WAV%20Format)/se_go_ball_throw%20%23000936_0.wav"
           );
@@ -184,7 +184,7 @@ const Pokeball: React.FC<PokeballProps> = ({ onClick, type, disabled }) => {
     onClick,
     disabled,
     volume,
-    soundEnabled,
+    effectsEnabled,
     currentPokemon,
   ]);
 
