@@ -58,35 +58,33 @@ const GenericFilterControls = <T extends string>({
         />
       </div>
 
-      <FilterSection title="Sort By" icon={<ListFilter className="w-4 h-4" />}>
-        <div className="flex w-full gap-2 text-sm items-center overflow-x-auto pb-2">
-          {sortOptions.map((option) => (
-            <button
-              key={option}
-              className={`px-3 py-1 rounded-full whitespace-nowrap ${
-                sortBy === option
-                  ? "bg-accent text-accent-content font-bold"
-                  : "bg-secondary hover:bg-secondary/80"
-              }`}
-              onClick={() => setSortBy(option)}
-            >
-              {option.charAt(0).toUpperCase() + option.slice(1)}
-            </button>
-          ))}
+      <div className="flex w-full gap-2 text-sm items-center overflow-x-auto pb-2">
+        <button
+          onClick={() =>
+            setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+          }
+          className="p-2 rounded-full bg-secondary hover:bg-secondary/80"
+        >
+          {sortDirection === "asc" ? (
+            <ArrowUp size={16} />
+          ) : (
+            <ArrowDown size={16} />
+          )}
+        </button>
+        {sortOptions.map((option) => (
           <button
-            onClick={() =>
-              setSortDirection(sortDirection === "asc" ? "desc" : "asc")
-            }
-            className="p-2 rounded-full bg-secondary hover:bg-secondary/80"
+            key={option}
+            className={`px-3 py-1 rounded-full whitespace-nowrap ${
+              sortBy === option
+                ? "bg-accent text-accent-content font-bold"
+                : "bg-secondary hover:bg-secondary/80"
+            }`}
+            onClick={() => setSortBy(option)}
           >
-            {sortDirection === "asc" ? (
-              <ArrowUp size={16} />
-            ) : (
-              <ArrowDown size={16} />
-            )}
+            {option.charAt(0).toUpperCase() + option.slice(1)}
           </button>
-        </div>
-      </FilterSection>
+        ))}
+      </div>
 
       {locationFilter &&
         locationFilter.allLocations.sort(
@@ -94,65 +92,61 @@ const GenericFilterControls = <T extends string>({
             locationFilter.countsPerLocation[b] -
             locationFilter.countsPerLocation[a]
         ).length > 0 && (
-          <FilterSection title="Location" icon={<Map className="w-4 h-4" />}>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => locationFilter.setSelectedLocation(null)}
-                className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80"
-              >
-                <X size={16} />
-              </button>
-              <div className="flex w-full gap-2 items-center overflow-x-auto">
-                {locationFilter.allLocations.map((location) => (
-                  <button
-                    key={location}
-                    onClick={() => locationFilter.setSelectedLocation(location)}
-                    className={`min-w-max p-1 pr-3 flex items-center gap-2 rounded-full text-sm ${
-                      locationFilter.selectedLocation === location
-                        ? "bg-accent text-accent-content font-bold"
-                        : "bg-secondary hover:bg-secondary/80"
-                    }`}
-                  >
-                    <span className="text-xs bg-black/20 text-white font-bold w-6 h-6 flex items-center justify-center aspect-square rounded-full">
-                      {locationFilter.countsPerLocation[location] || 0}
-                    </span>
-                    {location}
-                  </button>
-                ))}
-              </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => locationFilter.setSelectedLocation(null)}
+              className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80"
+            >
+              <X size={16} />
+            </button>
+            <div className="flex w-full gap-2 items-center overflow-x-auto">
+              {locationFilter.allLocations.map((location) => (
+                <button
+                  key={location}
+                  onClick={() => locationFilter.setSelectedLocation(location)}
+                  className={`min-w-max p-1 pr-3 flex items-center gap-2 rounded-full text-sm ${
+                    locationFilter.selectedLocation === location
+                      ? "bg-accent text-accent-content font-bold"
+                      : "bg-secondary hover:bg-secondary/80"
+                  }`}
+                >
+                  <span className="text-xs bg-black/20 text-white font-bold w-6 h-6 flex items-center justify-center aspect-square rounded-full">
+                    {locationFilter.countsPerLocation[location] || 0}
+                  </span>
+                  {location}
+                </button>
+              ))}
             </div>
-          </FilterSection>
+          </div>
         )}
 
       {specialFilter && (
-        <FilterSection title="Special" icon={<Sparkles className="w-4 h-4" />}>
-          <div className="flex gap-2">
-            <button
-              onClick={() =>
-                specialFilter.setFilterShiny(!specialFilter.filterShiny)
-              }
-              className={`min-w-max p-1 pr-3 flex items-center gap-2 rounded-full text-sm ${
-                specialFilter.filterShiny
-                  ? "bg-yellow-400 text-yellow-900 font-bold"
-                  : "bg-secondary hover:bg-secondary/80"
-              }`}
-            >
-              Shiny
-            </button>
-            <button
-              onClick={() =>
-                specialFilter.setFilterLegendary(!specialFilter.filterLegendary)
-              }
-              className={`min-w-max p-1 pr-3 flex items-center gap-2 rounded-full text-sm ${
-                specialFilter.filterLegendary
-                  ? "bg-purple-500 text-white font-bold"
-                  : "bg-secondary hover:bg-secondary/80"
-              }`}
-            >
-              Legendary
-            </button>
-          </div>
-        </FilterSection>
+        <div className="flex gap-2">
+          <button
+            onClick={() =>
+              specialFilter.setFilterShiny(!specialFilter.filterShiny)
+            }
+            className={`min-w-max p-1 px-3 flex items-center gap-2 rounded-full text-sm ${
+              specialFilter.filterShiny
+                ? "bg-yellow-400 text-yellow-900 font-bold"
+                : "bg-secondary hover:bg-secondary/80"
+            }`}
+          >
+            Shiny
+          </button>
+          <button
+            onClick={() =>
+              specialFilter.setFilterLegendary(!specialFilter.filterLegendary)
+            }
+            className={`min-w-max p-1 px-3 flex items-center gap-2 rounded-full text-sm ${
+              specialFilter.filterLegendary
+                ? "bg-purple-500 text-white font-bold"
+                : "bg-secondary hover:bg-secondary/80"
+            }`}
+          >
+            Legendary
+          </button>
+        </div>
       )}
 
       {children}

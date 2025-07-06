@@ -95,7 +95,6 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 setFilterLegendary,
               }}
             >
-              <FilterSection title="Type" icon={<Tags className="w-4 h-4" />}>
                 <div className="flex gap-2 items-center">
                   <button
                     onClick={() => setSelectedTypes([])}

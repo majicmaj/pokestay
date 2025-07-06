@@ -52,17 +52,17 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
   }, [log, allLocations]);
 
   return (
-    <div className="h-full flex flex-col bg-secondary text-content">
+    <div className="h-full  overflow-y-auto flex flex-col bg-secondary text-content">
       <motion.div
         onPointerDown={(e) => dragControls.start(e)}
         className="w-full flex flex-col items-center pt-3 pb-2 cursor-grab touch-none"
       >
         <div className="w-12 h-1.5 bg-gray-400 dark:bg-gray-600 rounded-full mb-2" />
-        <h2 className="text-3xl font-bold pixelated-font text-center tracking-wide">
+        <h2 className="text-2xl font-bold pixelated-font text-center tracking-wide">
           Encounters
         </h2>
       </motion.div>
-      <div className="p-4 border-b border-divider">
+      <div className="px-4 border-b border-divider">
         <button
           onClick={() => setFiltersExpanded(!filtersExpanded)}
           className="bg-accent text-accent-content px-4 py-2 rounded-lg w-full mt-2 flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-accent/80"
@@ -99,7 +99,7 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="p-4 overflow-y-auto flex-grow">
+      <div className="p-4 flex-grow">
         {filteredAndSortedLog.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center text-gray-500">
             <HelpCircle className="w-16 h-16 mb-4" />
