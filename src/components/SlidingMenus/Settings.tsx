@@ -1,5 +1,8 @@
 import { motion, DragControls } from "framer-motion";
 import React from "react";
+import * as SwitchPrimitive from "@radix-ui/react-switch";
+import * as SliderPrimitive from "@radix-ui/react-slider";
+import { twMerge } from "tailwind-merge";
 import {
   ExternalLink,
   LifeBuoy,
@@ -14,25 +17,58 @@ import {
 import { useSound } from "../../context/SoundProvider";
 import { useTheme } from "../../hooks/useTheme/useTheme";
 
-const Switch: React.FC<{
-  enabled: boolean;
-  onClick: () => void;
-  disabled?: boolean;
-}> = ({ enabled, onClick, disabled }) => (
-  <div
-    onClick={() => !disabled && onClick()}
-    className={`w-12 h-7 flex items-center rounded-full p-1 transition-colors duration-300 ${
-      enabled ? "bg-green-500" : "bg-gray-600"
-    } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+const PokeBallSwitch = React.forwardRef<
+  React.ElementRef<typeof SwitchPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <SwitchPrimitive.Root
+    className={twMerge(
+      "relative inline-flex h-7 w-14 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-600 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 data-[state=checked]:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50",
+      className
+    )}
+    {...props}
+    ref={ref}
   >
-    <motion.div
-      className="w-5 h-5 bg-white rounded-full shadow-md"
-      layout
-      transition={{ type: "spring", stiffness: 700, damping: 30 }}
-      animate={{ x: enabled ? "1.25rem" : "0rem" }}
-    />
-  </div>
-);
+    <SwitchPrimitive.Thumb
+      className={twMerge(
+        "pointer-events-none relative inline-block h-6 w-6 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out data-[state=checked]:translate-x-7 data-[state=unchecked]:translate-x-0"
+      )}
+    >
+      <div className="absolute inset-0 rounded-full border-2 border-zinc-800">
+        <div className="absolute inset-x-0 top-0 h-1/2 bg-danger rounded-t-full" />
+        <div className="absolute inset-y-0 my-auto h-0.5 w-full bg-zinc-800" />
+        <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-zinc-800 bg-white" />
+      </div>
+    </SwitchPrimitive.Thumb>
+  </SwitchPrimitive.Root>
+));
+PokeBallSwitch.displayName = "PokeBallSwitch";
+
+const PokemonSlider = React.forwardRef<
+  React.ElementRef<typeof SliderPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <SliderPrimitive.Root
+    ref={ref}
+    className={twMerge(
+      "relative flex w-full touch-none select-none items-center",
+      className
+    )}
+    {...props}
+  >
+    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-gray-600">
+      <SliderPrimitive.Range className="absolute h-full bg-green-500" />
+    </SliderPrimitive.Track>
+    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-zinc-800 bg-white shadow-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+      <div className="relative h-full w-full">
+        <div className="absolute inset-x-0 top-0 h-1/2 bg-danger rounded-t-full" />
+        <div className="absolute inset-y-0 my-auto h-0.5 w-full bg-zinc-800" />
+        <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-zinc-800 bg-white" />
+      </div>
+    </SliderPrimitive.Thumb>
+  </SliderPrimitive.Root>
+));
+PokemonSlider.displayName = "PokemonSlider";
 
 const SettingsSection: React.FC<{
   title: string;
@@ -56,11 +92,13 @@ const SettingsItem: React.FC<{
 }> = ({ icon, label, children, disabled }) => (
   <div
     className={`flex justify-between items-center p-3 rounded-lg transition-colors duration-200 ${
-      disabled ? "opacity-50" : "hover:bg-black/10 dark:hover:bg-white/10"
+      disabled
+        ? "opacity-50 cursor-not-allowed"
+        : "hover:bg-black/20 dark:hover:bg-white/15"
     }`}
   >
     <div className="flex items-center gap-4">
-      <div className="text-accent">{icon}</div>
+      <div className="text-link">{icon}</div>
       <span className="font-semibold text-content">{label}</span>
     </div>
     <div>{children}</div>
@@ -101,7 +139,7 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             icon={theme === "light" ? <Sun /> : <Moon />}
             label="Theme"
           >
-            <Switch enabled={theme === "dark"} onClick={toggleTheme} />
+            <PokeBallSwitch checked={theme === "dark"} onClick={toggleTheme} />
           </SettingsItem>
         </SettingsSection>
 
@@ -110,15 +148,18 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             icon={masterSoundEnabled ? <Volume2 /> : <VolumeX />}
             label="Master Sound"
           >
-            <Switch enabled={masterSoundEnabled} onClick={toggleMasterSound} />
+            <PokeBallSwitch
+              checked={masterSoundEnabled}
+              onClick={toggleMasterSound}
+            />
           </SettingsItem>
           <SettingsItem
             icon={<Music />}
             label="Music"
             disabled={!masterSoundEnabled}
           >
-            <Switch
-              enabled={musicEnabled}
+            <PokeBallSwitch
+              checked={musicEnabled}
               onClick={toggleMusic}
               disabled={!masterSoundEnabled}
             />
@@ -128,8 +169,8 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             label="Effects"
             disabled={!masterSoundEnabled}
           >
-            <Switch
-              enabled={effectsEnabled}
+            <PokeBallSwitch
+              checked={effectsEnabled}
               onClick={toggleEffects}
               disabled={!masterSoundEnabled}
             />
@@ -139,8 +180,8 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             label="Cries"
             disabled={!masterSoundEnabled}
           >
-            <Switch
-              enabled={criesEnabled}
+            <PokeBallSwitch
+              checked={criesEnabled}
               onClick={toggleCries}
               disabled={!masterSoundEnabled}
             />
@@ -156,15 +197,13 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
             >
               Volume
             </label>
-            <input
+            <PokemonSlider
               id="volume"
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={(e) => setVolume(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500"
+              min={0}
+              max={1}
+              step={0.01}
+              value={[volume]}
+              onValueChange={(value) => setVolume(value[0])}
               disabled={!masterSoundEnabled}
             />
           </div>
