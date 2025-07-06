@@ -15,6 +15,7 @@ import Stats from "./SelectedPokemon/Stats";
 import Transfer from "./SelectedPokemon/Transfer";
 import { usePokemonActions } from "../../hooks/usePokemonActions";
 import EvolutionModal from "./SelectedPokemon/EvolutionModal";
+import EvolutionAnimation from "./SelectedPokemon/EvolutionAnimation";
 
 const SelectedPokemon = ({
   pokemon,
@@ -31,6 +32,10 @@ const SelectedPokemon = ({
   const [direction, setDirection] = useState(0);
   const [points] = usePoints();
   const [isEvolutionModalOpen, setIsEvolutionModalOpen] = useState(false);
+  const [evolutionData, setEvolutionData] = useState<{
+    pre: Pokemon;
+    post: Pokemon;
+  } | null>(null);
 
   const {
     isBuddyPokemon,
@@ -105,6 +110,17 @@ const SelectedPokemon = ({
       audio.play();
     }
   }, [pokemon.uuid, masterSoundEnabled, criesEnabled, pokemon.cry, volume]);
+
+  const handleStartEvolution = (evolutionPreview: Pokemon) => {
+    setIsEvolutionModalOpen(false);
+    setEvolutionData({ pre: pokemon, post: evolutionPreview });
+  };
+
+  const handleFinishEvolution = () => {
+    if (!evolutionData) return;
+    evolve(evolutionData.post.name.toLowerCase());
+    setEvolutionData(null);
+  };
 
   return (
     <div className="z-20 bg-black/50 backdrop-blur-sm absolute left-0 right-0 top-0 bottom-0 overflow-y-auto grid place-items-center">
@@ -183,15 +199,19 @@ const SelectedPokemon = ({
           </div>
         </motion.div>
       </AnimatePresence>
+      {evolutionData && (
+        <EvolutionAnimation
+          preEvolutionPokemon={evolutionData.pre}
+          postEvolutionPokemon={evolutionData.post}
+          onComplete={handleFinishEvolution}
+        />
+      )}
       <EvolutionModal
         open={isEvolutionModalOpen}
         onOpenChange={setIsEvolutionModalOpen}
         pokemon={pokemon}
         possibleEvolutions={possibleEvolutions}
-        onEvolve={(evolvedSpeciesName: string) => {
-          evolve(evolvedSpeciesName, onClose);
-          setIsEvolutionModalOpen(false);
-        }}
+        onEvolve={handleStartEvolution}
         evolutionCost={evolutionCost}
         points={points}
       />

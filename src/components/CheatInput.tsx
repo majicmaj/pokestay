@@ -2,9 +2,11 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { toast } from "sonner";
 import { getPokemonByName } from "../utils/getPokemonByName";
 import useCurrentPokemon from "../hooks/useCurrentPokemon";
+import usePoints from "../hooks/usePoints";
 
 const CheatInput = () => {
   const [, setCurrentPokemon] = useCurrentPokemon();
+  const [points, setPoints] = usePoints();
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [pokemonNames, setPokemonNames] = useState<string[]>([]);
@@ -46,7 +48,7 @@ const CheatInput = () => {
     fetchPokemonNames();
   }, []);
 
-  const commands = ["/encounter"];
+  const commands = ["/encounter", "/points"];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -54,7 +56,7 @@ const CheatInput = () => {
 
     if (value.startsWith("/")) {
       const command = value.split(" ")[0];
-      if (commands.includes(command)) {
+      if (command === "/encounter") {
         const arg = value.split(" ")[1] || "";
         if (arg) {
           const matchingPokemon = pokemonNames
@@ -64,6 +66,8 @@ const CheatInput = () => {
         } else {
           setSuggestions([]);
         }
+      } else if (commands.includes(command)) {
+        setSuggestions([]);
       } else {
         const matchingCommands = commands.filter((c) => c.startsWith(value));
         setSuggestions(matchingCommands);
@@ -108,6 +112,14 @@ const CheatInput = () => {
         }
       } else {
         toast.warning("Please specify a Pokémon name.");
+      }
+    } else if (command === "/points") {
+      const amount = parseInt(args[0], 10);
+      if (!isNaN(amount)) {
+        setPoints(Number(points) + amount);
+        toast.success(`Added ${amount} points!`);
+      } else {
+        toast.error("Invalid amount for /points command.");
       }
     } else {
       toast.error("Unknown command.");

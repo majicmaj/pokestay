@@ -10,7 +10,7 @@ interface EvolutionModalProps {
   onOpenChange: (open: boolean) => void;
   pokemon: Pokemon;
   possibleEvolutions: NamedAPIResource[];
-  onEvolve: (evolvedSpeciesName: string) => void;
+  onEvolve: (evolutionPreview: Pokemon) => void;
   evolutionCost: number;
   points: number;
 }
@@ -65,7 +65,7 @@ const EvolutionModal: React.FC<EvolutionModalProps> = ({
                 <EvolutionCard
                   key={evo.id}
                   evolution={evo}
-                  onEvolve={() => onEvolve(evo.name)}
+                  onEvolve={() => onEvolve(evo)}
                   cost={evolutionCost}
                   canAfford={points >= evolutionCost}
                 />

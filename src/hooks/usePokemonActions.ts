@@ -78,7 +78,7 @@ export const usePokemonActions = (pokemon: Pokemon) => {
   const evolutionCost = 2500;
   const canEvolve = canPokemonEvolve && points >= evolutionCost;
 
-  const evolve = async (evolvedSpeciesName: string, onClose: () => void) => {
+  const evolve = async (evolvedSpeciesName: string) => {
     if (!canEvolve) return;
     const evolvedPokemon = await createEvolvedPokemon(
       pokemon,
@@ -98,7 +98,6 @@ export const usePokemonActions = (pokemon: Pokemon) => {
         buddyPokemon: evolvedPokemon,
       });
     }
-    onClose();
   };
 
   // Transfer

@@ -331,6 +331,60 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
         },
       },
     },
+    evolution: {
+      particles: {
+        number: {
+          value: 200,
+          density: {
+            enable: true,
+          },
+        },
+        color: {
+          value: ["#fff", "#FFD700"],
+        },
+        shape: {
+          type: "circle",
+        },
+        opacity: {
+          value: { min: 0.5, max: 1 },
+          animation: {
+            enable: true,
+            speed: 2,
+            sync: false,
+          },
+        },
+        size: {
+          value: { min: 1, max: 3 },
+        },
+        move: {
+          enable: true,
+          speed: 7,
+          direction: "top",
+          straight: true,
+          outModes: {
+            default: "destroy",
+            top: "none",
+          },
+        },
+      },
+      interactivity: {
+        events: {
+          onHover: {
+            enable: true,
+            mode: "bubble",
+          },
+        },
+        modes: {
+          bubble: {
+            distance: 40,
+            duration: 2,
+            opacity: 8,
+            size: 6,
+          },
+        },
+      },
+      detectRetina: true,
+    },
     default: {
       particles: {
         number: { value: 40 },
