@@ -37,11 +37,6 @@ const EvolutionAnimation: React.FC<EvolutionAnimationProps> = ({
 
   return (
     <div className="absolute inset-0 z-50 grid place-items-center bg-black/70 backdrop-blur-md">
-      <div className="absolute top-0 left-0">
-        {JSON.stringify({
-          phase,
-        })}
-      </div>
       <Particles
         id="tsparticles-evolution"
         options={particleOptions}
@@ -60,10 +55,10 @@ const EvolutionAnimation: React.FC<EvolutionAnimationProps> = ({
               filter: "brightness(20) invert(1)",
             }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="z-10 h-64 w-64 pixelated object-contain"
+            className="z-10 h-64 w-64 pixelated object-contain absolute"
           />
         )}
-        {/* {phase === "post" && (
+        {phase === "post" && (
           <motion.img
             key={phase}
             src={postEvolutionPokemon.sprite}
@@ -75,9 +70,9 @@ const EvolutionAnimation: React.FC<EvolutionAnimationProps> = ({
             }}
             animate={{ opacity: 1, scale: 1, filter: "brightness(1)" }}
             transition={{ duration: 1, ease: "easeInOut" }}
-            className="z-10 h-64 w-64 pixelated object-contain"
+            className="z-10 h-64 w-64 pixelated object-contain absolute"
           />
-        )} */}
+        )}
       </AnimatePresence>
     </div>
   );

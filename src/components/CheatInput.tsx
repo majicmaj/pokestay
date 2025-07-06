@@ -3,10 +3,12 @@ import { toast } from "sonner";
 import { getPokemonByName } from "../utils/getPokemonByName";
 import useCurrentPokemon from "../hooks/useCurrentPokemon";
 import usePoints from "../hooks/usePoints";
+import useInventory from "../hooks/useInventory";
 
 const CheatInput = () => {
   const [, setCurrentPokemon] = useCurrentPokemon();
   const [points, setPoints] = usePoints();
+  const [inventory, setInventory] = useInventory();
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [pokemonNames, setPokemonNames] = useState<string[]>([]);
@@ -48,7 +50,7 @@ const CheatInput = () => {
     fetchPokemonNames();
   }, []);
 
-  const commands = ["/encounter", "/points"];
+  const commands = ["/encounter", "/points", "/catch"];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -56,7 +58,7 @@ const CheatInput = () => {
 
     if (value.startsWith("/")) {
       const command = value.split(" ")[0];
-      if (command === "/encounter") {
+      if (command === "/encounter" || command === "/catch") {
         const arg = value.split(" ")[1] || "";
         if (arg) {
           const matchingPokemon = pokemonNames
@@ -120,6 +122,22 @@ const CheatInput = () => {
         toast.success(`Added ${amount} points!`);
       } else {
         toast.error("Invalid amount for /points command.");
+      }
+    } else if (command === "/catch") {
+      const pokemonName = args[0];
+      if (pokemonName) {
+        toast.info(`Attempting to catch ${pokemonName}...`);
+        const pokemon = await getPokemonByName(pokemonName);
+        if (pokemon) {
+          setInventory([...inventory, pokemon]);
+          toast.success(
+            `${pokemon.display_name} was caught and added to your inventory!`
+          );
+        } else {
+          toast.error(`Could not find Pokémon: ${pokemonName}`);
+        }
+      } else {
+        toast.warning("Please specify a Pokémon name.");
       }
     } else {
       toast.error("Unknown command.");

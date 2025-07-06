@@ -51,6 +51,8 @@ export const getPokemonByName = async (
       id: data.id,
       name: data.name,
       display_name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
+      rarity: Math.random() < 0.01 ? "legendary" : "common",
+      caught: false,
       sprite: sprite,
       sprite2d: sprite2d,
       isShiny: Math.random() < 1 / 4096,
