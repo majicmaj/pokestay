@@ -74,7 +74,7 @@ const Settings: React.FC<{ dragControls: DragControls }> = ({
         onPointerDown={(e) => dragControls.start(e)}
         className="w-full flex flex-col items-center pt-3 pb-2 cursor-grab touch-none"
       >
-        <div className="w-12 h-1.5 bg-gray-400 dark:bg-gray-600 rounded-full mb-2" />
+        <div className="w-12 h-1.5 bg-gray-400 rounded-full mb-2" />
         <h2 className="text-3xl font-bold pixelated-font text-center tracking-wide">
           Settings
         </h2>

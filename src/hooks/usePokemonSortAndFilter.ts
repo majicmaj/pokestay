@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Pokemon } from "../types";
+import { LEGENDARY_POKEMON_IDS } from "../constants/legendaryPokemonIds";
 
 export type SortBy = "level" | "recent" | "name" | "cp" | "id";
 export type SortDirection = "asc" | "desc";
 
-export const usePokemonSortAndFilter = (inventory: Pokemon[]) => {
+export const usePokemonSortAndFilter = (pokemonList: Pokemon[]) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<SortBy>("recent");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const [filterShiny, setFilterShiny] = useState(false);
+  const [filterLegendary, setFilterLegendary] = useState(false);
 
   const sortedPokemon = React.useMemo(() => {
-    const sorted = [...inventory].sort((a, b) => {
+    const sorted = [...pokemonList].sort((a, b) => {
       switch (sortBy) {
         case "cp":
           return (b.cp || 0) - (a.cp || 0);
@@ -31,30 +34,46 @@ export const usePokemonSortAndFilter = (inventory: Pokemon[]) => {
       return sorted.reverse();
     }
     return sorted;
-  }, [inventory, sortBy, sortDirection]);
+  }, [pokemonList, sortBy, sortDirection]);
 
-  const filteredPokemon = React.useMemo(() => {
-    const lowerSearchTerm = searchTerm.toLowerCase();
+  const filteredPokemon = useMemo(() => {
+    let filtered = sortedPokemon;
 
-    return sortedPokemon.filter((pokemon) => {
-      const matchesSearch =
-        pokemon.name.toLowerCase().includes(lowerSearchTerm) ||
-        pokemon.types.some((type: string) =>
-          type.toLowerCase().includes(lowerSearchTerm)
-        );
-      const matchesTypeFilter =
-        selectedTypes.length === 0 ||
-        pokemon.types.some((type: string) => selectedTypes.includes(type));
+    if (searchTerm) {
+      filtered = filtered.filter((p) =>
+        p.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
 
-      const matchesLocation =
-        !selectedLocation ||
-        pokemon.caughtLocation?.city === selectedLocation ||
-        pokemon.caughtLocation?.state === selectedLocation ||
-        pokemon.caughtLocation?.country === selectedLocation;
+    if (selectedTypes.length > 0) {
+      filtered = filtered.filter((p) =>
+        selectedTypes.every((t) => p.types.includes(t))
+      );
+    }
 
-      return matchesSearch && matchesTypeFilter && matchesLocation;
-    });
-  }, [sortedPokemon, searchTerm, selectedTypes, selectedLocation]);
+    if (selectedLocation) {
+      filtered = filtered.filter(
+        (p) => p.caughtLocation?.city === selectedLocation
+      );
+    }
+
+    if (filterShiny) {
+      filtered = filtered.filter((p) => p.isShiny);
+    }
+
+    if (filterLegendary) {
+      filtered = filtered.filter((p) => LEGENDARY_POKEMON_IDS.includes(p.id));
+    }
+
+    return filtered;
+  }, [
+    sortedPokemon,
+    searchTerm,
+    selectedTypes,
+    selectedLocation,
+    filterShiny,
+    filterLegendary,
+  ]);
 
   return {
     filteredPokemon,
@@ -68,5 +87,9 @@ export const usePokemonSortAndFilter = (inventory: Pokemon[]) => {
     setSelectedTypes,
     selectedLocation,
     setSelectedLocation,
+    filterShiny,
+    setFilterShiny,
+    filterLegendary,
+    setFilterLegendary,
   };
 };

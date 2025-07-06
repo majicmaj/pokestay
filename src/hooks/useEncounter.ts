@@ -158,6 +158,8 @@ export default function useEncounter() {
         timestamp: new Date(),
         location: location || undefined,
         pokemonUuid: caughtPokemon.uuid,
+        pokemonId: caughtPokemon.id,
+        isShiny: caughtPokemon.isShiny,
         cp: caughtPokemon.cp,
       });
       setCatchMessage(
@@ -176,6 +178,8 @@ export default function useEncounter() {
           stardust: 0,
           timestamp: new Date(),
           location: location || undefined,
+          pokemonId: currentPokemon.id,
+          isShiny: currentPokemon.isShiny,
         });
         setCatchMessage(`${currentPokemon.name} fled!`);
         setCurrentPokemon(null);
@@ -217,6 +221,8 @@ export default function useEncounter() {
       stardust: 0,
       timestamp: new Date(),
       location: location || undefined,
+      pokemonId: currentPokemon.id,
+      isShiny: currentPokemon.isShiny,
     });
     setCurrentPokemon(null);
     setTimeout(() => {

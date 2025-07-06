@@ -48,14 +48,9 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
           className="pixelated w-full h-full aspect-square object-contain p-4"
         />
       </div>
-      <div className="text-content font-semibold mt-[-16px] flex items-center bg-secondary px-2 rounded-full gap-1">
+      <div className="max-w-full truncate text-content font-semibold mt-[-16px] flex items-center bg-secondary px-2 rounded-full gap-1">
         {pokemon.isShiny && <Sparkles className="w-4 text-yellow-400" />}
-        {isLegendary && (
-          <Icon
-            name="legendary"
-            className="text-orange-300 bg-orange-500/20 rounded-full aspect-square w-max"
-          />
-        )}
+        {isLegendary && <Icon name="legendary" className="text-orange-300" />}
         {pokemon.display_name}
       </div>
     </div>

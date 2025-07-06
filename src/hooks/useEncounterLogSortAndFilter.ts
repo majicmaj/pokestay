@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { EncounterLogEntry } from "../types";
+import { LEGENDARY_POKEMON_IDS } from "../constants/legendaryPokemonIds";
 
 export type LogSortBy = "recent" | "stardust" | "name";
 export type SortDirection = "asc" | "desc";
@@ -9,56 +10,59 @@ export const useEncounterLogSortAndFilter = (log: EncounterLogEntry[]) => {
   const [sortBy, setSortBy] = useState<LogSortBy>("recent");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const [filterShiny, setFilterShiny] = useState(false);
+  const [filterLegendary, setFilterLegendary] = useState(false);
 
   const filteredAndSortedLog = useMemo(() => {
-    let processedLog = [...log];
+    let filtered = log;
 
-    // Filter by search term
     if (searchTerm) {
-      processedLog = processedLog.filter((entry) =>
+      filtered = filtered.filter((entry) =>
         entry.pokemonName.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
-    // Filter by location
     if (selectedLocation) {
-      processedLog = processedLog.filter(
+      filtered = filtered.filter(
         (entry) => entry.location?.city === selectedLocation
       );
     }
 
-    // Sort
-    processedLog.sort((a, b) => {
-      let compareA: string | number | Date;
-      let compareB: string | number | Date;
+    if (filterShiny) {
+      filtered = filtered.filter((entry) => entry.isShiny);
+    }
 
+    if (filterLegendary) {
+      filtered = filtered.filter(
+        (entry) =>
+          entry.pokemonId && LEGENDARY_POKEMON_IDS.includes(entry.pokemonId)
+      );
+    }
+
+    const sorted = [...filtered].sort((a, b) => {
       switch (sortBy) {
         case "stardust":
-          compareA = a.stardust;
-          compareB = b.stardust;
-          break;
+          return b.stardust - a.stardust;
         case "name":
-          compareA = a.pokemonName;
-          compareB = b.pokemonName;
-          break;
+          return a.pokemonName.localeCompare(b.pokemonName);
         case "recent":
         default:
-          compareA = new Date(a.timestamp);
-          compareB = new Date(b.timestamp);
-          break;
+          return (
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          );
       }
-
-      if (compareA < compareB) {
-        return sortDirection === "asc" ? -1 : 1;
-      }
-      if (compareA > compareB) {
-        return sortDirection === "asc" ? 1 : -1;
-      }
-      return 0;
     });
 
-    return processedLog;
-  }, [log, searchTerm, sortBy, sortDirection, selectedLocation]);
+    return sortDirection === "asc" ? sorted.reverse() : sorted;
+  }, [
+    log,
+    searchTerm,
+    sortBy,
+    sortDirection,
+    selectedLocation,
+    filterShiny,
+    filterLegendary,
+  ]);
 
   return {
     filteredAndSortedLog,
@@ -70,5 +74,9 @@ export const useEncounterLogSortAndFilter = (log: EncounterLogEntry[]) => {
     setSortDirection,
     selectedLocation,
     setSelectedLocation,
+    filterShiny,
+    setFilterShiny,
+    filterLegendary,
+    setFilterLegendary,
   };
 };

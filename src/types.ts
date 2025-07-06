@@ -111,6 +111,8 @@ export type EncounterLogEntry = {
   timestamp: Date;
   location?: LocationData;
   pokemonUuid?: string;
+  pokemonId?: number;
+  isShiny?: boolean;
   cp?: number;
 };
 

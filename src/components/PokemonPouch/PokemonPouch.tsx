@@ -34,6 +34,10 @@ const PokemonPouch: React.FC<{ dragControls: DragControls }> = ({
     setSelectedTypes,
     selectedLocation,
     setSelectedLocation,
+    filterShiny,
+    setFilterShiny,
+    filterLegendary,
+    setFilterLegendary,
   } = usePokemonSortAndFilter(inventory);
   const [points] = usePoints();
 
@@ -124,6 +128,10 @@ const PokemonPouch: React.FC<{ dragControls: DragControls }> = ({
           allLocations={allLocations}
           selectedLocation={selectedLocation}
           setSelectedLocation={setSelectedLocation}
+          filterShiny={filterShiny}
+          setFilterShiny={setFilterShiny}
+          filterLegendary={filterLegendary}
+          setFilterLegendary={setFilterLegendary}
         />
 
         <PokemonGrid

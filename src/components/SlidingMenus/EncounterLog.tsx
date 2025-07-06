@@ -1,17 +1,11 @@
 import { AnimatePresence, motion, DragControls } from "framer-motion";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import useEncounterLog from "../../hooks/useEncounterLog";
 import { useEncounterLogSortAndFilter } from "../../hooks/useEncounterLogSortAndFilter";
 import useInventory from "../../hooks/useInventory";
 import EncounterLogFilterControls from "./EncounterLogFilterControls";
-import {
-  ChevronsUpDown,
-  ExternalLink,
-  HelpCircle,
-  MapPin,
-  Star,
-} from "lucide-react";
+import { ChevronsUpDown, ExternalLink, HelpCircle, MapPin } from "lucide-react";
 import PokeballIcon from "../../assets/icons/Pokeball";
 import Stardust from "../../assets/icons/Stardust";
 
@@ -32,13 +26,30 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
     setSortDirection,
     selectedLocation,
     setSelectedLocation,
+    filterShiny,
+    setFilterShiny,
+    filterLegendary,
+    setFilterLegendary,
   } = useEncounterLogSortAndFilter(log);
 
-  const allLocations = Array.from(
-    new Set(
-      log.map((entry) => entry.location?.city).filter(Boolean) as string[]
-    )
-  ).sort();
+  const allLocations = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          log.map((entry) => entry.location?.city).filter(Boolean) as string[]
+        )
+      ).sort(),
+    [log]
+  );
+
+  const countsPerLocation = useMemo(() => {
+    return allLocations.reduce((acc, location) => {
+      acc[location] = log.filter(
+        (entry) => entry.location?.city === location
+      ).length;
+      return acc;
+    }, {} as Record<string, number>);
+  }, [log, allLocations]);
 
   return (
     <div className="h-full flex flex-col bg-secondary text-content">
@@ -77,8 +88,13 @@ const EncounterLog: React.FC<{ dragControls: DragControls }> = ({
               sortDirection={sortDirection}
               setSortDirection={setSortDirection}
               allLocations={allLocations}
+              countsPerLocation={countsPerLocation}
               selectedLocation={selectedLocation}
               setSelectedLocation={setSelectedLocation}
+              filterShiny={filterShiny}
+              setFilterShiny={setFilterShiny}
+              filterLegendary={filterLegendary}
+              setFilterLegendary={setFilterLegendary}
             />
           </motion.div>
         )}

@@ -7,6 +7,7 @@ import {
   Map,
   Tags,
   ChevronsUpDown,
+  Sparkles,
 } from "lucide-react";
 import React, { useState } from "react";
 import { SortBy, SortDirection } from "../../hooks/usePokemonSortAndFilter";
@@ -31,6 +32,10 @@ interface FilterControlsProps {
   allLocations: string[];
   selectedLocation: string | null;
   setSelectedLocation: (location: string | null) => void;
+  filterShiny: boolean;
+  setFilterShiny: (value: boolean) => void;
+  filterLegendary: boolean;
+  setFilterLegendary: (value: boolean) => void;
 }
 
 const FilterSection: React.FC<{
@@ -63,13 +68,17 @@ const FilterControls: React.FC<FilterControlsProps> = ({
   allLocations,
   selectedLocation,
   setSelectedLocation,
+  filterShiny,
+  setFilterShiny,
+  filterLegendary,
+  setFilterLegendary,
 }) => {
   const [open, setOpen] = useState(false);
   const sortOptions: SortBy[] = ["cp", "level", "name", "id", "recent"];
 
   return (
     <div className="flex flex-col w-full border-b border-divider">
-      <div className="p-4">
+      <div className="px-4 pb-2">
         <button
           onClick={() => setOpen(!open)}
           className="bg-accent text-accent-content px-4 py-2 rounded-lg w-full flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-accent/80"
@@ -167,6 +176,34 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 </div>
               </FilterSection>
             )}
+
+            <FilterSection
+              title="Special"
+              icon={<Sparkles className="w-4 h-4" />}
+            >
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setFilterShiny(!filterShiny)}
+                  className={`min-w-max p-1 pr-3 flex items-center gap-2 rounded-full text-sm ${
+                    filterShiny
+                      ? "bg-yellow-400 text-yellow-900 font-bold"
+                      : "bg-secondary hover:bg-secondary/80"
+                  }`}
+                >
+                  Shiny
+                </button>
+                <button
+                  onClick={() => setFilterLegendary(!filterLegendary)}
+                  className={`min-w-max p-1 pr-3 flex items-center gap-2 rounded-full text-sm ${
+                    filterLegendary
+                      ? "bg-purple-500 text-white font-bold"
+                      : "bg-secondary hover:bg-secondary/80"
+                  }`}
+                >
+                  Legendary
+                </button>
+              </div>
+            </FilterSection>
 
             <FilterSection title="Type" icon={<Tags className="w-4 h-4" />}>
               <div className="flex gap-2 items-center">
