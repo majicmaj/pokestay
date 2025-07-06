@@ -1,4 +1,4 @@
-import { ChevronsUpDown, Tags, X } from "lucide-react";
+import { ChevronsUpDown, X } from "lucide-react";
 import React, { useState } from "react";
 import { SortBy, SortDirection } from "../../hooks/usePokemonSortAndFilter";
 import TypeBadge from "../TypeBadge/TypeBadge";
@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import { cn } from "../../utils/cn";
 import GenericFilterControls from "../ui/GenericFilterControls";
-import FilterSection from "../ui/FilterSection";
 
 interface FilterControlsProps {
   searchTerm: string;
@@ -95,34 +94,33 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 setFilterLegendary,
               }}
             >
-                <div className="flex gap-2 items-center">
-                  <button
-                    onClick={() => setSelectedTypes([])}
-                    className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80"
-                  >
-                    <X size={16} />
-                  </button>
-                  <div className="flex w-full p-1 gap-2 overflow-x-auto pt-2">
-                    {allTypes.map((type) => (
-                      <button
-                        key={type}
-                        onClick={() => toggleTypeFilter(type)}
-                        className={cn(
-                          `relative pt-8 min-w-max rounded-full p-0.5 transition-all duration-200`,
-                          selectedTypes.includes(type)
-                            ? "bg-accent scale-105"
-                            : "bg-transparent opacity-75 hover:opacity-100"
-                        )}
-                      >
-                        <TypeBadge type={type} />
-                        <span className="absolute text-xs -top-1 -right-1 bg-accent text-accent-content px-1.5 py-0.5 font-bold rounded-full">
-                          {countsPerType[type] || 0}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
+              <div className="flex gap-2 items-center">
+                <button
+                  onClick={() => setSelectedTypes([])}
+                  className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80"
+                >
+                  <X size={16} />
+                </button>
+                <div className="flex w-full p-1 gap-2 overflow-x-auto pt-2">
+                  {allTypes.map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => toggleTypeFilter(type)}
+                      className={cn(
+                        `relative pt-8 min-w-max rounded-full p-0.5 transition-all duration-200`,
+                        selectedTypes.includes(type)
+                          ? "bg-accent scale-105"
+                          : "bg-transparent opacity-75 hover:opacity-100"
+                      )}
+                    >
+                      <TypeBadge type={type} />
+                      <span className="absolute text-xs -top-1 -right-1 bg-accent text-accent-content px-1.5 py-0.5 font-bold rounded-full">
+                        {countsPerType[type] || 0}
+                      </span>
+                    </button>
+                  ))}
                 </div>
-              </FilterSection>
+              </div>
             </GenericFilterControls>
           </motion.div>
         )}

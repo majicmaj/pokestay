@@ -1,14 +1,5 @@
-import {
-  ArrowDown,
-  ArrowUp,
-  ListFilter,
-  Map,
-  Search,
-  Sparkles,
-  X,
-} from "lucide-react";
+import { ArrowDown, ArrowUp, Search, X } from "lucide-react";
 import React from "react";
-import FilterSection from "./FilterSection";
 
 interface GenericFilterControlsProps<T extends string> {
   searchTerm: string;
