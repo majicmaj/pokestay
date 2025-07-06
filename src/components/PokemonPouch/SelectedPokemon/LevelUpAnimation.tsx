@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Particles } from "react-tsparticles";
 import { Engine } from "tsparticles-engine";
 import { loadSlim } from "tsparticles-slim";
@@ -19,17 +19,23 @@ const LevelUpAnimation: React.FC<LevelUpAnimationProps> = ({
     await loadSlim(engine);
   }, []);
 
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      onComplete();
-    }, 2500);
+      onCompleteRef.current();
+    }, 3000);
     return () => clearTimeout(timer);
-  }, [onComplete]);
+  }, []);
 
   const particleOptions = getBackgroundParticles("levelup");
 
   return (
-    <div className="absolute inset-0 z-50 grid place-items-center bg-black/70 backdrop-blur-sm">
+    <div
+      className="absolute inset-0 z-50 grid place-items-center bg-black/70 backdrop-blur-sm"
+      onClick={onComplete}
+    >
       <Particles
         id="tsparticles-levelup"
         options={particleOptions}
@@ -52,7 +58,6 @@ const LevelUpAnimation: React.FC<LevelUpAnimationProps> = ({
           }}
           transition={{
             duration: 1.5,
-            repeat: Infinity,
             ease: "easeInOut",
           }}
         />

@@ -36,6 +36,7 @@ const SelectedPokemon = ({
   const [isEvolutionModalOpen, setIsEvolutionModalOpen] = useState(false);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const [isLevelingUp, setIsLevelingUp] = useState(false);
+  const [levelUpData, setLevelUpData] = useState<Pokemon | null>(null);
   const [evolutionData, setEvolutionData] = useState<{
     pre: Pokemon;
     post: Pokemon;
@@ -116,12 +117,14 @@ const SelectedPokemon = ({
   }, [pokemon.uuid, masterSoundEnabled, criesEnabled, pokemon.cry, volume]);
 
   const handleStartLevelUp = () => {
+    setLevelUpData(pokemon);
     setIsLevelingUp(true);
-    levelUp();
   };
 
   const handleFinishLevelUp = () => {
+    levelUp();
     setIsLevelingUp(false);
+    setLevelUpData(null);
   };
 
   const handleStartEvolution = (evolutionPreview: Pokemon) => {
@@ -212,8 +215,11 @@ const SelectedPokemon = ({
           </div>
         </motion.div>
       </AnimatePresence>
-      {isLevelingUp && (
-        <LevelUpAnimation pokemon={pokemon} onComplete={handleFinishLevelUp} />
+      {isLevelingUp && levelUpData && (
+        <LevelUpAnimation
+          pokemon={levelUpData}
+          onComplete={handleFinishLevelUp}
+        />
       )}
       {evolutionData && (
         <EvolutionAnimation
