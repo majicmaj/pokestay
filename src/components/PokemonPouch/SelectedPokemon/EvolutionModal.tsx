@@ -5,6 +5,7 @@ import { createEvolvedPokemon } from "../../../utils/getEvolution";
 import { ActionButton } from "../../ui/ActionButton";
 import { X } from "lucide-react";
 import Stats from "./Stats";
+import TypeBadge from "../../TypeBadge/TypeBadge";
 
 interface EvolutionModalProps {
   open: boolean;
@@ -98,6 +99,11 @@ const EvolutionCard: React.FC<{
           <span className="text-xs font-normal text-accent-content">CP</span>{" "}
           {evolution.cp}
         </p>
+      </div>
+      <div className="flex items-center -space-x-2">
+        {evolution.types.map((type) => (
+          <TypeBadge key={type} type={type} />
+        ))}
       </div>
       <Stats stats={evolution.stats} />
       <div className="mt-4 w-full">
