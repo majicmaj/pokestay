@@ -10,6 +10,8 @@ import {
   getPossibleEvolutions,
 } from "../utils/getEvolution";
 import { hasEvolution } from "../utils/hasEvolution";
+import { createPokemonFromApi } from "../utils/createPokemonFromApi";
+import { usePokemonVarieties } from "./usePokemonVarieties";
 
 export const usePokemonActions = (pokemon: Pokemon) => {
   const [gameState, setGameState] = useGameState();
@@ -21,6 +23,8 @@ export const usePokemonActions = (pokemon: Pokemon) => {
   const [canPokemonEvolve, setCanPokemonEvolve] = useState<boolean | null>(
     null
   );
+  const { varieties, isLoading: varietiesLoading } =
+    usePokemonVarieties(pokemon);
 
   useEffect(() => {
     hasEvolution(pokemon).then(setCanPokemonEvolve);
@@ -63,8 +67,8 @@ export const usePokemonActions = (pokemon: Pokemon) => {
     });
 
   // Level Up
-  const levelUpCost = Math.round(3 * pokemon.stats.level ** 1.6);
-  const isMaxLevel = pokemon.stats.level >= 50;
+  const levelUpCost = Math.round(3 * pokemon?.stats?.level ** 1.6);
+  const isMaxLevel = pokemon?.stats?.level >= 50;
   const isLevelUpDisabled = isMaxLevel || points < levelUpCost;
 
   const levelUp = () => {
@@ -100,10 +104,45 @@ export const usePokemonActions = (pokemon: Pokemon) => {
     }
   };
 
+  // Form Switching
+  const FORM_SWITCH_COST = 500;
+  const switchForm = async (formName: string) => {
+    if (points < FORM_SWITCH_COST) return;
+
+    try {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${formName}`
+      );
+      if (!response.ok) throw new Error("Failed to fetch new form data");
+      const newFormData = await response.json();
+
+      const newPokemon = await createPokemonFromApi(newFormData, {
+        level: pokemon.stats.level,
+        ivs: pokemon.ivs,
+        isShiny: pokemon.isShiny,
+      });
+
+      const newInventory = inventory.map((p) =>
+        p.uuid === pokemon.uuid ? { ...newPokemon, uuid: p.uuid } : p
+      );
+      setInventory(newInventory);
+      setPoints(points - FORM_SWITCH_COST);
+
+      if (isBuddyPokemon) {
+        setGameState({
+          ...gameState,
+          buddyPokemon: { ...newPokemon, uuid: pokemon.uuid },
+        });
+      }
+    } catch (error) {
+      console.error("Failed to switch form:", error);
+    }
+  };
+
   // Transfer
   const baseTransferStardust = 100;
   const transferStardust = Math.round(
-    baseTransferStardust + pokemon.stats.level * 10
+    baseTransferStardust + pokemon?.stats?.level * 10
   );
 
   const transferPokemon = (onClose: () => void) => {
@@ -155,5 +194,9 @@ export const usePokemonActions = (pokemon: Pokemon) => {
     set2dSprite,
     set3dSprite,
     possibleEvolutions,
+    switchForm,
+    varieties,
+    varietiesLoading,
+    FORM_SWITCH_COST,
   };
 };

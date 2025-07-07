@@ -2,7 +2,7 @@ import { Pokemon } from "../types";
 import { calculateCP } from "./calculateCp";
 
 export const levelUpPokemon = (pokemon: Pokemon): Pokemon => {
-  const { level, hp, attack, defense, speed } = pokemon.stats;
+  const { level, hp, attack, defense, speed } = pokemon?.stats ?? {};
 
   // Increment level by 1
   const newLevel = level + 1;
@@ -24,7 +24,7 @@ export const levelUpPokemon = (pokemon: Pokemon): Pokemon => {
   return {
     ...pokemon,
     stats: {
-      ...pokemon.stats,
+      ...pokemon?.stats,
       ...newStats,
       level: newLevel,
       maxHp: newStats.hp,

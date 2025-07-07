@@ -18,6 +18,7 @@ import EvolutionModal from "./SelectedPokemon/EvolutionModal";
 import EvolutionAnimation from "./SelectedPokemon/EvolutionAnimation";
 import LevelUpModal from "./SelectedPokemon/LevelUpModal";
 import LevelUpAnimation from "./SelectedPokemon/LevelUpAnimation";
+import FormSwitchModal from "./SelectedPokemon/FormSwitchModal";
 
 const SelectedPokemon = ({
   pokemon,
@@ -35,6 +36,7 @@ const SelectedPokemon = ({
   const [points] = usePoints();
   const [isEvolutionModalOpen, setIsEvolutionModalOpen] = useState(false);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
+  const [isFormSwitchModalOpen, setIsFormSwitchModalOpen] = useState(false);
   const [isLevelingUp, setIsLevelingUp] = useState(false);
   const [levelUpData, setLevelUpData] = useState<Pokemon | null>(null);
   const [evolutionData, setEvolutionData] = useState<{
@@ -58,6 +60,9 @@ const SelectedPokemon = ({
     set2dSprite,
     set3dSprite,
     possibleEvolutions,
+    switchForm,
+    varieties,
+    FORM_SWITCH_COST,
   } = usePokemonActions(pokemon);
 
   const particlesInit = useCallback(async (engine: Engine) => {
@@ -193,6 +198,7 @@ const SelectedPokemon = ({
             <div className="z-10 flex flex-col gap-3 sm:max-h-screen sm:p-4 sm:overflow-y-auto">
               <Stats stats={pokemon.stats} />
               <Actions
+                pokemon={pokemon}
                 onOpenLevelUpModal={() => setIsLevelUpModalOpen(true)}
                 isLevelUpDisabled={isLevelUpDisabled}
                 levelUpCost={levelUpCost}
@@ -200,12 +206,13 @@ const SelectedPokemon = ({
                 onOpenEvolutionModal={() => setIsEvolutionModalOpen(true)}
                 canEvolve={canEvolve}
                 evolutionCost={evolutionCost}
+                onOpenFormSwitchModal={() => setIsFormSwitchModalOpen(true)}
               />
               <Info pokemon={pokemon} />
               <SpriteSwitcher
                 set3dSprite={set3dSprite}
                 set2dSprite={set2dSprite}
-                currentSprite={pokemon.sprite.includes("gen5") ? "2d" : "3d"}
+                currentSprite={pokemon.sprite?.includes("gen5") ? "2d" : "3d"}
               />
               <Transfer
                 transferPokemon={() => transferPokemon(onClose)}
@@ -243,6 +250,18 @@ const SelectedPokemon = ({
         possibleEvolutions={possibleEvolutions}
         onEvolve={handleStartEvolution}
         evolutionCost={evolutionCost}
+        points={points}
+      />
+      <FormSwitchModal
+        open={isFormSwitchModalOpen}
+        onOpenChange={setIsFormSwitchModalOpen}
+        pokemon={pokemon}
+        varieties={varieties}
+        onSwitch={(formName) => {
+          switchForm(formName);
+          setIsFormSwitchModalOpen(false);
+        }}
+        switchCost={FORM_SWITCH_COST}
         points={points}
       />
     </div>

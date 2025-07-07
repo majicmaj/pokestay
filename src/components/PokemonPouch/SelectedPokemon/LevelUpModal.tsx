@@ -61,11 +61,11 @@ const LevelUpModal: React.FC<LevelUpModalProps> = ({
             />
             <div className="grid grid-cols-2 gap-2 text-center text-2xl font-bold">
               <div>
-                <span>Lvl {pokemon.stats.level}</span>
+                <span>Lvl {pokemon?.stats?.level}</span>
               </div>
               <div>
                 <span className="text-green-400">
-                  Lvl {nextLevelPokemon.stats.level}
+                  Lvl {nextLevelPokemon?.stats?.level}
                 </span>
               </div>
             </div>
@@ -77,18 +77,18 @@ const LevelUpModal: React.FC<LevelUpModalProps> = ({
               />
               <StatRow
                 label="HP"
-                current={pokemon.stats.hp}
-                next={nextLevelPokemon.stats.hp}
+                current={pokemon?.stats?.hp}
+                next={nextLevelPokemon?.stats?.hp}
               />
               <StatRow
                 label="Attack"
-                current={pokemon.stats.attack}
-                next={nextLevelPokemon.stats.attack}
+                current={pokemon?.stats?.attack}
+                next={nextLevelPokemon?.stats?.attack}
               />
               <StatRow
                 label="Defense"
-                current={pokemon.stats.defense}
-                next={nextLevelPokemon.stats.defense}
+                current={pokemon?.stats?.defense}
+                next={nextLevelPokemon?.stats?.defense}
               />
             </div>
             <ActionButton

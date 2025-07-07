@@ -6,6 +6,7 @@ interface StatsProps {
 }
 
 const Stats: React.FC<StatsProps> = ({ stats }) => {
+  if (!stats) return null;
   return (
     <div className="bg-primary rounded-xl p-4 shadow-md w-full">
       <div className="grid grid-cols-4 place-items-center gap-4">

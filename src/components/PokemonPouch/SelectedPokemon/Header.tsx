@@ -111,12 +111,12 @@ const Header: React.FC<HeaderProps> = ({
 
         {/* Stats */}
         <p className="bg-black/20 px-2 rounded-full">
-          CP {pokemon.cp} / Lv.{pokemon.stats.level}
+          CP {pokemon?.cp} / Lv.{pokemon?.stats?.level}
         </p>
 
         {/* Types */}
         <div className="flex gap-0 -mt-1.5">
-          {pokemon.types.map((type) => (
+          {pokemon?.types?.map((type) => (
             <TypeBadge key={type} type={type} />
           ))}
         </div>

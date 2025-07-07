@@ -63,12 +63,16 @@ export interface Pokemon {
   cry?: string;
 }
 
+export type IVs = Pokemon["ivs"];
+
 export interface WildPokemonState extends Pokemon {
-  // currentHp: number;
-  // currentDefense: number;
-  // currentSpeed: number;
+  rarity: "common" | "uncommon" | "rare" | "legendary" | "mythical";
+  points: number;
+  caught: boolean;
   catchModifier: number;
 }
+
+export type StoredPokemon = Omit<Pokemon, "moves" | "ivs" | "ivModifiers">;
 
 export interface GameState {
   inventory: Pokemon[];

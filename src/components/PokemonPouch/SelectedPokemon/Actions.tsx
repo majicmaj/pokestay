@@ -1,6 +1,9 @@
+import { Pokemon } from "../../../types";
 import { ActionButton } from "../../ui/ActionButton";
+import FormSwitcher from "./FormSwitcher";
 
 interface ActionsProps {
+  pokemon: Pokemon;
   onOpenLevelUpModal: () => void;
   isLevelUpDisabled: boolean;
   levelUpCost: number;
@@ -8,9 +11,11 @@ interface ActionsProps {
   onOpenEvolutionModal: () => void;
   canEvolve: boolean | null;
   evolutionCost: number;
+  onOpenFormSwitchModal: () => void;
 }
 
 const Actions: React.FC<ActionsProps> = ({
+  pokemon,
   onOpenLevelUpModal,
   isLevelUpDisabled,
   levelUpCost,
@@ -18,6 +23,7 @@ const Actions: React.FC<ActionsProps> = ({
   onOpenEvolutionModal,
   canEvolve,
   evolutionCost,
+  onOpenFormSwitchModal,
 }) => {
   return (
     <div className="w-full bg-primary rounded-lg p-4 shadow-md flex flex-col gap-3">
@@ -38,6 +44,7 @@ const Actions: React.FC<ActionsProps> = ({
           points={points}
           className="bg-gradient-to-r from-pink-500 to-purple-500 text-white"
         />
+        <FormSwitcher onOpenModal={onOpenFormSwitchModal} pokemon={pokemon} />
       </div>
     </div>
   );

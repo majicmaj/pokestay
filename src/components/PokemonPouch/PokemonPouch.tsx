@@ -47,7 +47,7 @@ const PokemonPouch: React.FC<{ dragControls: DragControls }> = ({
 
   const countsPerType = React.useMemo(() => {
     return allTypes.reduce((acc, type) => {
-      acc[type] = inventory.filter((p) => p.types.includes(type)).length;
+      acc[type] = inventory.filter((p) => p?.types?.includes(type))?.length;
       return acc;
     }, {} as Record<string, number>);
   }, [inventory, allTypes]);
