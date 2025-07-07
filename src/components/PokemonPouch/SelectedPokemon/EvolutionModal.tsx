@@ -4,6 +4,7 @@ import { Pokemon, NamedAPIResource } from "../../../types";
 import { createEvolvedPokemon } from "../../../utils/getEvolution";
 import { ActionButton } from "../../ui/ActionButton";
 import { X } from "lucide-react";
+import Stats from "./Stats";
 
 interface EvolutionModalProps {
   open: boolean;
@@ -85,19 +86,20 @@ const EvolutionCard: React.FC<{
   canAfford: boolean;
 }> = ({ evolution, onEvolve, cost, canAfford }) => {
   return (
-    <div className="flex flex-col items-center rounded-lg bg-secondary p-4">
+    <div className="flex flex-col items-center rounded-lg bg-secondary p-4 gap-1">
       <h3 className="text-xl font-bold">{evolution.display_name}</h3>
       <img
         src={evolution.sprite}
         alt={evolution.name}
         className="size-24 object-contain pixelated"
       />
-      <div className="mt-2 text-center text-sm flex gap-2">
-        <p>CP: {evolution.cp}</p>
-        <p>HP: {evolution.stats.hp}</p>
-        <p>Atk: {evolution.stats.attack}</p>
-        <p>Def: {evolution.stats.defense}</p>
+      <div className="bg-primary rounded-full px-2 flex items-center gap-2">
+        <p className="font-bold">
+          <span className="text-xs font-normal text-accent-content">CP</span>{" "}
+          {evolution.cp}
+        </p>
       </div>
+      <Stats stats={evolution.stats} />
       <div className="mt-4 w-full">
         <ActionButton
           onClick={onEvolve}

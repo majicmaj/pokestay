@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { Move, Pokemon, PokemonType, NamedAPIResource } from "../types";
 import { calculateCP } from "./calculateCp";
+import { getSprite } from "./getSprite";
 
 interface EvolutionStage {
   species: NamedAPIResource;
@@ -116,14 +117,17 @@ export const createEvolvedPokemon = async (
 
     const cp = calculateCP(baseStats);
 
-    const sprite = `https://play.pokemonshowdown.com/sprites/xyani${
-      pokemon.isShiny ? "-shiny/" : "/"
-    }${evolvedData.name.replace("-", "")}.gif`;
+    const evolvedSprite3d = await getSprite({
+      name: evolvedData.name,
+      isShiny: evolvedData.isShiny ?? false,
+      type: "3d",
+    });
 
-    const sprite2d = `https://play.pokemonshowdown.com/sprites/gen5/${evolvedData.name.replace(
-      "-",
-      ""
-    )}.png`;
+    const evolvedSprite2d = await getSprite({
+      name: evolvedData.name,
+      isShiny: evolvedData.isShiny ?? false,
+      type: "2d",
+    });
 
     // Create the evolved Pokémon object
     const evolvedPokemon: Pokemon = {
@@ -134,8 +138,8 @@ export const createEvolvedPokemon = async (
         evolvedData.name.charAt(0).toUpperCase() + evolvedData.name.slice(1),
       display_name:
         evolvedData.name.charAt(0).toUpperCase() + evolvedData.name.slice(1),
-      sprite,
-      sprite2d,
+      sprite: evolvedSprite3d ?? "",
+      sprite2d: evolvedSprite2d ?? "",
       height: evolvedData.height,
       stats: {
         ...baseStats,
