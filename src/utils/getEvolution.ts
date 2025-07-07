@@ -7,6 +7,11 @@ interface EvolutionStage {
   evolves_to: EvolutionStage[];
 }
 
+interface PokemonVariety {
+  is_default: boolean;
+  pokemon: NamedAPIResource;
+}
+
 export const getPossibleEvolutions = async (
   pokemon: Pokemon
 ): Promise<NamedAPIResource[]> => {
@@ -36,7 +41,28 @@ export const getPossibleEvolutions = async (
     const pokemonStage = findCurrentStage(evolutionChainData.chain);
 
     if (pokemonStage && pokemonStage.evolves_to.length > 0) {
-      return pokemonStage.evolves_to.map((evo: EvolutionStage) => evo.species);
+      const evolutionDetails = await Promise.all(
+        pokemonStage.evolves_to.map(async (evo: EvolutionStage) => {
+          try {
+            const speciesResponse = await fetch(evo.species.url);
+            if (!speciesResponse.ok) return null;
+            const speciesData = await speciesResponse.json();
+            const defaultVariety = speciesData.varieties.find(
+              (v: PokemonVariety) => v.is_default
+            )?.pokemon;
+            return defaultVariety || speciesData.varieties[0]?.pokemon;
+          } catch (error) {
+            console.error(
+              `Failed to get details for evolution ${evo.species.name}:`,
+              error
+            );
+            return null;
+          }
+        })
+      );
+      return evolutionDetails.filter(
+        (details): details is NamedAPIResource => details !== null
+      );
     }
 
     return [];
