@@ -11,7 +11,10 @@ export const getSprite = async ({
   isShiny,
   type,
 }: GetSpriteOptions): Promise<string | null> => {
-  const nameClean = name.toLowerCase().replace(/-/g, "");
+  const isMega = name.toLowerCase().includes("-mega");
+  const nameClean = isMega
+    ? name.toLowerCase()
+    : name.toLowerCase().replace(/-/g, "");
   const nameWithoutForm = name.toLowerCase().split("-")[0];
 
   const baseUrl =

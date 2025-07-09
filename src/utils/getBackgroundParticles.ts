@@ -331,6 +331,52 @@ const getBackgroundParticles = (type: string | undefined): ISourceOptions => {
         },
       },
     },
+    mega: {
+      particles: {
+        number: {
+          value: 100,
+        },
+        color: {
+          value: [
+            "#ff0000",
+            "#ff7f00",
+            "#ffff00",
+            "#00ff00",
+            "#0000ff",
+            "#4b0082",
+            "#8f00ff",
+          ],
+        },
+        shape: {
+          type: "star",
+        },
+        opacity: {
+          value: {
+            min: 0.5,
+            max: 1,
+          },
+        },
+        size: {
+          value: {
+            min: 1,
+            max: 3,
+          },
+        },
+        move: {
+          enable: true,
+          speed: 6,
+          direction: "none",
+          random: true,
+          straight: false,
+          outModes: "out",
+          attract: {
+            enable: true,
+            rotateX: 600,
+            rotateY: 1200,
+          },
+        },
+      },
+    },
     evolution: {
       particles: {
         number: {

@@ -27,6 +27,9 @@ export const usePokemonActions = (pokemon: Pokemon) => {
   const { varieties, isLoading: varietiesLoading } =
     usePokemonVarieties(pokemon);
   const canMegaEvolve = useCanMegaEvolve(pokemon);
+  const activeMega = gameState.activeMegaEvolutions?.find(
+    (m) => m.pokemonUuid === pokemon.uuid
+  );
 
   useEffect(() => {
     hasEvolution(pokemon).then(setCanPokemonEvolve);
@@ -248,5 +251,6 @@ export const usePokemonActions = (pokemon: Pokemon) => {
     canMegaEvolve,
     megaEvolve,
     MEGA_EVOLUTION_COST,
+    activeMega,
   };
 };

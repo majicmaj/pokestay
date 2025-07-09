@@ -1,5 +1,6 @@
 import { Pokemon } from "../../../types";
 import { ActionButton } from "../../ui/ActionButton";
+import CountdownTimer from "./CountdownTimer";
 import FormSwitcher from "./FormSwitcher";
 
 interface ActionsProps {
@@ -15,6 +16,7 @@ interface ActionsProps {
   canMegaEvolve: boolean | null;
   onOpenMegaEvolutionModal: () => void;
   megaEvolutionCost: number;
+  activeMega: { revertAt: number } | undefined;
 }
 
 const Actions: React.FC<ActionsProps> = ({
@@ -30,6 +32,7 @@ const Actions: React.FC<ActionsProps> = ({
   canMegaEvolve,
   onOpenMegaEvolutionModal,
   megaEvolutionCost,
+  activeMega,
 }) => {
   return (
     <div className="w-full bg-primary rounded-lg p-4 shadow-md flex flex-col gap-3">
@@ -50,15 +53,24 @@ const Actions: React.FC<ActionsProps> = ({
           points={points}
           className="bg-gradient-to-r from-pink-500 to-purple-500 text-white"
         />
-        {canMegaEvolve && (
+        {activeMega ? (
           <ActionButton
-            onClick={onOpenMegaEvolutionModal}
-            disabled={!canMegaEvolve}
-            label="Mega Evolve"
-            cost={megaEvolutionCost}
-            points={points}
-            className="bg-gradient-to-r from-red-500 to-orange-500 text-white"
+            onClick={() => {}}
+            disabled={true}
+            label={<CountdownTimer revertAt={activeMega.revertAt} />}
+            className="bg-secondary text-content"
           />
+        ) : (
+          canMegaEvolve && (
+            <ActionButton
+              onClick={onOpenMegaEvolutionModal}
+              disabled={!canMegaEvolve}
+              label="Mega Evolve"
+              cost={megaEvolutionCost}
+              points={points}
+              className="bg-gradient-to-r from-red-500 to-orange-500 text-white"
+            />
+          )
         )}
         <FormSwitcher onOpenModal={onOpenFormSwitchModal} pokemon={pokemon} />
       </div>

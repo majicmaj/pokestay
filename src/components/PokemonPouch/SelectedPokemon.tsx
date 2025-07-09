@@ -20,6 +20,8 @@ import LevelUpModal from "./SelectedPokemon/LevelUpModal";
 import LevelUpAnimation from "./SelectedPokemon/LevelUpAnimation";
 import FormSwitchModal from "./SelectedPokemon/FormSwitchModal";
 import MegaEvolutionModal from "./SelectedPokemon/MegaEvolutionModal";
+import MegaEvolutionAnimation from "./SelectedPokemon/MegaEvolutionAnimation";
+import { createPokemonFromApi } from "../../utils/createPokemonFromApi";
 
 const SelectedPokemon = ({
   pokemon,
@@ -46,6 +48,10 @@ const SelectedPokemon = ({
     pre: Pokemon;
     post: Pokemon;
   } | null>(null);
+  const [megaEvolutionData, setMegaEvolutionData] = useState<{
+    pre: Pokemon;
+    post: Pokemon;
+  } | null>(null);
 
   const {
     isBuddyPokemon,
@@ -69,6 +75,7 @@ const SelectedPokemon = ({
     canMegaEvolve,
     megaEvolve,
     MEGA_EVOLUTION_COST,
+    activeMega,
   } = usePokemonActions(pokemon);
 
   const particlesInit = useCallback(async (engine: Engine) => {
@@ -149,6 +156,27 @@ const SelectedPokemon = ({
     setEvolutionData(null);
   };
 
+  const handleStartMegaEvolution = async (megaFormName: string) => {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${megaFormName}`
+    );
+    const megaFormData = await response.json();
+    const megaPokemon = await createPokemonFromApi(megaFormData, {
+      level: pokemon.stats.level,
+      ivs: pokemon.ivs,
+      isShiny: pokemon.isShiny,
+    });
+
+    setMegaEvolutionData({ pre: pokemon, post: megaPokemon as Pokemon });
+    setIsMegaEvolutionModalOpen(false);
+  };
+
+  const handleFinishMegaEvolution = () => {
+    if (!megaEvolutionData) return;
+    megaEvolve(megaEvolutionData.post.name);
+    setMegaEvolutionData(null);
+  };
+
   return (
     <div className="z-20 bg-black/50 backdrop-blur-sm absolute left-0 right-0 top-0 bottom-0 overflow-y-auto grid place-items-center">
       <Particles
@@ -213,11 +241,12 @@ const SelectedPokemon = ({
                 canEvolve={canEvolve}
                 evolutionCost={evolutionCost}
                 onOpenFormSwitchModal={() => setIsFormSwitchModalOpen(true)}
-                canMegaEvolve={canMegaEvolve}
+                canMegaEvolve={canMegaEvolve && !activeMega}
                 onOpenMegaEvolutionModal={() =>
                   setIsMegaEvolutionModalOpen(true)
                 }
                 megaEvolutionCost={MEGA_EVOLUTION_COST}
+                activeMega={activeMega}
               />
               <Info pokemon={pokemon} />
               <SpriteSwitcher
@@ -244,6 +273,13 @@ const SelectedPokemon = ({
           preEvolutionPokemon={evolutionData.pre}
           postEvolutionPokemon={evolutionData.post}
           onComplete={handleFinishEvolution}
+        />
+      )}
+      {megaEvolutionData && (
+        <MegaEvolutionAnimation
+          preEvolutionPokemon={megaEvolutionData.pre}
+          postEvolutionPokemon={megaEvolutionData.post}
+          onComplete={handleFinishMegaEvolution}
         />
       )}
       <LevelUpModal
@@ -279,10 +315,7 @@ const SelectedPokemon = ({
         open={isMegaEvolutionModalOpen}
         onOpenChange={setIsMegaEvolutionModalOpen}
         pokemon={pokemon}
-        onMegaEvolve={(formName) => {
-          megaEvolve(formName);
-          setIsMegaEvolutionModalOpen(false);
-        }}
+        onMegaEvolve={handleStartMegaEvolution}
         cost={MEGA_EVOLUTION_COST}
         points={points}
       />

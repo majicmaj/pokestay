@@ -6,7 +6,7 @@ export const ActionButton: React.FC<{
   onClick: () => void;
   disabled: boolean;
   icon?: React.ReactNode;
-  label: string;
+  label: React.ReactNode | string;
   cost?: number;
   points?: number;
   className?: string;
