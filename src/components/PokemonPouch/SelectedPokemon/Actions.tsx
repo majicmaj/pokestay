@@ -12,6 +12,9 @@ interface ActionsProps {
   canEvolve: boolean | null;
   evolutionCost: number;
   onOpenFormSwitchModal: () => void;
+  canMegaEvolve: boolean | null;
+  onOpenMegaEvolutionModal: () => void;
+  megaEvolutionCost: number;
 }
 
 const Actions: React.FC<ActionsProps> = ({
@@ -24,6 +27,9 @@ const Actions: React.FC<ActionsProps> = ({
   canEvolve,
   evolutionCost,
   onOpenFormSwitchModal,
+  canMegaEvolve,
+  onOpenMegaEvolutionModal,
+  megaEvolutionCost,
 }) => {
   return (
     <div className="w-full bg-primary rounded-lg p-4 shadow-md flex flex-col gap-3">
@@ -44,6 +50,16 @@ const Actions: React.FC<ActionsProps> = ({
           points={points}
           className="bg-gradient-to-r from-pink-500 to-purple-500 text-white"
         />
+        {canMegaEvolve && (
+          <ActionButton
+            onClick={onOpenMegaEvolutionModal}
+            disabled={!canMegaEvolve}
+            label="Mega Evolve"
+            cost={megaEvolutionCost}
+            points={points}
+            className="bg-gradient-to-r from-red-500 to-orange-500 text-white"
+          />
+        )}
         <FormSwitcher onOpenModal={onOpenFormSwitchModal} pokemon={pokemon} />
       </div>
     </div>

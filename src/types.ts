@@ -82,6 +82,11 @@ export interface GameState {
   selectedMove: PokemonMove | null;
   points: number;
   currentPokemon: WildPokemonState | null;
+  activeMegaEvolutions: {
+    pokemonUuid: string;
+    revertAt: number;
+    originalFormName: string;
+  }[];
 }
 
 export type Menus = "none" | "buddy" | "pouch" | "log";

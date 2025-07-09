@@ -25,7 +25,9 @@ export const getPokemonVarieties = async (
         return speciesData.varieties
           .map((v: PokemonVariety) => v.pokemon)
           .filter(
-            (p: NamedAPIResource) => !p.name.toLowerCase().includes("gmax")
+            (p: NamedAPIResource) =>
+              !p.name.toLowerCase().includes("gmax") &&
+              !p.name.toLowerCase().includes("-mega")
           );
       }
     } else {
@@ -37,7 +39,9 @@ export const getPokemonVarieties = async (
         return speciesData.varieties
           .map((v: PokemonVariety) => v.pokemon)
           .filter(
-            (p: NamedAPIResource) => !p.name.toLowerCase().includes("gmax")
+            (p: NamedAPIResource) =>
+              !p.name.toLowerCase().includes("gmax") &&
+              !p.name.toLowerCase().includes("-mega")
           );
       }
     }

@@ -19,6 +19,7 @@ import EvolutionAnimation from "./SelectedPokemon/EvolutionAnimation";
 import LevelUpModal from "./SelectedPokemon/LevelUpModal";
 import LevelUpAnimation from "./SelectedPokemon/LevelUpAnimation";
 import FormSwitchModal from "./SelectedPokemon/FormSwitchModal";
+import MegaEvolutionModal from "./SelectedPokemon/MegaEvolutionModal";
 
 const SelectedPokemon = ({
   pokemon,
@@ -37,6 +38,8 @@ const SelectedPokemon = ({
   const [isEvolutionModalOpen, setIsEvolutionModalOpen] = useState(false);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const [isFormSwitchModalOpen, setIsFormSwitchModalOpen] = useState(false);
+  const [isMegaEvolutionModalOpen, setIsMegaEvolutionModalOpen] =
+    useState(false);
   const [isLevelingUp, setIsLevelingUp] = useState(false);
   const [levelUpData, setLevelUpData] = useState<Pokemon | null>(null);
   const [evolutionData, setEvolutionData] = useState<{
@@ -63,6 +66,9 @@ const SelectedPokemon = ({
     switchForm,
     varieties,
     FORM_SWITCH_COST,
+    canMegaEvolve,
+    megaEvolve,
+    MEGA_EVOLUTION_COST,
   } = usePokemonActions(pokemon);
 
   const particlesInit = useCallback(async (engine: Engine) => {
@@ -207,6 +213,11 @@ const SelectedPokemon = ({
                 canEvolve={canEvolve}
                 evolutionCost={evolutionCost}
                 onOpenFormSwitchModal={() => setIsFormSwitchModalOpen(true)}
+                canMegaEvolve={canMegaEvolve}
+                onOpenMegaEvolutionModal={() =>
+                  setIsMegaEvolutionModalOpen(true)
+                }
+                megaEvolutionCost={MEGA_EVOLUTION_COST}
               />
               <Info pokemon={pokemon} />
               <SpriteSwitcher
@@ -262,6 +273,17 @@ const SelectedPokemon = ({
           setIsFormSwitchModalOpen(false);
         }}
         switchCost={FORM_SWITCH_COST}
+        points={points}
+      />
+      <MegaEvolutionModal
+        open={isMegaEvolutionModalOpen}
+        onOpenChange={setIsMegaEvolutionModalOpen}
+        pokemon={pokemon}
+        onMegaEvolve={(formName) => {
+          megaEvolve(formName);
+          setIsMegaEvolutionModalOpen(false);
+        }}
+        cost={MEGA_EVOLUTION_COST}
         points={points}
       />
     </div>

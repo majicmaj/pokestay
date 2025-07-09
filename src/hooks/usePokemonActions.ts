@@ -12,6 +12,7 @@ import {
 import { hasEvolution } from "../utils/hasEvolution";
 import { createPokemonFromApi } from "../utils/createPokemonFromApi";
 import { usePokemonVarieties } from "./usePokemonVarieties";
+import useCanMegaEvolve from "./useCanMegaEvolve";
 
 export const usePokemonActions = (pokemon: Pokemon) => {
   const [gameState, setGameState] = useGameState();
@@ -25,6 +26,7 @@ export const usePokemonActions = (pokemon: Pokemon) => {
   );
   const { varieties, isLoading: varietiesLoading } =
     usePokemonVarieties(pokemon);
+  const canMegaEvolve = useCanMegaEvolve(pokemon);
 
   useEffect(() => {
     hasEvolution(pokemon).then(setCanPokemonEvolve);
@@ -139,6 +141,51 @@ export const usePokemonActions = (pokemon: Pokemon) => {
     }
   };
 
+  // Mega Evolution
+  const MEGA_EVOLUTION_COST = 100;
+  const megaEvolve = async (megaFormName: string) => {
+    if (points < MEGA_EVOLUTION_COST) return;
+
+    try {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${megaFormName}`
+      );
+      if (!response.ok) throw new Error("Failed to fetch mega form data");
+      const megaFormData = await response.json();
+
+      const megaPokemon = await createPokemonFromApi(megaFormData, {
+        level: pokemon.stats.level,
+        ivs: pokemon.ivs,
+        isShiny: pokemon.isShiny,
+      });
+
+      const newInventory = inventory.map((p) =>
+        p.uuid === pokemon.uuid ? { ...megaPokemon, uuid: p.uuid } : p
+      );
+      setInventory(newInventory);
+      setPoints(points - MEGA_EVOLUTION_COST);
+
+      const newActiveMega = {
+        pokemonUuid: pokemon.uuid as string,
+        revertAt: Date.now() + 60 * 60 * 1000, // 1 hour
+        originalFormName: pokemon.name,
+      };
+
+      setGameState({
+        ...gameState,
+        activeMegaEvolutions: [
+          ...(gameState.activeMegaEvolutions || []),
+          newActiveMega,
+        ],
+        buddyPokemon: isBuddyPokemon
+          ? { ...megaPokemon, uuid: pokemon.uuid }
+          : gameState.buddyPokemon,
+      });
+    } catch (error) {
+      console.error("Failed to mega evolve:", error);
+    }
+  };
+
   // Transfer
   const baseTransferStardust = 100;
   const transferStardust = Math.round(
@@ -198,5 +245,8 @@ export const usePokemonActions = (pokemon: Pokemon) => {
     varieties,
     varietiesLoading,
     FORM_SWITCH_COST,
+    canMegaEvolve,
+    megaEvolve,
+    MEGA_EVOLUTION_COST,
   };
 };
